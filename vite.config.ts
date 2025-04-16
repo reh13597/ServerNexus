@@ -6,5 +6,5 @@ export default defineConfig({
   plugins: [svelte()],
   build: {
     outDir: 'dist', // <-- this is what Vercel expects
-  },
+  }
 })
