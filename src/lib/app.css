@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "copperbutwhy";
+  default: true;
+  prefersdark: false;
+  color-scheme: "dark";
+
+  --color-base-100: oklch(14% 0 0);
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(26% 0 0);
+  --color-base-content: oklch(97% 0 0);
+  --color-primary: oklch(70% 0.213 47.604);
+  --color-primary-content: oklch(98% 0.016 73.684);
+  --color-secondary: oklch(66% 0.295 322.15);
+  --color-secondary-content: oklch(97% 0.017 320.058);
+  --color-accent: oklch(70% 0.213 47.604);
+  --color-accent-content: oklch(98% 0.016 73.684);
+  --color-neutral: oklch(43% 0 0);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(78% 0.154 211.53);
+  --color-info-content: oklch(30% 0.056 229.695);
+  --color-success: oklch(77% 0.152 181.912);
+  --color-success-content: oklch(27% 0.046 192.524);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 1;
+}
+
+:root {
+  background-color: var(--b300);
+}
+
+#app {
+  text-align:center;
+}
+
