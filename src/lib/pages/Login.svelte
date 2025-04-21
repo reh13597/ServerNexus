@@ -1,6 +1,10 @@
-<div>
-    <h1 class="text-6xl font-mono text-center mt-10">Welcome to Server Nexus!</h1>
-    <p class="font-mono text-xl text-center mt-10">Your one-stop location for anything Minecraft server.</p>
+<script lang="ts">
+    let loggedin = $state(false);
+</script>
+
+<div class="text-center px-4">
+    <h1 class="text-6xl font-mono mt-10">Welcome to Server Nexus!</h1>
+    <p class="font-mono text-xl mt-10 break-words">Your one-stop location for anything Minecraft server.</p>
 </div>
 
 <div class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-20">
@@ -12,7 +16,7 @@
             <input type="password" class="input validator font-mono bg-base-300" required placeholder="Enter Password" minlength="8" title="Password" />
         </div>
         <div class="text-center mt-15">
-            <button class="btn btn-xl btn-primary">
+            <button disabled={!loggedin} class="btn btn-xl btn-primary">
                 <a class="font-mono" href="#/">Login</a>
             </button>
             <p class="mt-5 font-mono text-sm">Don't have an account?

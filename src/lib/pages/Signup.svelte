@@ -1,12 +1,21 @@
-<div>
-    <h1 class="text-6xl font-mono text-center mt-10">Welcome to Server Nexus!</h1>
-    <p class="font-mono text-xl text-center mt-10">We are excited to have you!</p>
+<script lang="ts">
+    let inputElement: HTMLInputElement;
+    let signedup = false;
+
+    $: if (inputElement) {
+        signedup = inputElement.checkValidity();
+    }
+</script>
+
+<div class="text-center px-4">
+    <h1 class="text-6xl font-mono mt-10">Welcome to Server Nexus!</h1>
+    <p class="font-mono text-xl mt-10">We are excited to have you!</p>
 </div>
 
 <div class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
     <div class="card-body">
         <div class="text-center">
-            <input class="input validator font-mono bg-base-300" type="email" required placeholder="Enter Email" />
+            <input bind:this={inputElement} class="input validator font-mono bg-base-300" type="email" required placeholder="Enter Email" />
             <div class="validator-hint">Enter valid email address</div>
         </div>
         <div class="text-center mt-5">
@@ -32,7 +41,7 @@
             </p>
         </div>
         <div class="text-center mt-5">
-            <button class="btn btn-xl btn-primary">
+            <button disabled={!signedup} class="btn btn-xl btn-primary">
                 <a class="font-mono" href="#/login">Sign Up</a>
             </button>
             <p class="mt-5 font-mono text-sm">Already have an account?
