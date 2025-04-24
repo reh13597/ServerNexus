@@ -1,17 +1,46 @@
 <script lang="ts">
+  import Router, { push } from 'svelte-spa-router';
   import { wrap } from 'svelte-spa-router/wrap';
-  import Router from 'svelte-spa-router';
+  import { get } from 'svelte/store';
+
+
   import Dashboard from './lib/pages/Dashboard.svelte';
   import About from './lib/pages/About.svelte';
   import Contact from './lib/pages/Contact.svelte';
   import Login from './lib/pages/Login.svelte';
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
+
   import Navbar from './lib/components/Navbar.svelte';
+  import { isValid } from './lib/stores/login';
 
   const routes = {
-    '/': Dashboard,
-    '/about': About,
+    '/': wrap({
+      component: Dashboard,
+      conditions: [
+        () => {
+          if (!get(isValid)) {
+            push('/about')
+            return false;
+          }
+          return true;
+        }
+      ]
+    }),
+
+    '/about': wrap ({
+      component: About,
+      conditions: [
+        () => {
+          if(get(isValid)) {
+            push('/');
+            return false;
+          }
+          return true;
+        }
+      ]
+    }),
+
     '/contact': Contact,
     '/login' : Login,
     '/signup' : Signup,
