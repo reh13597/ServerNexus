@@ -1,7 +1,15 @@
 <script lang="ts">
+  import { supabase } from '../supabase';
   import { isValid } from '../stores/login';
 
-  function logOut() {
+  async function logout() {
+      const { error: logoutError } = await supabase.auth.signOut()
+
+      if (logoutError) {
+        console.log("Logout error occured.");
+        return;
+      }
+
       isValid.set(false);
   }
 </script>
@@ -51,7 +59,7 @@
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-29 p-2 right-0.5 shadow">
             <li><a class="font-mono text-xl text-right" href="#/account">Account</a></li>
-            <li><a on:click={logOut} class="font-mono text-xl text-right" href="#/login">Log Out</a></li>
+            <li><a on:click={logout} class="font-mono text-xl text-right" href="#/login">Log Out</a></li>
           </ul>
         {:else}
           <ul
