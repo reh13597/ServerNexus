@@ -15,13 +15,12 @@
   import { isLoggedIn } from './lib/stores/login';
 
   onMount(() => {
-    // Check if this is a redirect from email verification
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
 
     if (type === 'signup') {
-      // If this is a signup verification, redirect to login
       push('/login');
+      window.history.replaceState({}, '', window.location.pathname);
     }
   });
 

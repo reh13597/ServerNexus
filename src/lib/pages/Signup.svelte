@@ -10,7 +10,7 @@
                 email: $email,
                 password: $password,
                 options: {
-                    emailRedirectTo: `${window.location.origin}/#/login`,
+                    emailRedirectTo: `${window.location.origin}/?type=signup`,
                     data: {
                         username: $username
                     }
