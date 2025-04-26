@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { isLoggedIn } from '../stores/login';
+
 </script>
 
 <div class="font-mono text-center">

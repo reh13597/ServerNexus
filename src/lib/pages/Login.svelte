@@ -3,13 +3,14 @@
     import { onDestroy } from 'svelte';
     import { supabase } from '../supabase';
     import { email, password, canLogin, isLoggedIn } from '../stores/login';
+    import { username } from '../stores/username';
 
     let loginError = false;
 
     async function login() {
         loginError = false;
 
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email: $email,
             password: $password,
         })
@@ -21,8 +22,20 @@
             return;
         }
 
-        push('/');
+        const { data: usernameData, error: usernameError } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', data.user.id)
+            .single();
+
+        if (usernameError) {
+            console.error('Error fetching username:', usernameError);
+        } else if (usernameData) {
+            username.set(usernameData.username);
+        }
+
         isLoggedIn.set(true);
+        push('/');
     }
 
     onDestroy(() => {
@@ -39,7 +52,7 @@
 <form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
     <div class="card-body text-center font-mono">
         <div>
-            <input bind:value={$email} type="input" class="input validator bg-base-300" required placeholder="Enter Email" minlength="4" maxlength="20" title="Username"
+            <input bind:value={$email} type="input" class="input validator bg-base-300" required placeholder="Enter Email" title="Username"
                 pattern="[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]+" />
         </div>
         <div class="mt-5">

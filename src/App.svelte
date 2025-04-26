@@ -30,15 +30,15 @@
       conditions: [
         () => {
           if (!get(isLoggedIn)) {
-            push('/about')
+            push('/login')
             return false;
           }
           return true;
         }
       ]
     }),
-    '/about': wrap ({
-      component: About,
+    '/login': wrap ({
+      component: Login,
       conditions: [
         () => {
           if(get(isLoggedIn)) {
@@ -49,8 +49,8 @@
         }
       ]
     }),
+    '/about' : About,
     '/contact': Contact,
-    '/login' : Login,
     '/signup' : Signup,
     '/account' : Account,
   };
