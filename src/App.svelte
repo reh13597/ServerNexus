@@ -2,7 +2,7 @@
   import Router, { push } from 'svelte-spa-router';
   import { wrap } from 'svelte-spa-router/wrap';
   import { get } from 'svelte/store';
-
+  import { onMount } from 'svelte';
 
   import Dashboard from './lib/pages/Dashboard.svelte';
   import About from './lib/pages/About.svelte';
@@ -12,14 +12,25 @@
   import Account from './lib/pages/Account.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
-  import { isValid } from './lib/stores/login';
+  import { isLoggedIn } from './lib/stores/login';
+
+  onMount(() => {
+    // Check if this is a redirect from email verification
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+
+    if (type === 'signup') {
+      // If this is a signup verification, redirect to login
+      push('/login');
+    }
+  });
 
   const routes = {
     '/': wrap({
       component: Dashboard,
       conditions: [
         () => {
-          if (!get(isValid)) {
+          if (!get(isLoggedIn)) {
             push('/about')
             return false;
           }
@@ -27,12 +38,11 @@
         }
       ]
     }),
-
     '/about': wrap ({
       component: About,
       conditions: [
         () => {
-          if(get(isValid)) {
+          if(get(isLoggedIn)) {
             push('/');
             return false;
           }
@@ -40,16 +50,15 @@
         }
       ]
     }),
-
     '/contact': Contact,
     '/login' : Login,
     '/signup' : Signup,
-    '/account' : Account
+    '/account' : Account,
   };
 </script>
 
 <Navbar />
 
 <main>
-  <Router {routes} />
+  <Router {routes}/>
 </main>

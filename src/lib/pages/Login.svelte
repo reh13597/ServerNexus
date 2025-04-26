@@ -2,7 +2,7 @@
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
     import { supabase } from '../supabase';
-    import { email, password, isLoggedIn, isValid } from '../stores/login';
+    import { email, password, canLogin, isLoggedIn } from '../stores/login';
 
     let loginError = false;
 
@@ -22,7 +22,7 @@
         }
 
         push('/');
-        isValid.set(true);
+        isLoggedIn.set(true);
     }
 
     onDestroy(() => {
@@ -36,7 +36,7 @@
     <p class="text-xl mt-10 break-words">We're excited to have you here!</p>
 </div>
 
-<form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-20">
+<form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
     <div class="card-body text-center font-mono">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300" required placeholder="Enter Email" minlength="4" maxlength="20" title="Username"
@@ -50,7 +50,7 @@
             {/if}
             </div>
         <div class="mt-5">
-            <button disabled={!$isLoggedIn} class="btn btn-xl btn-primary">Login</button>
+            <button disabled={!$canLogin} class="btn btn-xl btn-primary">Login</button>
             <p class="mt-5 text-sm">Don't have an account?
                 <a class="text-sm text-primary" href="#/signup">Sign up!</a>
             </p>

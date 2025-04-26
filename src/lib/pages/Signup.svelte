@@ -2,25 +2,31 @@
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
     import { supabase } from '../supabase';
-    import { email, username, password, isSignedUp } from '../stores/signup';
+    import { email, username, password, canSignup } from '../stores/signup';
 
     async function signup() {
-        const { error: signupError } = await supabase.auth.signUp({
-            email: $email,
-            password: $password,
-            options: {
-                data: {
-                    username: $username
-                },
-            },
-        })
+        try {
+            const { error: signupError } = await supabase.auth.signUp({
+                email: $email,
+                password: $password,
+                options: {
+                    emailRedirectTo: `${window.location.origin}/#/login`,
+                    data: {
+                        username: $username
+                    }
+                }
+            });
 
-        if (signupError) {
-            console.log("Signup error occured.");
-            return;
+            if (signupError) {
+                console.log("Signup error occurred:", signupError.message);
+                return;
+            }
+
+            alert('Please check your email for the confirmation link. After confirming, you can log in.');
+            push('/login');
+        } catch (error) {
+            console.error('Error during signup:', error);
         }
-
-        push('/login');
     }
 
     onDestroy(() => {
@@ -67,7 +73,7 @@
             </p>
         </div>
         <div class="mt-5">
-            <button disabled={!$isSignedUp} class="btn btn-xl btn-primary">Sign Up</button>
+            <button disabled={!$canSignup} class="btn btn-xl btn-primary">Sign Up</button>
             <p class="mt-5 text-sm">Already have an account?
                 <a class="text-sm text-primary" href="#/login">Login!</a>
             </p>
