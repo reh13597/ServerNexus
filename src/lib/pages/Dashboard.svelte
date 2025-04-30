@@ -8,6 +8,7 @@
 
     <div class="flex flex-wrap justify-center gap-10 mt-30">
         <DashboardCard title="Server Status" description="Check the status of any Minecraft server." path="server-status" />
-        <DashboardCard title="Server Profiles" description="View public server profiles and your own profiles." path="server-profiles" />
+        <DashboardCard title="Server Profiles" description="View public server profiles." path="public-profiles" />
+        <DashboardCard title="My Profiles" description="Create and view your own server profiles." path="private-profiles" />
     </div>
 </div>

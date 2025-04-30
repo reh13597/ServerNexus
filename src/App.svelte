@@ -11,10 +11,11 @@
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
   import ServerStatus from './lib/pages/ServerStatus.svelte';
-  import ServerProfiles from './lib/pages/serverProfile/ServerProfiles.svelte';
-  import PlayerStats from './lib/pages/serverProfile/PlayerStats.svelte';
-  import ServerChat from './lib/pages/serverProfile/ServerChat.svelte';
-  import ServerMaps from './lib/pages/serverProfile/ServerMaps.svelte';
+  import PublicProfiles from './lib/pages/profiles/PublicProfiles.svelte';
+  import PrivateProfiles from './lib/pages/profiles/PrivateProfiles.svelte';
+  import PlayerStats from './lib/pages/profiles/profile/PlayerStats.svelte';
+  import ServerChat from './lib/pages/profiles/profile/ServerChat.svelte';
+  import ServerMaps from './lib/pages/profiles/profile/ServerMaps.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
   import { isLoggedIn } from './lib/stores/login';
@@ -59,7 +60,8 @@
     '/signup' : Signup,
     '/account' : Account,
     '/server-status': ServerStatus,
-    '/server-profiles': ServerProfiles,
+    '/public-profiles': PublicProfiles,
+    '/private-profiles': PrivateProfiles,
     '/player-stats': PlayerStats,
     '/server-chat': ServerChat,
     '/server-maps': ServerMaps,

@@ -61,8 +61,9 @@
             </p>
         </div>
         <div class="mt-5">
-            <input bind:value={$username} type="input" class="input validator bg-base-300" required placeholder="Create Username"
-                pattern="[A-Za-z0-9]*" minlength="4" maxlength="20" title="Username" />
+            <input bind:value={$username} type="input" class="input validator bg-base-300"
+                required placeholder="Create Username" minlength="4" maxlength="20"
+                title="Username" pattern="[A-Za-z0-9]*" />
             <p class="validator-hint hidden">
                 Username can only contain:
                 <br/>4-20 characters
@@ -70,8 +71,9 @@
             </p>
         </div>
         <div class="mt-5">
-            <input bind:value={$password} type="password" class="input validator bg-base-300" required placeholder="Create Password" minlength="8"
-                pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} title="Password" />
+            <input bind:value={$password} type="password" class="input validator bg-base-300"
+                required placeholder="Create Password" minlength="8" maxlength="20" title="Password"
+                pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} />
             <p class="validator-hint hidden">
                 Password must contain:
                 <br/>At least 8 characters (max. 20)
