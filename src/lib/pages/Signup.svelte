@@ -36,14 +36,14 @@
     });
 </script>
 
-<div class="text-center font-mono px-4">
+<div class="px-4">
     <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
     <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
 </div>
 
 {#if showAlert}
     <div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-        <div role="alert" class="alert text-primary bg-base-200 font-mono w-[90%] sm:w-130 relative -mt-20 mx-4">
+        <div role="alert" class="alert text-primary bg-base-200 w-[90%] sm:w-130 relative -mt-20 mx-4">
             <button class="btn btn-sm btn-circle absolute right-2 top-2" on:click={closeAlert}>✕</button>
             <span class="text-sm sm:text-base">Please check your email for the confirmation link.</span>
         </div>
@@ -51,7 +51,7 @@
 {/if}
 
 <form on:submit|preventDefault={signup} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
-    <div class="card-body text-center font-mono">
+    <div class="card-body">
         <div>
             <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"
                 pattern="[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]+"/>

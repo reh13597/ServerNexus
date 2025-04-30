@@ -10,6 +10,11 @@
   import Login from './lib/pages/Login.svelte';
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
+  import ServerStatus from './lib/pages/ServerStatus.svelte';
+  import ServerProfiles from './lib/pages/serverProfile/ServerProfiles.svelte';
+  import PlayerStats from './lib/pages/serverProfile/PlayerStats.svelte';
+  import ServerChat from './lib/pages/serverProfile/ServerChat.svelte';
+  import ServerMaps from './lib/pages/serverProfile/ServerMaps.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
   import { isLoggedIn } from './lib/stores/login';
@@ -53,6 +58,11 @@
     '/contact': Contact,
     '/signup' : Signup,
     '/account' : Account,
+    '/server-status': ServerStatus,
+    '/server-profiles': ServerProfiles,
+    '/player-stats': PlayerStats,
+    '/server-chat': ServerChat,
+    '/server-maps': ServerMaps,
   };
 </script>
 

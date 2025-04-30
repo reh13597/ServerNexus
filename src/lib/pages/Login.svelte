@@ -44,13 +44,13 @@
     });
 </script>
 
-<div class="text-center font-mono px-4">
+<div class="px-4">
     <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
     <p class="text-xl mt-10 break-words">We're excited to have you here!</p>
 </div>
 
 <form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
-    <div class="card-body text-center font-mono">
+    <div class="card-body">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300" required placeholder="Enter Email" title="Username"
                 pattern="[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]+" />

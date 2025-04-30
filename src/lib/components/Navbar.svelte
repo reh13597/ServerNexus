@@ -27,25 +27,25 @@
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-34 p-2 shadow">
-            <li><a class="font-mono text-xl" href="#/">Dashboard</a></li>
-            <li><a class="font-mono text-xl" href="#/about">About</a></li>
-            <li><a class="font-mono text-xl" href="#/contact">Contact</a></li>
+            <li><a class="text-xl" href="#/">Dashboard</a></li>
+            <li><a class="text-xl" href="#/about">About</a></li>
+            <li><a class="text-xl" href="#/contact">Contact</a></li>
           </ul>
         {:else}
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-28 p-2 shadow">
-            <li><a class="font-mono text-xl" href="#/about">About</a></li>
-            <li><a class="font-mono text-xl" href="#/contact">Contact</a></li>
+            <li><a class="text-xl" href="#/about">About</a></li>
+            <li><a class="text-xl" href="#/contact">Contact</a></li>
           </ul>
         {/if}
       </div>
     </div>
     <div class="navbar-center">
       {#if $isLoggedIn}
-        <a class="font-mono btn btn-primary btn-ghost text-2xl" href="#/">&#x1F517 SERVER NEXUS &#x2699</a>
+        <a class="btn btn-primary btn-ghost text-2xl" href="#/">&#x1F517 SERVER NEXUS &#x2699</a>
       {:else}
-        <a class="font-mono btn btn-primary btn-ghost text-2xl" href="#/about">&#x1F517 SERVER NEXUS &#x2699</a>
+        <a class="btn btn-primary btn-ghost text-2xl" href="#/about">&#x1F517 SERVER NEXUS &#x2699</a>
       {/if}
     </div>
     <div class="navbar-end">
@@ -61,14 +61,14 @@
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-29 p-2 right-0.5 shadow">
-            <li><a class="font-mono text-xl text-right" href="#/account">Account</a></li>
-            <li><a on:click={logout} class="font-mono text-xl text-right" href="#/login">Log Out</a></li>
+            <li><a class="text-xl text-right" href="#/account">Account</a></li>
+            <li><a on:click={logout} class="text-xl text-right" href="#/login">Log Out</a></li>
           </ul>
         {:else}
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-26 p-2 right-0.5 shadow">
-            <li><a class="font-mono text-xl text-right" href="#/login">Log In</a></li>
+            <li><a class="text-xl text-right" href="#/login">Log In</a></li>
           </ul>
         {/if}
       </div>

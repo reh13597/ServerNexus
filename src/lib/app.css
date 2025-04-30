@@ -38,6 +38,8 @@
 
 :root {
   background-color: var(--b300);
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
 }
 
 #app {
