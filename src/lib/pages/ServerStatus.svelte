@@ -65,7 +65,7 @@
         <button class="btn btn-primary btn-xl mt-5" disabled={!$canFetchServerData} on:click={initServerData}>Fetch Server Data</button>
     </form>
     {#if $serverData}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6 mb-10">
             <Card title="Server Information" data={$serverData} type="info" />
             <Card title="Connection Details" data={$serverData} type="connection" customIp={$serverIp} />
             <Card title="Miscellaneous" data={$serverData} type="icon" />

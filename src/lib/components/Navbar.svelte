@@ -25,15 +25,14 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            tabindex="0"
-            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-34 p-2 shadow">
+            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li><a class="text-xl" href="#/">Dashboard</a></li>
-            <li><a class="text-xl" href="#/about">About</a></li>
-            <li><a class="text-xl" href="#/contact">Contact</a></li>
+            <li><a class="text-xl" href="#/server-status">Server Status</a></li>
+            <li><a class="text-xl" href="#/public-profiles">Public Profiles</a></li>
+            <li><a class="text-xl" href="#/private-profiles">My Profiles</a></li>
           </ul>
         {:else}
           <ul
-            tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-28 p-2 shadow">
             <li><a class="text-xl" href="#/about">About</a></li>
             <li><a class="text-xl" href="#/contact">Contact</a></li>
@@ -59,14 +58,14 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-29 p-2 right-0.5 shadow">
             <li><a class="text-xl text-right" href="#/account">Account</a></li>
+            <li><a class="text-xl text-right" href="#/account">About</a></li>
+            <li><a class="text-xl text-right" href="#/account">Contact</a></li>
             <li><a on:click={logout} class="text-xl text-right" href="#/login">Log Out</a></li>
           </ul>
         {:else}
           <ul
-            tabindex="0"
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-26 p-2 right-0.5 shadow">
             <li><a class="text-xl text-right" href="#/login">Log In</a></li>
           </ul>

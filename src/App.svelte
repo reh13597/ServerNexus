@@ -69,7 +69,8 @@
 </script>
 
 <Navbar />
-
 <main>
   <Router {routes}/>
 </main>
+
+
