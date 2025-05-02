@@ -1,13 +1,28 @@
 export interface ServerData {
-    server: {
-        name: string;
-        ip: string;
-        port: number;
-    };
     online: boolean;
-    players: {
-        now: number;
-        max: number;
+    host: string;
+    port: number;
+    ip_address: string | null;
+    version: {
+        name_raw: string;
+        name_clean: string;
+        name_html: string;
+        protocol: number;
     };
-    motd: string;
+    players: {
+        online: number;
+        max: number;
+        sample?: Array<{
+            name: string;
+            id: string;
+        }>;
+    };
+    motd: {
+        raw: string;
+        clean: string;
+        html: string;
+    };
+    icon?: string;
+    software?: string;
+    plugins?: string[];
 }
