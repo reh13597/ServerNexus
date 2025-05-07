@@ -1,1 +1,7 @@
-<h1 class="text-4xl font-bold mt-10">Server Profile</h1>
+<script lang="ts">
+    import { profile } from '../stores/profiles';
+
+    $profile = true;
+</script>
+
+

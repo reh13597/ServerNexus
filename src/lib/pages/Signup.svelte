@@ -38,7 +38,7 @@
 
 <div class="px-4">
     <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
-    <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
+    <p class="text-xl mt-10">We're excited to have you here!</p>
 </div>
 
 {#if showAlert}

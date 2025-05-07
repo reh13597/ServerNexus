@@ -46,7 +46,7 @@
 
 <div class="px-4">
     <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
-    <p class="text-xl mt-10 break-words">We're excited to have you here!</p>
+    <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
 </div>
 
 <form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
