@@ -27,7 +27,7 @@
           <ul
             class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li><a class="text-xl" href="#/">Dashboard</a></li>
-            <li><a class="text-xl" href="#/server-status">Server Status</a></li>
+            <li><a class="text-xl" href="#/status">Server Status</a></li>
             <li><a class="text-xl" href="#/public-profiles">Public Profiles</a></li>
             <li><a class="text-xl" href="#/private-profiles">My Profiles</a></li>
           </ul>
