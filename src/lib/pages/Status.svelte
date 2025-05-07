@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { serverData, serverIp, error, canFetchServerData } from '../stores/server';
-    import Card from '../components/ServerStatusCard.svelte';
+    import { serverData, serverIp, serverPort, error, canFetchServerData } from '../stores/server';
+    import Card from '../components/StatusCard.svelte';
     import { onDestroy } from 'svelte';
 
     async function initServerData() {
         $error = null;
 
         try {
-            const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$serverIp}:25565`);
+            const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$serverIp}:${$serverPort}`);
             const data = await response.json();
 
             if (!data.version) {
@@ -49,17 +49,22 @@
 </script>
 
 <div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold mt-10">Find the status of any Minecraft server!</h1>
+    <h1 class="text-4xl font-bold mt-10">Check the status of any Minecraft server!</h1>
     <form on:submit|preventDefault={initServerData} class="mt-15 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
                 required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"
                 title="Server IP" pattern="[A-Za-z0-9.]+[A-Za-z0-9.]+[A-Za-z0-9.]+\.[A-Za-z0-9]+"/>
         </div>
+        <div class="flex flex-col space-y-2 w-full max-w-xs">
+            <input type="input" bind:value={$serverPort}
+                required placeholder="Enter Server Port" class="input validator bg-base-300" minlength="5" maxlength="5"
+                title="Server Port" pattern="[0-9]+"/>
+        </div>
         {#if $error}
             <p class="text-error text-xs mt-2">
                 {$error}
-                <br/>Invalid IP, try again.
+                <br/>Invalid IP or Port, try again.
             </p>
         {/if}
         <button class="btn btn-primary btn-xl mt-5" disabled={!$canFetchServerData} on:click={initServerData}>Fetch Server Data</button>

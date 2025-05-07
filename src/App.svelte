@@ -10,12 +10,13 @@
   import Login from './lib/pages/Login.svelte';
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
-  import ServerStatus from './lib/pages/ServerStatus.svelte';
+  import Status from './lib/pages/Status.svelte';
   import PublicProfiles from './lib/pages/profiles/PublicProfiles.svelte';
   import PrivateProfiles from './lib/pages/profiles/PrivateProfiles.svelte';
-  import PlayerStats from './lib/pages/profiles/profile/PlayerStats.svelte';
-  import ServerChat from './lib/pages/profiles/profile/ServerChat.svelte';
-  import ServerMaps from './lib/pages/profiles/profile/ServerMaps.svelte';
+  import Profile from './lib/components/Profile.svelte';
+  import Stats from './lib/pages/profiles/profile/Stats.svelte';
+  import Chat from './lib/pages/profiles/profile/Chat.svelte';
+  import Maps from './lib/pages/profiles/profile/Maps.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
   import { isLoggedIn } from './lib/stores/login';
@@ -59,12 +60,13 @@
     '/contact': Contact,
     '/signup' : Signup,
     '/account' : Account,
-    '/server-status': ServerStatus,
+    '/status': Status,
     '/public-profiles': PublicProfiles,
     '/private-profiles': PrivateProfiles,
-    '/player-stats': PlayerStats,
-    '/server-chat': ServerChat,
-    '/server-maps': ServerMaps,
+    '/profile': Profile,
+    '/chat': Chat,
+    '/stats': Stats,
+    '/maps': Maps,
   };
 </script>
 
