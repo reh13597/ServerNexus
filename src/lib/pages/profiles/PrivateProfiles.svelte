@@ -1,19 +1,50 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
-    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
+    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
     import { privateProfiles } from '../../stores/profiles';
     import { onDestroy } from 'svelte';
+    import { supabase } from '../../supabase';
 
     $privateProfiles = true;
 
-    async function createProfile() {
+    function isPublicProfile() {
+        $publicProfile = !$publicProfile;
+    }
 
+    async function initServerData() {
+        try {
+            const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$profileServerIp}:${$profileServerPort}`);
+            const data = await response.json();
+
+            if (!data.version) {
+                throw new Error();
+            }
+
+            $profileServerData = data;
+        } catch (err) {
+            $profileServerIp = '';
+            $profileServerData = null;
+            $publicProfile = false;
+            $profileError = 'Failed to fetch server data.';
+        }
+
+        if (!$profileError) {
+            const { data, error } = await supabase
+            .from('servers')
+            .insert({ ip: $profileServerIp, port: $profileServerPort, public: $publicProfile})
+
+            if (error) {
+                console.error('Error inserting profile:', error.message, error.details);
+            } else {
+                console.log('Server added:', data);
+            }
+        }
     }
 
     onDestroy(() => {
         $profileServerIp = '';
         $profileError = null;
-        $profileServerData = null;
+        $publicProfile = false;
     });
 </script>
 
@@ -21,7 +52,7 @@
     <h1 class="text-4xl font-bold mt-10">Create and view your own server profiles!</h1>
 </div>
 
-<form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">
+<form on:submit|preventDefault={initServerData} class="mt-15 flex flex-col items-center space-y-4">
     <div class="flex flex-col space-y-2 w-full max-w-xs">
         <input type="input" bind:value={$profileServerIp}
             required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"
@@ -38,7 +69,13 @@
             <br/>Invalid IP or Port, try again.
         </p>
     {/if}
-    <button class="btn btn-primary btn-xl mt-5" disabled={!$profileCanFetchServerData} on:click={createProfile}>Create Profile</button>
+    <fieldset class="fieldset bg-base-300 border-base-300 rounded-box border p-4">
+        <label class="label justify-center">
+            <input on:click={isPublicProfile} checked={$publicProfile} type="checkbox" class="checkbox checkbox-primary" />
+            Public Profile?
+        </label>
+    </fieldset>
+    <button class="btn btn-primary btn-xl mt-5" disabled={!$profileCanFetchServerData}>Create Profile</button>
     <p class="text-sm mt-5">
         You must have the following plugins installed on your server to create a profile:
         <br/><span class="text-primary">Server Chat Plugin, Player Stats Plugin, Square Map</span>

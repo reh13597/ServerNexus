@@ -67,7 +67,7 @@
                 <br/>Invalid IP or Port, try again.
             </p>
         {/if}
-        <button class="btn btn-primary btn-xl mt-5" disabled={!$canFetchServerData} on:click={initServerData}>Fetch Server Data</button>
+        <button class="btn btn-primary btn-xl mt-5" disabled={!$canFetchServerData}>Fetch Server Data</button>
     </form>
     {#if $serverData}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6 mb-10">

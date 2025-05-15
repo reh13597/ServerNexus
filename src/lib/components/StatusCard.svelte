@@ -10,7 +10,7 @@
 
 <div class="card w-full bg-base-100 shadow-xl">
     <div class="card-body">
-        <h2 class="card-title justify-center">{title}</h2>
+        <h2 class="text-primary card-title justify-center">{title}</h2>
         <div class="stats stats-vertical shadow">
             {#if type === 'info'}
                 <div class="stat">

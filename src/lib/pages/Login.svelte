@@ -2,7 +2,7 @@
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
     import { supabase } from '../supabase';
-    import { email, password, canLogin, isLoggedIn } from '../stores/login';
+    import { email, password, canLogin, isLoggedIn, userID } from '../stores/login';
     import { username } from '../stores/username';
 
     let loginError = false;
@@ -22,10 +22,12 @@
             return;
         }
 
+        $userID = data.user.id;
+
         const { data: usernameData, error: usernameError } = await supabase
             .from('profiles')
             .select('username')
-            .eq('id', data.user.id)
+            .eq('id', $userID)
             .single();
 
         if (usernameError) {

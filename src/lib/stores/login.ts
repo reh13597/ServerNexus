@@ -12,3 +12,5 @@ export const canLogin = derived(
 );
 
 export const isLoggedIn = writable(false);
+
+export const userID = writable('');
