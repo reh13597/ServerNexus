@@ -24,6 +24,8 @@ export const profilePortOK = derived(profileServerPort, $p2 => /^[0-9]+$/.test($
 
 export const publicProfile = writable(false);
 
+export const serverID = writable('');
+
 export const profileCanFetchServerData = derived(
     [profileIpOK, profilePortOK],
     ([$i2, $p2]) => $i2 && $p2

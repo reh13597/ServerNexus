@@ -4,6 +4,7 @@
     export let path: string;
     export let title: string;
     export let description: string;
+
     export function goTo() {
         push(`/${path}`);
     }

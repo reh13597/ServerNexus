@@ -4,6 +4,8 @@
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
   import type { RouteLoadedEvent } from 'svelte-spa-router';
+  import { supabase } from './lib/supabase'
+  import { user } from './lib/stores/user';
 
   import Dashboard from './lib/pages/Dashboard.svelte';
   import About from './lib/pages/About.svelte';
@@ -14,18 +16,16 @@
   import Status from './lib/pages/Status.svelte';
   import PublicProfiles from './lib/pages/profiles/PublicProfiles.svelte';
   import PrivateProfiles from './lib/pages/profiles/PrivateProfiles.svelte';
-  import Profile from './lib/components/Profile.svelte';
-  import ProfileStatus from './lib/pages/profiles/profile/ProfileStatus.svelte';
-  import Stats from './lib/pages/profiles/profile/Stats.svelte';
-  import Chat from './lib/pages/profiles/profile/Chat.svelte';
-  import Map from './lib/pages/profiles/profile/Map.svelte';
+  import Profile from './lib/pages/profiles/Profile.svelte';
+  import ProfileStatus from './lib/components/profile/ProfileStatus.svelte';
+  import Stats from './lib/components/profile/Stats.svelte';
+  import Chat from './lib/components/profile/Chat.svelte';
+  import Map from './lib/components/profile/Map.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
-  import ProfileNav from './lib/components/ProfileNav.svelte';
   import { isLoggedIn } from './lib/stores/login';
-  import { profile } from './lib/stores/profiles';
-
-  onMount(() => {
+/*   import { profile } from './lib/stores/profiles'; */
+  onMount(async () => {
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
 
@@ -35,13 +35,13 @@
     }
   });
 
-  const profilePages = ['/profile', '/profile-status', '/chat', '/stats', '/map'];
+ /*  const profilePages = ['/profile', '/profile-status', '/chat', '/stats', '/map'];
 
   function handleRoute(event: RouteLoadedEvent) {
     if (!profilePages.includes(event.detail.location)) {
       $profile = false;
     }
-  }
+  } */
 
   const routes = {
     '/': wrap({
@@ -73,23 +73,23 @@
     '/signup' : Signup,
     '/account' : Account,
     '/status': Status,
+
     '/public-profiles': PublicProfiles,
     '/private-profiles': PrivateProfiles,
-    '/profile': Profile,
-    '/profile-status': ProfileStatus,
-    '/chat': Chat,
-    '/stats': Stats,
-    '/map': Map,
+
+    '/profile/:profileId': Profile,
+    '/profile/:profileId/profile-status': ProfileStatus,
+    '/profile/:profileId/chat': Chat,
+    '/profile/:profileId/stats': Stats,
+    '/profile/:profileId/map': Map,
   };
 </script>
 
 <Navbar />
-{#if $profile}
-  <ProfileNav />
-{/if}
 
 <main>
-  <Router {routes} on:routeLoaded={handleRoute}/>
+  <Router {routes} />
+<!-- on:routeLoaded={handleRoute} -->
 </main>
 
 

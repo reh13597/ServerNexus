@@ -1,19 +1,20 @@
 <script lang="ts">
-    import { profileServerData, profileServerIp } from '../../../stores/server';
-    import { userID } from '../../../stores/login';
-    import { supabase } from '../../../supabase';
-    import Card from '../../../components/StatusCard.svelte';
+    import { profileServerData, profileServerIp } from '../../stores/server';
+    import { userID } from '../../stores/login';
+    import { supabase } from '../../supabase';
+    import Card from '../../components/StatusCard.svelte';
     import { onMount } from 'svelte';
 
     async function getServerIp() {
         const { data: serverIp, error: serverIpError } = await supabase
             .from('servers')
             .select('ip')
-            .eq('id', $userID)
+            .eq('owner_id', $userID)
             .single();
 
         if (serverIpError) {
-            console.error('Error fetching username:', serverIpError);
+            console.error('Error fetching server ip:', serverIpError);
+            return;
         } else if (serverIp) {
             profileServerIp.set(serverIp.ip);
         }

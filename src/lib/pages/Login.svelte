@@ -32,6 +32,7 @@
 
         if (usernameError) {
             console.error('Error fetching username:', usernameError);
+            return;
         } else if (usernameData) {
             username.set(usernameData.username);
         }

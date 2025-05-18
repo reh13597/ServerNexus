@@ -4,10 +4,12 @@
     export let number: number;
     export let username: string;
     export let host: string;
+/*
+    export let profile;
 
     function goTo() {
-        push(`/profile`);
-    }
+        push(`/profile/${profile.id}`);
+    } */
 </script>
 
 <li class="list-row">

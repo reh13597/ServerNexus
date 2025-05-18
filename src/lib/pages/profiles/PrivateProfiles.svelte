@@ -1,17 +1,28 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
-    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
+    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData, serverID } from '../../stores/server';
     import { privateProfiles } from '../../stores/profiles';
-    import { onDestroy } from 'svelte';
+    import { userID } from '../../stores/login';
+    import { username } from '../../stores/username';
+    import { onDestroy, onMount } from 'svelte';
     import { supabase } from '../../supabase';
 
     $privateProfiles = true;
+    let showAlert = false;
+    let servers: { id:string; owner_id: string; owner: string; ip: string; port: number; };
+
 
     function isPublicProfile() {
         $publicProfile = !$publicProfile;
     }
 
+    function closeAlert() {
+        showAlert = false;
+    }
+
     async function initServerData() {
+        $profileError = null;
+
         try {
             const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$profileServerIp}:${$profileServerPort}`);
             const data = await response.json();
@@ -29,17 +40,52 @@
         }
 
         if (!$profileError) {
-            const { data, error } = await supabase
-            .from('servers')
-            .insert({ ip: $profileServerIp, port: $profileServerPort, public: $publicProfile})
+            const { data, error: serverError } = await supabase
+                .from('servers')
+                .insert({ owner_id: $userID, owner: $username, ip: $profileServerIp, port: $profileServerPort, public: $publicProfile})
 
-            if (error) {
-                console.error('Error inserting profile:', error.message, error.details);
+            if (serverError) {
+                console.error('Error inserting profile:', serverError.message, serverError.details);
+                $profileError = 'Server profile already exists.';
+                return;
             } else {
                 console.log('Server added:', data);
             }
+/*
+            const { data: serverId, error: serverIdError } = await supabase
+            .from('servers')
+            .select('id')
+            .eq('owner_id', $userID)
+            .single();
+
+            if (serverIdError) {
+                console.error('Error fetching server id:', serverIdError);
+                return;
+            } else if (serverId) {
+                serverID.set(serverId.id);
+                console.log(serverID);
+            } */
+
+            showAlert = true;
+
+            $profileServerIp = '';
+            $profileServerData = null;
+            $publicProfile = false;
         }
     }
+
+    onMount(async () => {
+      const { data, error} = await supabase
+        .from('servers')
+        .select('*')
+        .eq('public', false);
+
+      if (error) {
+        console.error('Error fetching profiles:', error);
+      } else {
+        servers = data;
+      }
+    });
 
     onDestroy(() => {
         $profileServerIp = '';
@@ -47,6 +93,15 @@
         $publicProfile = false;
     });
 </script>
+
+{#if showAlert}
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div role="alert" class="alert text-primary bg-base-200 w-[90%] sm:w-120 relative -mt-20 mx-4">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" on:click={closeAlert}>✕</button>
+            <span class="text-sm sm:text-base">Server profile successfully created and added.</span>
+        </div>
+    </div>
+{/if}
 
 <div>
     <h1 class="text-4xl font-bold mt-10">Create and view your own server profiles!</h1>
@@ -84,8 +139,8 @@
 
 <div class="max-w-2xl mx-auto mt-10">
     <ul class="list bg-base-100 rounded-box shadow-md max-h-[60vh] overflow-y-auto">
-        <ListElement number=1 username="reh13597" host="hypixel.net" />
-        <ListElement number=2 username="reh13597" host="stray.gg" />
-        <ListElement number=3 username="reh13597" host="minehut.gg" />
+        {#each servers as server, index}
+            <ListElement number={index + 1} username={server.owner} host={server.ip} />
+        {/each}
     </ul>
 </div>

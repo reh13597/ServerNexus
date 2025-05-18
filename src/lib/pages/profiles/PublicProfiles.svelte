@@ -1,7 +1,25 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
     import { privateProfiles } from '../../stores/profiles';
+    import { onMount } from 'svelte';
+    import { supabase } from '../../supabase';
+
+    let servers: { id:string; owner_id: string; owner: string; ip: string; port: number; };
+
     $privateProfiles = false;
+
+    onMount(async () => {
+      const { data, error} = await supabase
+        .from('servers')
+        .select('*')
+        .eq('public', true);
+
+      if (error) {
+        console.error('Error fetching profiles:', error);
+      } else {
+        servers = data;
+      }
+    });
 </script>
 
 <div>
@@ -29,15 +47,8 @@
 
 <div class="max-w-2xl mx-auto mt-15">
     <ul class="list bg-base-100 rounded-box shadow-md max-h-[55vh] overflow-y-auto">
-        <ListElement number=1 username="reh13597" host="hypixel.net" />
-        <ListElement number=2 username="kevdawg33" host="stray.gg" />
-        <ListElement number=3 username="notch" host="minehut.gg" />
-        <ListElement number=4 username="notch" host="minehut.gg" />
-        <ListElement number=5 username="notch" host="minehut.gg" />
-        <ListElement number=6 username="notch" host="minehut.gg" />
-        <ListElement number=7 username="notch" host="minehut.gg" />
-        <ListElement number=8 username="notch" host="minehut.gg" />
-        <ListElement number=9 username="notch" host="minehut.gg" />
-        <ListElement number=10 username="notch" host="minehut.gg" />
+      {#each servers as server, index}
+        <ListElement number={index + 1} username={server.owner} host={server.ip} />
+      {/each}
     </ul>
 </div>

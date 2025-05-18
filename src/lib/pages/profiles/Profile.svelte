@@ -1,7 +1,13 @@
 <script lang="ts">
-    import { push } from 'svelte-spa-router';
-    import { privateProfiles } from '../stores/profiles';
+    import { privateProfiles, profile } from '../../stores/profiles';
+    import { params, push } from 'svelte-spa-router';
+    import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
+
+    let profileId = $params.profileId;
+    let profileData = null;
+
+    $profile = true;
 
     let tab1 = false;
     let tab2 = false;
@@ -13,7 +19,7 @@
         tab2 = false;
         tab3 = false;
         tab4 = false;
-        push('/profile-status');
+        push('/profile/${profile.id}/profile-status');
     }
 
     function handleTab2() {
@@ -21,7 +27,7 @@
         tab2 = true;
         tab3 = false;
         tab4 = false;
-        push('/chat');
+        push('/profile/${profile.id}/chat');
     }
 
     function handleTab3() {
@@ -29,7 +35,7 @@
         tab2 = false;
         tab3 = true;
         tab4 = false;
-        push('/stats');
+        push('/profile/${profile.id}/stats');
     }
 
     function handleTab4() {
@@ -37,7 +43,7 @@
         tab2 = false;
         tab3 = false;
         tab4 = true;
-        push('/map');
+        push('/profile/${profile.id}/map');
     }
 
     function goBack() {
@@ -48,8 +54,20 @@
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
         handleTab1();
+
+        const { data, error } = await supabase
+            .from('servers')
+            .select('id')
+            .eq('owner_id', profileId)
+            .single();
+
+        if (error) {
+            console.error(error);
+        } else {
+            profileData = data;
+        }
     });
 </script>
 
