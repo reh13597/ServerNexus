@@ -1,6 +1,6 @@
 <script lang="ts">
     import { serverProfile, serverData } from '../../stores/server';
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { onProfile } from "../../stores/profiles";
     import Card from '../../components/StatusCard.svelte';
 
@@ -42,6 +42,10 @@
                 }
             };
         }
+    });
+
+    onDestroy(() => {
+        $serverData = null;
     });
 </script>
 
