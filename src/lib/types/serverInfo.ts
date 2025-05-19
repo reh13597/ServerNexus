@@ -26,3 +26,10 @@ export interface ServerData {
     software?: string;
     plugins?: string[];
 }
+
+export interface ServerProfile {
+    id: string;
+    owner: string;
+    ip: string;
+    port: number;
+}

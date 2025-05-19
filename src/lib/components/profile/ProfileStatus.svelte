@@ -1,36 +1,56 @@
 <script lang="ts">
-    import { profileServerData, profileServerIp } from '../../stores/server';
-    import { userID } from '../../stores/login';
-    import { supabase } from '../../supabase';
-    import Card from '../../components/StatusCard.svelte';
+    import { serverProfile, serverData } from '../../stores/server';
     import { onMount } from 'svelte';
+    import { onProfile } from "../../stores/profiles";
+    import Card from '../../components/StatusCard.svelte';
 
-    async function getServerIp() {
-        const { data: serverIp, error: serverIpError } = await supabase
-            .from('servers')
-            .select('ip')
-            .eq('owner_id', $userID)
-            .single();
+    $onProfile = true;
+    let profile = $serverProfile;
+    let error = null;
 
-        if (serverIpError) {
-            console.error('Error fetching server ip:', serverIpError);
-            return;
-        } else if (serverIp) {
-            profileServerIp.set(serverIp.ip);
+    onMount(async () => {
+        try {
+            const response = await fetch(`https://api.mcstatus.io/v2/status/java/${profile.ip}:${profile.port}`);
+            const data = await response.json();
+
+            if (!data.version) {
+                throw new Error();
+            }
+
+            $serverData = data;
+        } catch (err) {
+            error = 'Failed to fetch server data.';
+            $serverData = {
+                online: false,
+                host: profile.ip,
+                port: 0,
+                ip_address: null,
+                version: {
+                    name_clean: '',
+                    name_raw: '',
+                    name_html: '',
+                    protocol: 0
+                },
+                players: {
+                    online: 0,
+                    max: 0
+                },
+                motd: {
+                    raw: '',
+                    clean: '',
+                    html: ''
+                }
+            };
         }
-    }
-
-    onMount(() => {
-        getServerIp();
     });
 </script>
 
 <div class="container mx-auto px-4">
-    {#if $profileServerData}
+    {#if $serverData}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6 mb-10">
-            <Card title="Server Information" data={$profileServerData} type="info" />
-            <Card title="Connection Details" data={$profileServerData} type="connection" customIp={$profileServerIp} />
-            <Card title="Miscellaneous" data={$profileServerData} type="icon" />
+            <Card title="Server Information" data={$serverData} type="info" />
+            <Card title="Connection Details" data={$serverData} type="connection" customIp={profile.ip} />
+            <Card title="Miscellaneous" data={$serverData} type="icon" />
         </div>
     {:else}
         <h1 class="text-4xl font-bold mt-10">Server Status</h1>

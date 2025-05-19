@@ -1,15 +1,12 @@
 <script lang="ts">
-    import { privateProfiles, profile } from '../../stores/profiles';
-    import { params, push } from 'svelte-spa-router';
-    import { supabase } from '../../supabase';
-    import { onMount } from 'svelte';
+  import { serverProfile } from '../../stores/server';
+  import { privateProfiles } from '../../stores/profiles';
+  import { push } from 'svelte-spa-router';
+  import { onDestroy } from 'svelte';
 
-    let profileId = $params.profileId;
-    let profileData = null;
+  let profile = $serverProfile;
 
-    $profile = true;
-
-    let tab1 = false;
+  let tab1 = false;
     let tab2 = false;
     let tab3 = false;
     let tab4 = false;
@@ -19,7 +16,7 @@
         tab2 = false;
         tab3 = false;
         tab4 = false;
-        push('/profile/${profile.id}/profile-status');
+        push(`/${profile.id}/profile-status`);
     }
 
     function handleTab2() {
@@ -27,7 +24,7 @@
         tab2 = true;
         tab3 = false;
         tab4 = false;
-        push('/profile/${profile.id}/chat');
+        push(`/${profile.id}/chat`);
     }
 
     function handleTab3() {
@@ -35,7 +32,7 @@
         tab2 = false;
         tab3 = true;
         tab4 = false;
-        push('/profile/${profile.id}/stats');
+        push(`/${profile.id}/stats`);
     }
 
     function handleTab4() {
@@ -43,7 +40,7 @@
         tab2 = false;
         tab3 = false;
         tab4 = true;
-        push('/profile/${profile.id}/map');
+        push(`/${profile.id}/map`);
     }
 
     function goBack() {
@@ -53,22 +50,6 @@
             push('/public-profiles');
         }
     }
-
-    onMount(async () => {
-        handleTab1();
-
-        const { data, error } = await supabase
-            .from('servers')
-            .select('id')
-            .eq('owner_id', profileId)
-            .single();
-
-        if (error) {
-            console.error(error);
-        } else {
-            profileData = data;
-        }
-    });
 </script>
 
 <div class="flex items-center justify-center mt-5">
@@ -76,7 +57,7 @@
         <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M15 5l-7 7 7 7"></path></g></svg>
     </button>
 
-    <div role="tablist" class="tabs text-primary tabs-lg">
+    <div role="tablist" class="tabs text-primary tabs-xl">
         {#if tab2}
             <a onclick={() => {handleTab1()}} role="tab" class="tab">Status</a>
             <a onclick={() => {handleTab2()}} role="tab" class="tab tab-active">Chat</a>
@@ -100,3 +81,4 @@
         {/if}
     </div>
 </div>
+

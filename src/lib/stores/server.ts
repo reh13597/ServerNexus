@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import type { ServerData } from '../types/serverInfo';
+import type { ServerProfile } from '../types/serverInfo';
 
 export const serverData = writable<ServerData | null>(null);
 export const serverIp = writable('');
@@ -24,7 +25,7 @@ export const profilePortOK = derived(profileServerPort, $p2 => /^[0-9]+$/.test($
 
 export const publicProfile = writable(false);
 
-export const serverID = writable('');
+export const serverProfile = writable<ServerProfile | null>(null);
 
 export const profileCanFetchServerData = derived(
     [profileIpOK, profilePortOK],

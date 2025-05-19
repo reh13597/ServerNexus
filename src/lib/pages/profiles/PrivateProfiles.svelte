@@ -1,6 +1,6 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
-    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData, serverID } from '../../stores/server';
+    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
     import { privateProfiles } from '../../stores/profiles';
     import { userID } from '../../stores/login';
     import { username } from '../../stores/username';
@@ -51,20 +51,6 @@
             } else {
                 console.log('Server added:', data);
             }
-/*
-            const { data: serverId, error: serverIdError } = await supabase
-            .from('servers')
-            .select('id')
-            .eq('owner_id', $userID)
-            .single();
-
-            if (serverIdError) {
-                console.error('Error fetching server id:', serverIdError);
-                return;
-            } else if (serverId) {
-                serverID.set(serverId.id);
-                console.log(serverID);
-            } */
 
             showAlert = true;
 
@@ -78,7 +64,7 @@
       const { data, error} = await supabase
         .from('servers')
         .select('*')
-        .eq('public', false);
+        .eq('owner_id', $userID);
 
       if (error) {
         console.error('Error fetching profiles:', error);
@@ -140,7 +126,7 @@
 <div class="max-w-2xl mx-auto mt-10">
     <ul class="list bg-base-100 rounded-box shadow-md max-h-[60vh] overflow-y-auto">
         {#each servers as server, index}
-            <ListElement number={index + 1} username={server.owner} host={server.ip} />
+            <ListElement profile={server} number={index + 1} />
         {/each}
     </ul>
 </div>

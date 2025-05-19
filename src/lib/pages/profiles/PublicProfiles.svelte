@@ -1,24 +1,48 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
     import { privateProfiles } from '../../stores/profiles';
+/*     import { userID } from '../../stores/login'; */
     import { onMount } from 'svelte';
     import { supabase } from '../../supabase';
+    import type { ServerProfile } from '../../types/serverInfo';
 
-    let servers: { id:string; owner_id: string; owner: string; ip: string; port: number; };
-
+    let servers: ServerProfile;
+/*     let btnActive = false; */
     $privateProfiles = false;
 
-    onMount(async () => {
+    async function getServerData() {
       const { data, error} = await supabase
         .from('servers')
         .select('*')
-        .eq('public', true);
+        .eq('public', true)
 
       if (error) {
         console.error('Error fetching profiles:', error);
       } else {
         servers = data;
       }
+    }
+
+    /* async function viewFav() {
+      btnActive = !btnActive;
+
+      const { data, error} = await supabase
+        .from('servers')
+        .select('*')
+        .eq('favourited', true)
+        .eq('owner_id', $userID)
+
+      if (error) {
+        console.error('Error fetching profiles:', error);
+      } else {
+        servers = data;
+      }
+
+      getServerData();
+    } */
+
+    onMount(() => {
+      getServerData();
     });
 </script>
 
@@ -41,14 +65,13 @@
             <input type="search" class="grow" placeholder="Search" />
         </label>
         <button class="btn btn-primary">View Favourites</button>
-        <!--on:click={() => privateProfiles.update(n => !n)}-->
-    </div>
+<!--    <button on:click={() => viewFav()} class={`btn ${btnActive ? 'btn btn-primary' : 'btn btn-primary btn-ghost'}`}>View Favourites</button> -->    </div>
 </div>
 
 <div class="max-w-2xl mx-auto mt-15">
     <ul class="list bg-base-100 rounded-box shadow-md max-h-[55vh] overflow-y-auto">
       {#each servers as server, index}
-        <ListElement number={index + 1} username={server.owner} host={server.ip} />
+        <ListElement profile={server} number={index + 1} />
       {/each}
     </ul>
 </div>
