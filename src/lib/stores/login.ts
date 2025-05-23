@@ -1,4 +1,5 @@
 import { writable, derived } from 'svelte/store';
+import { supabase } from '../supabase';
 
 export const email = writable('');
 export const password = writable('');
@@ -12,5 +13,17 @@ export const canLogin = derived(
 );
 
 export const isLoggedIn = writable(false);
+export const authReady = writable(false);
 
-export const userID = writable('');
+/* supabase.auth.getSession().then(({ data: { session } }) => {
+  isLoggedIn.set(!!session);
+  if (session) {
+    authReady.set(true);
+  }
+});
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  isLoggedIn.set(!!session);
+  authReady.set(true);
+});
+ */

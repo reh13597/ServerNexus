@@ -1,11 +1,10 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
-    import { publicProfile, profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
-    import { privateProfiles } from '../../stores/profiles';
-    import { userID } from '../../stores/login';
-    import { username } from '../../stores/username';
-    import { onDestroy, onMount } from 'svelte';
+    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
+    import { privateProfiles, publicProfile } from '../../stores/profiles';
+    import { username, userID } from '../../stores/user';
     import { supabase } from '../../supabase';
+    import { onDestroy, onMount } from 'svelte';
 
     $privateProfiles = true;
     let showAlert = false;
@@ -20,7 +19,7 @@
         showAlert = false;
     }
 
-    async function initServerData() {
+    async function createProfile() {
         $profileError = null;
 
         try {
@@ -40,7 +39,7 @@
         }
 
         if (!$profileError) {
-            const { data, error: serverError } = await supabase
+            const { error: serverError } = await supabase
                 .from('servers')
                 .insert({ owner_id: $userID, owner: $username, ip: $profileServerIp, port: $profileServerPort, public: $publicProfile})
 
@@ -48,12 +47,9 @@
                 console.error('Error inserting profile:', serverError.message, serverError.details);
                 $profileError = 'Server profile already exists.';
                 return;
-            } else {
-                console.log('Server added:', data);
             }
 
             showAlert = true;
-
             $profileServerIp = '';
             $profileServerData = null;
             $publicProfile = false;
@@ -67,10 +63,11 @@
         .eq('owner_id', $userID);
 
       if (error) {
-        console.error('Error fetching profiles:', error);
-      } else {
-        servers = data;
+        console.error('Error fetching profiles:', error.message);
+        return;
       }
+
+      servers = data;
     });
 
     onDestroy(() => {
@@ -93,7 +90,7 @@
     <h1 class="text-4xl font-bold mt-10">Create and view your own server profiles!</h1>
 </div>
 
-<form on:submit|preventDefault={initServerData} class="mt-15 flex flex-col items-center space-y-4">
+<form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">
     <div class="flex flex-col space-y-2 w-full max-w-xs">
         <input type="input" bind:value={$profileServerIp}
             required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"

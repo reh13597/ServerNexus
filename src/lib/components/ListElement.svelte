@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { privateProfiles } from '../stores/profiles';
-    import { serverProfile } from '../stores/server';
+    import { privateProfiles, serverProfile } from '../stores/profiles';
     import { supabase } from '../supabase';
     import type { ServerProfile } from '../types/serverInfo';
     import { push } from 'svelte-spa-router';
@@ -17,7 +16,7 @@
     async function addFav() {
         btnActive = !btnActive;
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('servers')
             .update({ favourited: btnActive })
             .eq('id', profile.id)
@@ -25,8 +24,6 @@
         if (error) {
             console.error('Error inserting profile:', error.message, error.details);
             return;
-        } else {
-            console.log('Server favourited:', data);
         }
     }
 </script>

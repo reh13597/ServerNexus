@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Router, { push } from 'svelte-spa-router';
   import { wrap } from 'svelte-spa-router/wrap';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
+  import Router, { push } from 'svelte-spa-router';
   import type { RouteLoadedEvent } from 'svelte-spa-router';
 
   import Dashboard from './lib/pages/Dashboard.svelte';
@@ -21,7 +21,7 @@
 
   import Navbar from './lib/components/Navbar.svelte';
   import ProfileNav from './lib/components/profile/ProfileNav.svelte';
-  import { isLoggedIn } from './lib/stores/login';
+  import { isLoggedIn, authReady } from './lib/stores/login';
   import { onProfile } from './lib/stores/profiles';
 
   onMount(async () => {
@@ -91,7 +91,9 @@
 {/if}
 
 <main>
-  <Router {routes} on:routeLoaded={handleRoute} />
+<!--   {#if $authReady} -->
+    <Router {routes} on:routeLoaded={handleRoute} />
+<!--   {/if} -->
 </main>
 
 

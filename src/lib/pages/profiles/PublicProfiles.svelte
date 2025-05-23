@@ -1,26 +1,27 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
     import { privateProfiles } from '../../stores/profiles';
-/*     import { userID } from '../../stores/login'; */
-    import { onMount } from 'svelte';
+/*     import { userID } from '../../stores/user'; */
     import { supabase } from '../../supabase';
+    import { onMount } from 'svelte';
     import type { ServerProfile } from '../../types/serverInfo';
 
     let servers: ServerProfile;
 /*     let btnActive = false; */
     $privateProfiles = false;
 
-    async function getServerData() {
+    async function getProfileData() {
       const { data, error} = await supabase
         .from('servers')
         .select('*')
         .eq('public', true)
 
       if (error) {
-        console.error('Error fetching profiles:', error);
-      } else {
-        servers = data;
+        console.error('Error fetching profiles:', error.message);
+        return;
       }
+
+      servers = data;
     }
 
     /* async function viewFav() {
@@ -42,7 +43,7 @@
     } */
 
     onMount(() => {
-      getServerData();
+      getProfileData();
     });
 </script>
 

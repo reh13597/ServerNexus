@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { supabase } from '../supabase';
+    import { username, userID } from '../stores/user';
+    import { email, password, canLogin, isLoggedIn } from '../stores/login';
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
-    import { supabase } from '../supabase';
-    import { email, password, canLogin, isLoggedIn, userID } from '../stores/login';
-    import { username } from '../stores/username';
 
     let loginError = false;
 
@@ -33,10 +33,9 @@
         if (usernameError) {
             console.error('Error fetching username:', usernameError);
             return;
-        } else if (usernameData) {
-            username.set(usernameData.username);
         }
 
+        username.set(usernameData.username);
         isLoggedIn.set(true);
         push('/');
     }

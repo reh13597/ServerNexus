@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { serverProfile } from '../../stores/server';
-  import { privateProfiles } from '../../stores/profiles';
+  import { privateProfiles, serverProfile } from '../../stores/profiles';
   import { push } from 'svelte-spa-router';
-  import { onDestroy } from 'svelte';
 
   let profile = $serverProfile;
 

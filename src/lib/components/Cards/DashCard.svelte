@@ -6,7 +6,7 @@
     export let description: string;
 
     export function goTo() {
-        push(`/${path}`);
+      push(`/${path}`);
     }
 </script>
 

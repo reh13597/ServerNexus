@@ -4,10 +4,10 @@
 
   async function logout() {
       isLoggedIn.set(false);
-      const { error: logoutError } = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
 
-      if (logoutError) {
-        console.log("Logout error occured.");
+      if (error) {
+        console.error("Error logging in:", error.message);
         return;
       }
   }

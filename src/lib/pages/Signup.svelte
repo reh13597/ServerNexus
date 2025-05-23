@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte';
     import { supabase } from '../supabase';
     import { email, username, password, canSignup } from '../stores/signup';
+    import { onDestroy } from 'svelte';
 
     let showAlert = false;
 
@@ -10,7 +10,7 @@
     }
 
     async function signup() {
-        const { error: signupError } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
             email: $email,
             password: $password,
             options: {
@@ -21,8 +21,8 @@
             }
         });
 
-        if (signupError) {
-            console.log("Signup error occurred:", signupError.message);
+        if (error) {
+            console.log("Signup error occurred:", error.message);
             return;
         }
 

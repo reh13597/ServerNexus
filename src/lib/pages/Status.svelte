@@ -1,6 +1,6 @@
 <script lang="ts">
     import { serverData, serverIp, serverPort, error, canFetchServerData } from '../stores/server';
-    import Card from '../components/StatusCard.svelte';
+    import Card from '../components/Cards/StatusCard.svelte';
     import { onDestroy } from 'svelte';
 
     async function initServerData() {

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { username } from '../stores/username';
-    import Card from '../components/DashCard.svelte';
+    import { username } from '../stores/user';
+    import Card from '../components/Cards/DashCard.svelte';
 </script>
 
 <div>

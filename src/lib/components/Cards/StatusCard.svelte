@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { ServerData } from '../types/serverInfo';
-    import { error } from '../stores/server';
+    import type { ServerData } from '../../types/serverInfo';
+    import { error } from '../../stores/server';
 
     export let title: string;
     export let data: ServerData;
