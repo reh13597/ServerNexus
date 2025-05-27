@@ -91,9 +91,9 @@
 {/if}
 
 <main>
-<!--   {#if $authReady} -->
+{#if $authReady}
     <Router {routes} on:routeLoaded={handleRoute} />
-<!--   {/if} -->
+{/if}
 </main>
 
 

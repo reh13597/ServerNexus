@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import { supabase } from '../supabase';
+import { username, userID } from './user';
 
 export const email = writable('');
 export const password = writable('');
@@ -15,15 +16,25 @@ export const canLogin = derived(
 export const isLoggedIn = writable(false);
 export const authReady = writable(false);
 
-/* supabase.auth.getSession().then(({ data: { session } }) => {
-  isLoggedIn.set(!!session);
-  if (session) {
-    authReady.set(true);
+function setUserData(session) {
+  if (session?.user) {
+    userID.set(session.user.id);
+    username.set(session.user.user_metadata?.username);
+  } else {
+    userID.set('');
+    username.set('');
   }
+}
+
+supabase.auth.getSession().then(({ data: { session } }) => {
+  isLoggedIn.set(!!session);
+  setUserData(session);
+  authReady.set(true);
 });
 
 supabase.auth.onAuthStateChange((_event, session) => {
   isLoggedIn.set(!!session);
+  setUserData(session);
   authReady.set(true);
 });
- */
+

@@ -7,10 +7,19 @@
     export let number: number;
     export let profile: ServerProfile;
     let btnActive = false;
+    let showAlert = false;
 
     function goTo() {
         $serverProfile = profile;
         push(`/${profile.id}/profile-status`);
+    }
+
+    function openAlert() {
+        showAlert = true;
+    }
+
+    function closeAlert() {
+        showAlert = false;
     }
 
     async function addFav() {
@@ -26,7 +35,30 @@
             return;
         }
     }
+
+    async function delProfile() {
+        const { error: delProfileError } = await supabase
+            .from('servers')
+            .delete()
+            .eq('id', profile.id)
+
+        if (delProfileError) {
+            console.error('Error deleting profile:', delProfileError.message, delProfileError.details);
+        } else {
+            console.log('Success!');
+        }
+    }
 </script>
+
+<!-- {#if showAlert} -->
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div role="alert" class="alert text-primary bg-base-200 w-[90%] sm:w-95 relative -mt-20 mx-4">
+            <span class="text-sm sm:text-base">Are you sure you want to delete it? This action cannot be undone.</span>
+        </div>
+        <button class="btn btn-square" on:click={() => delProfile()}>Yes</button>
+        <button class="btn btn-square" on:click={() => closeAlert()}>No</button>
+    </div>
+<!-- {/if} -->
 
 <li class="list-row">
     <div class="text-4xl font-thin opacity-30 tabular-nums w-15 text-left">{number}.</div>
@@ -35,6 +67,9 @@
         <div class="text-xs font-semibold opacity-60">{profile.ip}</div>
     </div>
     {#if $privateProfiles}
+        <button on:click={() => openAlert()} class="btn btn-primary btn-square btn-ghost">
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></g></svg>
+        </button>
         <button on:click={() => goTo()} class="btn btn-primary btn-square btn-ghost">
             <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M9 5l7 7-7 7"></path></g></svg>
         </button>

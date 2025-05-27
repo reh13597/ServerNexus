@@ -1,6 +1,6 @@
 <script lang="ts">
     import { supabase } from '../supabase';
-    import { username, userID } from '../stores/user';
+    import { userID } from '../stores/user';
     import { email, password, canLogin, isLoggedIn } from '../stores/login';
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
@@ -10,7 +10,7 @@
     async function login() {
         loginError = false;
 
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
             email: $email,
             password: $password,
         })
@@ -22,9 +22,7 @@
             return;
         }
 
-        $userID = data.user.id;
-
-        const { data: usernameData, error: usernameError } = await supabase
+        const { error: usernameError } = await supabase
             .from('profiles')
             .select('username')
             .eq('id', $userID)
@@ -35,7 +33,6 @@
             return;
         }
 
-        username.set(usernameData.username);
         isLoggedIn.set(true);
         push('/');
     }

@@ -6,7 +6,6 @@
 
     $onProfile = true;
     let profile = $serverProfile;
-    let error = null;
 
     onMount(async () => {
         try {
@@ -19,7 +18,6 @@
 
             $serverData = data;
         } catch (err) {
-            error = 'Failed to fetch server data.';
             $serverData = {
                 online: false,
                 host: profile.ip,
