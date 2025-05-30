@@ -26,7 +26,7 @@
             .from('profiles')
             .select('username')
             .eq('id', $userID)
-            .single();
+            .single()
 
         if (usernameError) {
             console.error('Error fetching username:', usernameError);

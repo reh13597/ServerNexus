@@ -17,7 +17,7 @@
         .eq('public', true)
 
       if (error) {
-        console.error('Error fetching profiles:', error.message);
+        console.error('Error fetching profiles:', error);
         return;
       }
 

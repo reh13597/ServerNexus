@@ -1,15 +1,14 @@
 <script lang="ts">
     import ListElement from '../../components/ListElement.svelte';
     import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
-    import { privateProfiles, publicProfile } from '../../stores/profiles';
+    import { privateProfiles, publicProfile, serverProfiles } from '../../stores/profiles';
     import { username, userID } from '../../stores/user';
     import { supabase } from '../../supabase';
     import { onDestroy, onMount } from 'svelte';
 
     $privateProfiles = true;
     let showAlert = false;
-    let servers: { id:string; owner_id: string; owner: string; ip: string; port: number; };
-
+    let servers = [];
 
     function isPublicProfile() {
         $publicProfile = !$publicProfile;
@@ -44,7 +43,7 @@
                 .insert({ owner_id: $userID, owner: $username, ip: $profileServerIp, port: $profileServerPort, public: $publicProfile})
 
             if (serverError) {
-                console.error('Error inserting profile:', serverError.message, serverError.details);
+                console.error('Error inserting profile:', serverError);
                 $profileError = 'Server profile already exists.';
                 return;
             }
@@ -56,24 +55,21 @@
         }
     }
 
-    onMount(async () => {
-      const { data, error} = await supabase
-        .from('servers')
-        .select('*')
-        .eq('owner_id', $userID);
+    const unsubscribe = serverProfiles.subscribe((data) => {
+        servers = data;
+    });
 
-      if (error) {
-        console.error('Error fetching profiles:', error.message);
-        return;
-      }
-
-      servers = data;
+    onMount(() => {
+        serverProfiles.fetchAndSubscribe();
     });
 
     onDestroy(() => {
         $profileServerIp = '';
         $profileError = null;
         $publicProfile = false;
+
+        serverProfiles.unsubscribe();
+        unsubscribe();
     });
 </script>
 

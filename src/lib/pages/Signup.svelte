@@ -22,7 +22,7 @@
         });
 
         if (error) {
-            console.log("Signup error occurred:", error.message);
+            console.log("Signup error occurred:", error);
             return;
         }
 
