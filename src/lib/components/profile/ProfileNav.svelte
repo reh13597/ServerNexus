@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { privateProfiles, serverProfile } from '../../stores/profiles';
-  import { push } from 'svelte-spa-router';
+    import { privateProfiles, serverProfile } from '../../stores/profiles';
+    import { push } from 'svelte-spa-router';
 
-  let profile = $serverProfile;
+    let profile = $serverProfile;
 
-  let tab1 = false;
+    let tab1 = false;
     let tab2 = false;
     let tab3 = false;
     let tab4 = false;
