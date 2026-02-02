@@ -10,7 +10,7 @@
     async function login() {
         loginError = false;
 
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email: $email,
             password: $password,
         })
@@ -22,11 +22,21 @@
             return;
         }
 
+        const uid = data.user?.id;
+
+        if (!uid) {
+            console.error('Login succeeded but no user ID found.');
+            loginError = true;
+            return;
+        }
+
+        userID.set(uid);
+
         const { error: usernameError } = await supabase
             .from('profiles')
             .select('username')
-            .eq('id', $userID)
-            .single()
+            .eq('id', uid)
+            .maybeSingle()
 
         if (usernameError) {
             console.error('Error fetching username:', usernameError);
@@ -44,11 +54,11 @@
 </script>
 
 <div class="px-4">
-    <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
+    <h1 class="text-6xl mt-10 font-bold text-primary">Welcome to Server Nexus!</h1>
     <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
 </div>
 
-<form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10">
+<form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg m-auto mt-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300"

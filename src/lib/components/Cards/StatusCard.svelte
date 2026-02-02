@@ -8,7 +8,7 @@
     export let customIp: string;
 </script>
 
-<div class="card w-full bg-base-100 shadow-xl">
+<div class="card w-full bg-base-100">
     <div class="card-body">
         <h2 class="text-primary card-title justify-center">{title}</h2>
         <div class="stats stats-vertical shadow">

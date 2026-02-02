@@ -37,7 +37,7 @@
 </script>
 
 <div class="px-4">
-    <h1 class="text-6xl mt-10">Welcome to Server Nexus!</h1>
+    <h1 class="text-6xl mt-10 font-bold text-primary">Welcome to Server Nexus!</h1>
     <p class="text-xl mt-10">We're excited to have you here!</p>
 </div>
 
@@ -50,7 +50,7 @@
     </div>
 {/if}
 
-<form on:submit|preventDefault={signup} class="card w-96 bg-base-100 card-lg shadow-sm m-auto mt-10 mb-10">
+<form on:submit|preventDefault={signup} class="card w-96 bg-base-100 card-lg m-auto mt-10 mb-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"

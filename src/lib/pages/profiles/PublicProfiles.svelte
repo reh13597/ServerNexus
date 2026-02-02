@@ -48,7 +48,7 @@
 </script>
 
 <div>
-    <h1 class="text-4xl font-bold mt-10">View public server profiles!</h1>
+    <h1 class="text-4xl font-bold mt-10 text-primary">View public server profiles!</h1>
     <div class="max-w-2xl mx-auto flex gap-4 mt-10">
         <label class="input grow">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

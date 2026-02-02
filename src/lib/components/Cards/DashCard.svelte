@@ -10,11 +10,11 @@
     }
 </script>
 
-<div class="card w-96 bg-base-100 card-xl shadow-sm">
+<div class="card w-96 bg-base-100 card-xl">
     <div class="card-body">
-      <h2 class="card-title justify-center">{title}</h2>
-      <p>{description}</p>
-      <div class="justify-center card-actions mt-5">
+      <h2 class="card-title">{title}</h2>
+      <p class="text-left">{description}</p>
+      <div class="card-actions mt-5">
         <button on:click={() => goTo()} class="btn btn-primary btn-lg">Go!</button>
       </div>
     </div>

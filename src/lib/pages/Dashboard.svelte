@@ -4,11 +4,10 @@
 </script>
 
 <div>
-    <h1 class="text-4xl font-bold mt-10">Welcome, {$username}!</h1>
-
-    <div class="flex flex-wrap justify-center gap-10 mt-30 mb-10">
-        <Card title="Server Status" description="Check the status of any Minecraft server." path="status" />
-        <Card title="Server Profiles" description="View public server profiles." path="public-profiles" />
-        <Card title="My Profiles" description="Create and view your own server profiles." path="private-profiles" />
+    <h1 class="text-6xl font-bold mt-10 text-primary">Welcome, {$username}!</h1>
+    <div class="flex flex-wrap justify-center gap-10 mt-30">
+        <Card title="Server Status" description="Check the live status, player count, and details of any Minecraft server." path="status" />
+        <Card title="Explore Servers" description="Browse through popular Minecraft servers and search for specific ones." path="public-profiles" />
+        <Card title="Profiles" description="Modify your profile and browse through public profiles to see their server ratings/reviews." path="private-profiles" />
     </div>
 </div>

@@ -49,7 +49,7 @@
 </script>
 
 <div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold mt-10">Check the status of any Minecraft server!</h1>
+    <h1 class="text-4xl font-bold mt-10 text-primary">Check the status of any Minecraft server!</h1>
     <form on:submit|preventDefault={initServerData} class="mt-15 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
