@@ -12,8 +12,8 @@
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
   import Status from './lib/pages/Status.svelte';
-  import PublicProfiles from './lib/pages/profiles/PublicProfiles.svelte';
-  import PrivateProfiles from './lib/pages/profiles/PrivateProfiles.svelte';
+  import Explore from './lib/pages/Explore.svelte';
+  import Profiles from './lib/pages/Profiles.svelte';
   import ProfileStatus from './lib/components/profile/ProfileStatus.svelte';
   import Stats from './lib/components/profile/Stats.svelte';
   import Chat from './lib/components/profile/Chat.svelte';
@@ -75,8 +75,8 @@
     '/account' : Account,
     '/status': Status,
 
-    '/public-profiles': PublicProfiles,
-    '/private-profiles': PrivateProfiles,
+    '/explore': Explore,
+    '/profiles': Profiles,
 
     '/:profileId/profile-status': ProfileStatus,
     '/:profileId/chat': Chat,

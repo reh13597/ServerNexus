@@ -22,7 +22,7 @@ function createProfilesStore() {
         const { data, error } = await supabase
             .from('servers')
             .select('*')
-            .eq('owner_id', uid);
+            /* .eq('id', uid); */
 
         if (error) {
             console.error('Error fetching profiles:', error);

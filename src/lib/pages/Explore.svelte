@@ -1,10 +1,10 @@
 <script lang="ts">
-    import ListElement from '../../components/ListElement.svelte';
-    import { privateProfiles } from '../../stores/profiles';
+    import ListElement from '../components/ListElement.svelte';
+    import { privateProfiles } from '../stores/profiles';
 /*     import { userID } from '../../stores/user'; */
-    import { supabase } from '../../supabase';
+    import { supabase } from '../supabase';
     import { onMount } from 'svelte';
-    import type { ServerProfile } from '../../types/serverInfo';
+    import type { ServerProfile } from '../types/serverInfo';
 
     let servers: ServerProfile;
 /*     let btnActive = false; */
@@ -14,14 +14,16 @@
       const { data, error} = await supabase
         .from('servers')
         .select('*')
-        .eq('public', true)
 
       if (error) {
         console.error('Error fetching profiles:', error);
         return;
       }
 
-      servers = data;
+      servers = (data ?? []).map((s) => ({
+        ...s,
+        widgetUrl: `https://api.mcstatus.io/v2/widget/java/${encodeURIComponent(s.host)}`
+      }));
     }
 
     /* async function viewFav() {
@@ -48,8 +50,8 @@
 </script>
 
 <div>
-    <h1 class="text-4xl font-bold mt-10 text-primary">View public server profiles!</h1>
-    <div class="max-w-2xl mx-auto flex gap-4 mt-10">
+    <h1 class="text-4xl font-bold mt-10 text-primary">Browse through popular servers!</h1>
+    <div class="max-w-xl mx-auto flex gap-4 mt-10">
         <label class="input grow">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g
@@ -63,16 +65,17 @@
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" class="grow" placeholder="Search" />
+            <input type="search" class="grow" placeholder="Search for a server" />
         </label>
         <button class="btn btn-primary">View Favourites</button>
 <!--    <button on:click={() => viewFav()} class={`btn ${btnActive ? 'btn btn-primary' : 'btn btn-primary btn-ghost'}`}>View Favourites</button> -->    </div>
 </div>
 
-<div class="max-w-2xl mx-auto mt-15">
-    <ul class="list bg-base-100 rounded-box shadow-md max-h-[55vh] overflow-y-auto">
+<div class="max-w-xl mx-auto mt-10">
+    <ul class="list gap-5 rounded-box max-h-[65vh] overflow-y-auto">
       {#each servers as server, index}
-        <ListElement profile={server} number={index + 1} />
+        <img src={server.widgetUrl} alt={server.host} class="w-fit max-h-40 object-cover" />
+        <!-- <ListElement profile={server} number={index + 1} /> -->
       {/each}
     </ul>
 </div>

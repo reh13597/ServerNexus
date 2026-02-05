@@ -10,7 +10,7 @@
     }
 </script>
 
-<div class="card w-96 bg-base-100 card-xl">
+<div class="card w-96 bg-base-100 card-xl shadow-2xl">
     <div class="card-body">
       <h2 class="card-title">{title}</h2>
       <p class="text-left">{description}</p>
