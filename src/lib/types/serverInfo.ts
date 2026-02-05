@@ -29,8 +29,6 @@ export interface ServerData {
 
 export interface ServerProfile {
     id: string;
-    owner_id: string;
-    owner: string;
-    ip: string;
+    host: string;
     port: number;
 }

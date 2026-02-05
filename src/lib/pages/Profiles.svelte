@@ -1,9 +1,9 @@
 <script lang="ts">
-    import ListElement from '../../components/ListElement.svelte';
-    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
-    import { privateProfiles, publicProfile, serverProfiles } from '../../stores/profiles';
-    import { username, userID } from '../../stores/user';
-    import { supabase } from '../../supabase';
+    import ListElement from '../components/ListElement.svelte';
+    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../stores/server';
+    import { privateProfiles, publicProfile, serverProfiles } from '../stores/profiles';
+    import { username, userID } from '../stores/user';
+    import { supabase } from '../supabase';
     import { onDestroy, onMount } from 'svelte';
 
     $privateProfiles = true;

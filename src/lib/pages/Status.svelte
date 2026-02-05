@@ -1,6 +1,7 @@
 <script lang="ts">
     import { serverData, serverIp, serverPort, error, canFetchServerData } from '../stores/server';
     import Card from '../components/Cards/StatusCard.svelte';
+    import { supabase } from '../supabase';
     import { onDestroy } from 'svelte';
 
     async function initServerData() {
@@ -39,6 +40,20 @@
                 }
             };
         }
+
+        if (!$error) {
+            const { error: serverError } = await supabase
+                .from('servers')
+                .upsert(
+                    [{ host: $serverIp, port: $serverPort }],
+                    { onConflict: 'host, port', ignoreDuplicates: true }
+                );
+
+            if (serverError) {
+                console.error('Error inserting server:', serverError);
+                return;
+            }
+        }
     }
 
     onDestroy(() => {
@@ -50,16 +65,24 @@
 
 <div class="container mx-auto px-4">
     <h1 class="text-4xl font-bold mt-10 text-primary">Check the status of any Minecraft server!</h1>
-    <form on:submit|preventDefault={initServerData} class="mt-15 flex flex-col items-center space-y-4">
+    <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
                 required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"
-                title="Server IP" pattern="[A-Za-z0-9.]+[A-Za-z0-9.]+[A-Za-z0-9.]+\.[A-Za-z0-9]+"/>
+                title="Server IP" pattern="[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+"/>
+            <p class="validator-hint hidden">
+                Enter a valid server IP address.
+                <br/>(i.e. hypixel.net)
+            </p>
         </div>
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverPort}
-                required placeholder="Enter Server Port" class="input validator bg-base-300" minlength="5" maxlength="5"
+                required placeholder="Enter Server Port (Default: 25565)" class="input validator bg-base-300" minlength="5" maxlength="5"
                 title="Server Port" pattern="[0-9]+"/>
+            <p class="validator-hint hidden">
+                Enter a valid server port number.
+                <br/>(i.e. 25565)
+            </p>
         </div>
         {#if $error}
             <p class="text-error text-xs mt-2">
@@ -67,12 +90,12 @@
                 <br/>Invalid IP or Port, try again.
             </p>
         {/if}
-        <button class="btn btn-primary btn-xl mt-5" disabled={!$canFetchServerData}>Fetch Server Data</button>
+        <button class="btn btn-primary btn-lg" disabled={!$canFetchServerData}>Fetch Server Data</button>
     </form>
     {#if $serverData}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6 mb-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10">
             <Card title="Server Information" data={$serverData} type="info" />
-            <Card title="Connection Details" data={$serverData} type="connection" customIp={$serverIp} />
+            <Card title="Connection Details" data={$serverData} type="connection" />
             <Card title="Miscellaneous" data={$serverData} type="icon" />
         </div>
     {/if}

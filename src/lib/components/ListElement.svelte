@@ -65,24 +65,13 @@
 {/if}
 
 <li class="list-row">
-    <div class="text-4xl font-thin opacity-30 tabular-nums w-15 text-left">{number}.</div>
-    <div class="text-center flex-1">
-        <div>{profile.owner}</div>
-        <div class="text-xs font-semibold opacity-60">{profile.ip}</div>
-    </div>
-    {#if $privateProfiles}
-        <button on:click={() => openAlert()} class="btn btn-primary btn-square btn-ghost">
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></g></svg>
-        </button>
-        <button on:click={() => goTo()} class="btn btn-primary btn-square btn-ghost">
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M9 5l7 7-7 7"></path></g></svg>
-        </button>
-    {:else}
-        <button on:click={() => addFav()} class={`btn ${btnActive ? 'btn btn-primary btn-square' : 'btn btn-primary btn-square btn-ghost'}`}>
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"></path></g></svg>
-        </button>
-        <button on:click={() => goTo()} class="btn btn-primary btn-square btn-ghost">
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M9 5l7 7-7 7"></path></g></svg>
-        </button>
-    {/if}
+    <div class="text-xl text-left mt-2">{number}.</div>
+    <div class="text-xl font-bold text-left mt-2">{profile.host}</div>
+
+    <button on:click={() => addFav()} class={`btn ${btnActive ? 'btn btn-primary btn-square' : 'btn btn-primary btn-square btn-ghost'}`}>
+        <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"></path></g></svg>
+    </button>
+    <button on:click={() => goTo()} class="btn btn-primary btn-square btn-ghost">
+        <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M9 5l7 7-7 7"></path></g></svg>
+    </button>
 </li>
