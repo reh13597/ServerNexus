@@ -35,6 +35,7 @@
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Players</div>
                     <div class="text-xl mt-3 select-none">{data.players.online}/{data.players.max}</div>
                 </div>
+
             {:else if type === 'connection'}
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Host</div>
@@ -55,6 +56,7 @@
                         <span class="text-xl mt-3 text-error select-none">Unknown</span>
                     {/if}
                 </div>
+
             {:else}
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Icon</div>
