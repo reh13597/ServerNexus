@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
@@ -38,7 +39,7 @@
 }
 
 :root {
-  background-color: var(--b300);
+  background-color: var(--color-base-200);
   font-family: 'JetBrains Mono', monospace;
   text-align: center;
 }

@@ -31,4 +31,5 @@ export interface ServerProfile {
     id: string;
     host: string;
     port: number;
+    icon: string | null;
 }

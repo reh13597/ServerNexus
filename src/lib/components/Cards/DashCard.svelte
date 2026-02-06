@@ -12,10 +12,10 @@
 
 <div class="card w-96 bg-base-100 card-xl shadow-2xl">
     <div class="card-body">
-      <h2 class="card-title">{title}</h2>
-      <p class="text-left">{description}</p>
+      <h2 class="card-title select-none">{title}</h2>
+      <p class="text-left select-none">{description}</p>
       <div class="card-actions mt-5">
-        <button on:click={() => goTo()} class="btn btn-primary btn-lg">Go!</button>
+        <button on:click={() => goTo()} class="btn btn-primary btn-lg shadow-2xl">Go!</button>
       </div>
     </div>
 </div>

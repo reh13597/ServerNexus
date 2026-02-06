@@ -13,17 +13,14 @@
     async function getProfileData() {
       const { data, error} = await supabase
         .from('servers')
-        .select('*')
+        .select('id, host, port, icon')
 
       if (error) {
         console.error('Error fetching profiles:', error);
         return;
       }
 
-      servers = (data ?? []).map((s) => ({
-        ...s,
-        widgetUrl: `https://api.mcstatus.io/v2/widget/java/${encodeURIComponent(s.host)}`
-      }));
+      servers = data ?? [];
     }
 
     /* async function viewFav() {
@@ -50,8 +47,8 @@
 </script>
 
 <div>
-    <h1 class="text-4xl font-bold mt-10 text-primary">Browse through popular servers!</h1>
-    <div class="max-w-xl mx-auto flex gap-4 mt-10">
+    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 text-primary select-none">Browse through popular servers!</h1>
+    <div class="max-w-3xl mx-auto flex gap-6 mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
         <label class="input grow">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g
@@ -67,15 +64,14 @@
             </svg>
             <input type="search" class="grow" placeholder="Search for a server" />
         </label>
-        <button class="btn btn-primary">View Favourites</button>
+        <button class="btn btn-primary">View Saved</button>
 <!--    <button on:click={() => viewFav()} class={`btn ${btnActive ? 'btn btn-primary' : 'btn btn-primary btn-ghost'}`}>View Favourites</button> -->    </div>
 </div>
 
-<div class="max-w-xl mx-auto mt-10">
-    <ul class="list gap-5 rounded-box max-h-[65vh] overflow-y-auto">
-      {#each servers as server, index}
-        <img src={server.widgetUrl} alt={server.host} class="w-fit max-h-40 object-cover" />
-        <!-- <ListElement profile={server} number={index + 1} /> -->
+<div class="max-w-3xl mx-auto mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
+    <ul class="list p-5 bg-base-100 rounded-box max-h-[65vh] overflow-y-auto space-y-5">
+      {#each servers as server}
+        <ListElement profile={server} />
       {/each}
     </ul>
 </div>
