@@ -54,7 +54,7 @@
 </script>
 
 <div class="px-4">
-    <h1 class="text-6xl mt-10 font-bold text-primary">Welcome to Server Nexus!</h1>
+    <h1 class="text-6xl mt-40 font-bold text-primary">Welcome to Server Nexus!</h1>
     <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
 </div>
 

@@ -13,7 +13,7 @@
   }
 </script>
 
-<div class="navbar h-20 bg-base-100 shadow-sm">
+<div class="navbar glass bg-base-300 h-15 max-w-6xl grow rounded-2xl rounded-t-none left-1/2 -translate-x-1/2 top-0 z-50 fixed">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0">
@@ -25,15 +25,15 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow">
+            class="menu menu-sm dropdown-content glass bg-base-300/85 rounded-box z-1 mt-3 w-52 p-2 -mx-2 shadow-2xl">
             <li><a class="text-xl" href="#/">Dashboard</a></li>
             <li><a class="text-xl" href="#/status">Server Status</a></li>
-            <li><a class="text-xl" href="#/explore">Public Profiles</a></li>
-            <li><a class="text-xl" href="#/profiles">My Profiles</a></li>
+            <li><a class="text-xl" href="#/explore">Explore Servers</a></li>
+            <li><a class="text-xl" href="#/profiles">Profiles</a></li>
           </ul>
         {:else}
           <ul
-            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-28 p-2 shadow">
+            class="menu menu-sm dropdown-content glass bg-base-300/85 rounded-box z-1 mt-3 w-28 p-2 -mx-2 shadow-2xl">
             <li><a class="text-xl" href="#/about">About</a></li>
             <li><a class="text-xl" href="#/contact">Contact</a></li>
           </ul>
@@ -42,9 +42,9 @@
     </div>
     <div class="navbar-center">
       {#if $isLoggedIn}
-        <a class="btn btn-primary btn-ghost text-2xl" href="#/">&#x1F517 SERVER NEXUS &#x2699</a>
+        <a class="btn btn-primary btn-ghost text-2xl" href="#/" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
       {:else}
-        <a class="btn btn-primary btn-ghost text-2xl" href="#/about">&#x1F517 SERVER NEXUS &#x2699</a>
+        <a class="btn btn-primary btn-ghost text-2xl" href="#/about" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
       {/if}
     </div>
     <div class="navbar-end">
@@ -58,7 +58,7 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-29 p-2 right-0.5 shadow">
+            class="menu menu-sm dropdown-content glass bg-base-300/85 rounded-box z-1 mt-3 w-29 p-2 -mx-10 shadow-2xl text-right">
             <li><a class="text-xl" href="#/account">Account</a></li>
             <li><a class="text-xl" href="#/about">About</a></li>
             <li><a class="text-xl" href="#/contact">Contact</a></li>
@@ -66,7 +66,7 @@
           </ul>
         {:else}
           <ul
-            class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-26 p-2 right-0.5 shadow">
+            class="menu menu-sm dropdown-content glass bg-base-300/85 rounded-box z-1 mt-3 w-26 p-2 -mx-10 shadow-2xl text-right">
             <li><a class="text-xl" href="#/login">Log In</a></li>
           </ul>
         {/if}

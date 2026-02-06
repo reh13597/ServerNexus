@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { privateProfiles, serverProfile } from '../stores/profiles';
+    import { serverProfile } from '../stores/profiles';
     import { supabase } from '../supabase';
     import type { ServerProfile } from '../types/serverInfo';
     import { push } from 'svelte-spa-router';
 
-    export let number: number;
     export let profile: ServerProfile;
     let btnActive = false;
     let showAlert = false;
@@ -64,14 +63,23 @@
     </div>
 {/if}
 
-<li class="list-row">
-    <div class="text-xl text-left mt-2">{number}.</div>
-    <div class="text-xl font-bold text-left mt-2">{profile.host}</div>
+<li class="list-row flex items-center justify-between bg-base-300">
+    <div class="flex items-center gap-3">
+        <img src={profile.icon} alt="Server Icon" class="w-15 h-15 select-none" />
+        <div class="text-md sm:text-md md:text-lg lg:text-2xl text-left">{profile.host}</div>
+    </div>
 
-    <button on:click={() => addFav()} class={`btn ${btnActive ? 'btn btn-primary btn-square' : 'btn btn-primary btn-square btn-ghost'}`}>
-        <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"></path></g></svg>
-    </button>
-    <button on:click={() => goTo()} class="btn btn-primary btn-square btn-ghost">
-        <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M9 5l7 7-7 7"></path></g></svg>
-    </button>
+    <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-2xl md:text-lg sm:text-md text-md">
+        <div class="flex items-center gap-1">
+            <i class="fa-star fa-solid text-orange-400"></i>
+            <p class="select-none">4.3</p>
+        </div>
+
+        <a on:click={() => addFav()} class="inline-flex w-fit bg-transparent hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+            <i class={`fa-bookmark ${btnActive ? 'fa-solid' : 'fa-regular'}`}></i>
+        </a>
+        <a on:click={() => goTo()} class="inline-flex w-fit bg-transparent hover:cursor-pointer hover:text-primary" aria-label="View Button">
+            <i class="fa-arrow-right fa-solid"></i>
+        </a>
+    </div>
 </li>
