@@ -1,77 +1,109 @@
 <script lang="ts">
     import ListElement from '../components/ListElement.svelte';
-    import { privateProfiles } from '../stores/profiles';
-/*     import { userID } from '../../stores/user'; */
+    import { userID } from '../stores/user';
     import { supabase } from '../supabase';
     import { onMount } from 'svelte';
     import type { ServerProfile } from '../types/serverInfo';
 
     let servers: ServerProfile;
-/*     let btnActive = false; */
-    $privateProfiles = false;
+    let savedServers: ServerProfile;
+    let btnActive = false;
+    let emptyList = false;
+    let isLoading = false;
 
-    async function getProfileData() {
-      const { data, error} = await supabase
-        .from('servers')
-        .select('id, host, port, icon')
+    async function getServerData() {
+      isLoading = true;
+
+      const { data, error } = await supabase
+        .from('servers_with_rating')
+        .select('id, host, port, icon, avg_rating')
 
       if (error) {
-        console.error('Error fetching profiles:', error);
-        return;
+        console.error('Error fetching servers:', error);
+      } else {
+        servers = data ?? [];
+        await new Promise(r => setTimeout(r, 600));
+        isLoading = false;
       }
-
-      servers = data ?? [];
     }
 
-    /* async function viewFav() {
-      btnActive = !btnActive;
+    async function viewSaved() {
+      if (!btnActive) {
+        btnActive = true;
+        isLoading = true;
 
-      const { data, error} = await supabase
-        .from('servers')
-        .select('*')
-        .eq('favourited', true)
-        .eq('owner_id', $userID)
+        const { data, error } = await supabase
+          .from('saved_servers_with_rating')
+          .select('id, host, port, icon, avg_rating')
+          .eq('user_id', $userID)
 
-      if (error) {
-        console.error('Error fetching profiles:', error);
+        if (error) {
+          console.error('Error fetching saved servers:', error);
+        } else {
+          savedServers = data ?? [];
+
+          if (savedServers.length === 0) {
+            emptyList = true;
+          } else {
+            emptyList = false;
+          }
+
+          await new Promise(r => setTimeout(r, 600));
+          isLoading = false;
+        }
       } else {
-        servers = data;
+        isLoading= true;
+        await new Promise(r => setTimeout(r, 600));
+        isLoading = false;
+        btnActive = false;
       }
-
-      getServerData();
-    } */
+    }
 
     onMount(() => {
-      getProfileData();
+      getServerData();
     });
 </script>
 
 <div>
-    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 text-primary select-none">Browse through popular servers!</h1>
+    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">Browse through popular servers!</h1>
     <div class="max-w-3xl mx-auto flex gap-6 mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
-        <label class="input grow">
-            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input type="search" class="grow" placeholder="Search for a server" />
-        </label>
-        <button class="btn btn-primary">View Saved</button>
-<!--    <button on:click={() => viewFav()} class={`btn ${btnActive ? 'btn btn-primary' : 'btn btn-primary btn-ghost'}`}>View Favourites</button> -->    </div>
+      <label class="input grow">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input type="search" class="grow" placeholder="Search for a server" />
+      </label>
+      <button on:click={() => viewSaved()} class={`btn ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:border-primary hover:bg-transparent'}`}>View Saved</button>
+    </div>
 </div>
 
 <div class="max-w-3xl mx-auto mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
+  {#if !isLoading}
     <ul class="list p-5 bg-base-100 rounded-box max-h-[65vh] overflow-y-auto space-y-5">
-      {#each servers as server}
-        <ListElement profile={server} />
-      {/each}
+      {#if btnActive}
+        {#if emptyList}
+        <div class="p-5 rounded-box bg-gradient-to-tr from-gray-500 to-base-200 text-md sm:text-md md:text-lg lg:text-2xl text-left">Looks kinda empty here... go save some servers!</div>
+        {:else}
+          {#each savedServers as server}
+            <ListElement profile={server} />
+          {/each}
+        {/if}
+      {:else}
+        {#each servers as server}
+          <ListElement profile={server} />
+        {/each}
+      {/if}
     </ul>
+  {:else}
+      <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
+  {/if}
 </div>

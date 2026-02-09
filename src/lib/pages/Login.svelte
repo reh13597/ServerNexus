@@ -58,7 +58,7 @@
     <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
 </div>
 
-<form on:submit|preventDefault={login} class="card w-96 bg-base-100 card-lg m-auto mt-10">
+<form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tl from-black to-base-300 card-lg m-auto mt-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300"

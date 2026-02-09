@@ -14,13 +14,9 @@
   import Status from './lib/pages/Status.svelte';
   import Explore from './lib/pages/Explore.svelte';
   import Profiles from './lib/pages/Profiles.svelte';
-  import ProfileStatus from './lib/components/profile/ProfileStatus.svelte';
-  import Stats from './lib/components/profile/Stats.svelte';
-  import Chat from './lib/components/profile/Chat.svelte';
-  import Map from './lib/components/profile/Map.svelte';
+  import ServerInfo from './lib/pages/ServerInfo.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
-  import ProfileNav from './lib/components/profile/ProfileNav.svelte';
   import { isLoggedIn, authReady } from './lib/stores/login';
   import { onProfile } from './lib/stores/profiles';
 
@@ -78,17 +74,11 @@
     '/explore': Explore,
     '/profiles': Profiles,
 
-    '/:profileId/profile-status': ProfileStatus,
-    '/:profileId/chat': Chat,
-    '/:profileId/stats': Stats,
-    '/:profileId/map': Map,
+    '/:serverId/server-info': ServerInfo
   };
 </script>
 
 <Navbar />
-{#if $onProfile}
-  <ProfileNav />
-{/if}
 
 <main>
 {#if $authReady}

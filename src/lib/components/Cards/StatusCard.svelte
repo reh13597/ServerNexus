@@ -7,7 +7,7 @@
     export let type: 'info' | 'connection' | 'icon';
 </script>
 
-<div class="card w-full bg-base-100">
+<div class="card w-full bg-gradient-to-tr from-black to-base-300">
     <div class="card-body">
         <h2 class="text-primary card-title justify-center text-xl sm:text-xl lg:text-2xl select-none">{title}</h2>
         <div class="stats stats-vertical shadow">

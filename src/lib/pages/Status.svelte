@@ -61,6 +61,7 @@
                 }
             };
         } finally {
+            await new Promise(r => setTimeout(r, 200));
             isLoading = false;
         }
     }
@@ -73,7 +74,7 @@
 </script>
 
 <div class="container mx-auto px-4">
-    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-30 text-primary select-none">Check the status of any Minecraft server!</h1>
+    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-30 select-none">Check the status of any Minecraft server!</h1>
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
@@ -103,7 +104,7 @@
             {#if !isLoading}
                 <button class="btn btn-primary btn-xl" disabled={!$canFetchServerData}>Fetch Server Data</button>
             {:else}
-                <span class="loading loading-spinner loading-lg text-primary"></span>
+                <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
             {/if}
         </div>
     </form>
