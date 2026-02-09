@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { serverData } from '../../stores/server';
-    import { onProfile, serverProfile } from "../../stores/profiles";
-    import Card from '../Cards/StatusCard.svelte';
+    import { serverData } from '../stores/server';
+    import { onProfile, serverProfile } from "../stores/profiles";
+    import Card from '../components/Cards/StatusCard.svelte';
     import { onDestroy, onMount } from 'svelte';
 
     $onProfile = true;

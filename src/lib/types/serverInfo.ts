@@ -32,4 +32,5 @@ export interface ServerProfile {
     host: string;
     port: number;
     icon: string | null;
+    avg_rating: number;
 }

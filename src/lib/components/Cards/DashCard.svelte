@@ -10,7 +10,7 @@
     }
 </script>
 
-<div class="card w-96 bg-base-100 card-xl shadow-2xl">
+<div class="card w-96 glass bg-gradient-to-tr from-black to-base-300 card-xl shadow-2xl">
     <div class="card-body">
       <h2 class="card-title select-none">{title}</h2>
       <p class="text-left select-none">{description}</p>

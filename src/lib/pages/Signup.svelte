@@ -50,7 +50,7 @@
     </div>
 {/if}
 
-<form on:submit|preventDefault={signup} class="card w-96 bg-base-100 card-lg m-auto mt-10 mb-10">
+<form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tl from-black to-base-300 card-lg m-auto mt-10 mb-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"

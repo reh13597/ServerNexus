@@ -13,7 +13,7 @@
   }
 </script>
 
-<div class="navbar glass bg-base-300/0 h-15 max-w-6xl grow rounded-2xl rounded-t-none left-1/2 -translate-x-1/2 top-0 z-50 fixed">
+<div class="navbar glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 h-15 max-w-6xl grow rounded-2xl rounded-t-none left-1/2 -translate-x-1/2 top-0 z-50 fixed">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0">
@@ -25,7 +25,7 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            class="menu menu-sm dropdown-content glass bg-base-300/80 rounded-box z-1 mt-3 w-52 p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm dropdown-content glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-1 mt-3 w-52 p-2 -mx-2 shadow-2xl">
             <li><a class="text-xl" href="#/">Dashboard</a></li>
             <li><a class="text-xl" href="#/status">Server Status</a></li>
             <li><a class="text-xl" href="#/explore">Explore Servers</a></li>
@@ -33,7 +33,7 @@
           </ul>
         {:else}
           <ul
-            class="menu menu-sm dropdown-content glass bg-base-300/80 rounded-box z-1 mt-3 w-28 p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm dropdown-content glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-1 mt-3 w-28 p-2 -mx-2 shadow-2xl">
             <li><a class="text-xl" href="#/about">About</a></li>
             <li><a class="text-xl" href="#/contact">Contact</a></li>
           </ul>
@@ -58,7 +58,7 @@
         </div>
         {#if $isLoggedIn}
           <ul
-            class="menu menu-sm dropdown-content glass bg-base-300/80 rounded-box z-1 mt-3 w-29 p-2 -mx-10 shadow-2xl text-right">
+            class="menu menu-sm dropdown-content glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-1 mt-3 w-29 p-2 -mx-10 shadow-2xl">
             <li><a class="text-xl" href="#/account">Account</a></li>
             <li><a class="text-xl" href="#/about">About</a></li>
             <li><a class="text-xl" href="#/contact">Contact</a></li>
@@ -66,7 +66,7 @@
           </ul>
         {:else}
           <ul
-            class="menu menu-sm dropdown-content glass bg-base-300/80 rounded-box z-1 mt-3 w-26 p-2 -mx-10 shadow-2xl text-right">
+            class="menu menu-sm dropdown-content glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-1 mt-3 w-26 p-2 -mx-10 shadow-2xl">
             <li><a class="text-xl" href="#/login">Log In</a></li>
           </ul>
         {/if}
