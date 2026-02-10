@@ -4,6 +4,7 @@
     import { onDestroy } from 'svelte';
 
     let showAlert = false;
+    let isLoading = false;
 
     function closeAlert() {
         showAlert = false;
@@ -26,6 +27,7 @@
             return;
         }
 
+        isLoading = false;
         showAlert = true;
     }
 
@@ -84,7 +86,11 @@
             </p>
         </div>
         <div class="mt-5">
-            <button disabled={!$canSignup} class="btn btn-xl btn-primary">Sign Up</button>
+            {#if !isLoading}
+                <button disabled={!$canSignup} class="btn btn-xl btn-primary">Sign Up</button>
+            {:else}
+                <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
+            {/if}
             <p class="mt-5 text-sm">Already have an account?
                 <a class="text-sm text-primary" href="#/login">Login!</a>
             </p>

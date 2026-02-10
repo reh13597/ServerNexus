@@ -9,7 +9,7 @@
 
 <div class="card w-full bg-gradient-to-tr from-black to-base-300">
     <div class="card-body">
-        <h2 class="text-primary card-title justify-center text-xl sm:text-xl lg:text-2xl select-none">{title}</h2>
+        <h2 class="text-primary card-title justify-center text-xl sm:text-xl lg:text-2xl select-none underline">{title}</h2>
         <div class="stats stats-vertical shadow">
             {#if type === 'info'}
                 <div class="stat">

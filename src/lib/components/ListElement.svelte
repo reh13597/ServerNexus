@@ -64,7 +64,7 @@
     });
 </script>
 
-<li class="list-row flex items-center justify-between bg-gradient-to-tr from-gray-500 to-base-200">
+<li class="list-row flex items-center justify-between glass bg-gradient-to-tr from-gray-500 to-base-200">
     <div class="flex items-center gap-3">
         <img src={profile.icon} alt="Server Icon" class="max-w-10 max-h-10 sm:max-w-10 sm:max-h-10 md:max-w-15 md:max-h-15 lg:max-w-20 lg:max-h-20 select-none" />
         <div class="text-md sm:text-md md:text-lg lg:text-2xl text-left">{profile.host}</div>

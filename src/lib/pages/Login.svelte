@@ -6,8 +6,10 @@
     import { onDestroy } from 'svelte';
 
     let loginError = false;
+    let isLoading = false;
 
     async function login() {
+        isLoading = true;
         loginError = false;
 
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -45,6 +47,8 @@
 
         isLoggedIn.set(true);
         push('/');
+        await new Promise(r => setTimeout(r, 1000));
+        isLoading = false;
     }
 
     onDestroy(() => {
@@ -74,7 +78,11 @@
             {/if}
             </div>
         <div class="mt-5">
-            <button disabled={!$canLogin} class="btn btn-xl btn-primary">Login</button>
+            {#if !isLoading}
+                <button disabled={!$canLogin} class="btn btn-xl btn-primary">Login</button>
+            {:else}
+                <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
+            {/if}
             <p class="mt-5 text-sm">Don't have an account?
                 <a class="text-sm text-primary" href="#/signup">Sign up!</a>
             </p>
