@@ -78,12 +78,14 @@
   };
 </script>
 
+<div class="fixed inset-0 -z-10 bg-gradient-to-l from-base-100 via-stone-400 to-base-300 animate-gradient"></div>
+
 <Navbar />
 
 <main>
-{#if $authReady}
-    <Router {routes} on:routeLoaded={handleRoute} />
-{/if}
+  {#if $authReady}
+      <Router {routes} on:routeLoaded={handleRoute} />
+  {/if}
 </main>
 
 

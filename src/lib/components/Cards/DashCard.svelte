@@ -10,11 +10,11 @@
     }
 </script>
 
-<div class="card w-96 glass bg-gradient-to-tr from-black to-base-300 card-xl shadow-2xl">
-    <div class="card-body">
-      <h2 class="card-title select-none">{title}</h2>
-      <p class="text-left select-none">{description}</p>
-      <div class="card-actions mt-5">
+<div class="card w-96 bg-gradient-to-tr from-black to-base-300 card-xl shadow-2xl">
+    <div class="card-body text-balance">
+      <h2 class="card-title select-none justify-center underline">{title}</h2>
+      <p class="text-center select-none">{description}</p>
+      <div class="card-actions mt-5 justify-center">
         <button on:click={() => goTo()} class="btn btn-primary btn-lg shadow-2xl">Go!</button>
       </div>
     </div>
