@@ -6,6 +6,7 @@
   import type { RouteLoadedEvent } from 'svelte-spa-router';
 
   import Dashboard from './lib/pages/Dashboard.svelte';
+  import Home from './lib/pages/Home.svelte';
   import About from './lib/pages/About.svelte';
   import Contact from './lib/pages/Contact.svelte';
   import Login from './lib/pages/Login.svelte';
@@ -46,7 +47,7 @@
       conditions: [
         () => {
           if (!get(isLoggedIn)) {
-            push('/login')
+            push('/home');
             return false;
           }
           return true;
@@ -65,6 +66,7 @@
         }
       ]
     }),
+    '/home' : Home,
     '/about' : About,
     '/contact': Contact,
     '/signup' : Signup,

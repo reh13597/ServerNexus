@@ -113,6 +113,14 @@
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary"
+                class:bg-primary={isActivePath('/home')}
+                class:text-primary-content={isActivePath('/home')}
+                href="#/home"
+                on:click={closeNavMenu}>Home</a>
+            </li>
+            <li>
+              <a
+                class="text-xl whitespace-nowrap hover:bg-primary"
                 class:bg-primary={isActivePath('/about')}
                 class:text-primary-content={isActivePath('/about')}
                 href="#/about"
@@ -135,7 +143,7 @@
       {#if $isLoggedIn}
         <a class="btn btn-primary btn-ghost text-2xl" href="#/" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
       {:else}
-        <a class="btn btn-primary btn-ghost text-2xl" href="#/about" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
+        <a class="btn btn-primary btn-ghost text-2xl" href="#/" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
       {/if}
     </div>
     <div class="navbar-end flex-none w-auto">
@@ -157,7 +165,7 @@
             class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
+                class="text-xl whitespace-nowrap hover:bg-primary"
                 class:bg-primary={isActivePath('/account')}
                 class:text-primary-content={isActivePath('/account')}
                 href="#/account"
@@ -165,7 +173,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
+                class="text-xl whitespace-nowrap hover:bg-primary"
                 class:bg-primary={isActivePath('/about')}
                 class:text-primary-content={isActivePath('/about')}
                 href="#/about"
@@ -173,7 +181,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
+                class="text-xl whitespace-nowrap hover:bg-primary"
                 class:bg-primary={isActivePath('/contact')}
                 class:text-primary-content={isActivePath('/contact')}
                 href="#/contact"
@@ -181,12 +189,12 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
+                class="text-xl whitespace-nowrap hover:bg-primary"
                 on:click={(e) => {
                   closeAccountMenu();
                   logout();
                 }}
-                href="#/login">Log Out</a>
+                href="#/home">Log Out</a>
             </li>
           </ul>
           {/if}
@@ -196,11 +204,19 @@
             class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary hover:text-primary-content justify-end"
+                class="text-xl whitespace-nowrap hover:bg-primary hover:text-primary-content"
                 class:bg-primary={isActivePath('/login')}
                 class:text-primary-content={isActivePath('/login')}
                 href="#/login"
                 on:click={closeAccountMenu}>Log In</a>
+            </li>
+            <li>
+              <a
+                class="text-xl whitespace-nowrap hover:bg-primary hover:text-primary-content"
+                class:bg-primary={isActivePath('/signup')}
+                class:text-primary-content={isActivePath('/signup')}
+                href="#/signup"
+                on:click={closeAccountMenu}>Sign Up</a>
             </li>
           </ul>
           {/if}
