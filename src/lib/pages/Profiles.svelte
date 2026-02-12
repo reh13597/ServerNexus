@@ -83,7 +83,7 @@
 {/if}
 
 <div>
-    <h1 class="text-4xl font-bold mt-30 text-primary">Create and view your own server profiles!</h1>
+    <h1 class="text-4xl font-bold mt-30">Create and view your own server profiles!</h1>
 </div>
 
 <form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">

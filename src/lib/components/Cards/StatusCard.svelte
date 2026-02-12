@@ -7,14 +7,14 @@
     export let type: 'info' | 'connection' | 'icon';
 </script>
 
-<div class="card w-full bg-gradient-to-tr from-black to-base-300">
+<div class="card w-full bg-gradient-to-tr from-black to-zinc-800">
     <div class="card-body">
-        <h2 class="text-primary card-title justify-center text-xl sm:text-xl lg:text-2xl select-none underline">{title}</h2>
+        <h2 class="text-primary card-title justify-center text-xl sm:text-xl lg:text-2xl select-none">{title}</h2>
         <div class="stats stats-vertical shadow">
             {#if type === 'info'}
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Version</div>
-                    <div class="text-xl mt-3 select-none">{data.version.name_clean}</div>
+                    <div class="text-xl mt-3 select-none text-stone-400">{data.version.name_clean}</div>
                     {#if $error}
                         <span class="text-xl mt-3 text-error select-none">Unknown</span>
                     {/if}
@@ -33,25 +33,25 @@
                 </div>
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Players</div>
-                    <div class="text-xl mt-3 select-none">{data.players.online}/{data.players.max}</div>
+                    <div class="text-xl mt-3 select-none text-stone-400">{data.players.online}/{data.players.max}</div>
                 </div>
 
             {:else if type === 'connection'}
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Host</div>
-                    <div class="text-xl mt-3">{data.host}</div>
+                    <div class="text-xl mt-3 text-stone-400">{data.host}</div>
                 </div>
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">Port</div>
                     {#if $error}
                         <div class="text-xl mt-3 text-error select-none">Unknown</div>
                     {:else}
-                        <div class="text-xl mt-3">{data.port}</div>
+                        <div class="text-xl mt-3 text-stone-400">{data.port}</div>
                     {/if}
                 </div>
                 <div class="stat">
                     <div class="text-xl sm:text-xl lg:text-2xl select-none">IP</div>
-                    <div class="text-xl mt-3">{data.ip_address}</div>
+                    <div class="text-xl mt-3 text-stone-400">{data.ip_address}</div>
                     {#if $error}
                         <span class="text-xl mt-3 text-error select-none">Unknown</span>
                     {/if}
