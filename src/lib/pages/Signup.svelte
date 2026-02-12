@@ -39,8 +39,8 @@
 </script>
 
 <div class="px-4">
-    <h1 class="text-6xl mt-40 font-bold text-primary">Welcome to Server Nexus!</h1>
-    <p class="text-xl mt-10">We're excited to have you here!</p>
+    <h1 class="text-6xl mt-40 font-bold">Welcome to <span class="text-primary">Server Nexus</span></h1>
+    <p class="text-xl mt-10 text-stone-400">We're excited to have you here!</p>
 </div>
 
 {#if showAlert}
@@ -52,7 +52,7 @@
     </div>
 {/if}
 
-<form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tl from-black to-base-300 card-lg m-auto mt-10 mb-10">
+<form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tr from-black to-base-300 card-lg m-auto mt-10 mb-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"
@@ -87,7 +87,7 @@
         </div>
         <div class="mt-5">
             {#if !isLoading}
-                <button disabled={!$canSignup} class="btn btn-xl btn-primary">Sign Up</button>
+                <button disabled={!$canSignup} class="btn btn-lg btn-primary">Sign Up</button>
             {:else}
                 <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
             {/if}

@@ -12,7 +12,7 @@
   --color-base-200: oklch(20% 0 0);
   --color-base-300: oklch(26% 0 0);
   --color-base-content: oklch(97% 0 0);
-  --color-primary: oklch(70% 0.213 47.604);
+  --color-primary: oklch(60% 0.18 47.604);
   --color-primary-content: oklch(98% 0.016 73.684);
   --color-secondary: oklch(66% 0.295 322.15);
   --color-secondary-content: oklch(97% 0.017 320.058);
@@ -39,11 +39,11 @@
 }
 
 :root {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   text-align: center;
 }
 
-@keyframes gradientWave {
+/* @keyframes gradientWave {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -52,4 +52,4 @@
 .animate-gradient {
   background-size: 300% 300%;
   animation: gradientWave 40s ease-in-out infinite;
-}
+} */

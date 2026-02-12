@@ -54,7 +54,7 @@
   }
 </script>
 
-<div class="navbar glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-4 sm:gap-8 md:gap-16 xl:gap-32 2xl:gap-80">
+<div class="navbar glass bg-gradient-to-tr from-black to-zinc-700 h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-4 sm:gap-8 md:gap-16 xl:gap-32 2xl:gap-80">
     <div class="navbar-start flex-none w-auto">
       <div class="relative" bind:this={navDropdownEl}>
         <button
@@ -71,10 +71,10 @@
         {#if $isLoggedIn}
           {#if navMenuOpen}
           <ul
-            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/')}
                 class:text-primary-content={isActivePath('/')}
                 href="#/"
@@ -82,7 +82,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/status')}
                 class:text-primary-content={isActivePath('/status')}
                 href="#/status"
@@ -98,7 +98,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/profiles')}
                 class:text-primary-content={isActivePath('/profiles')}
                 href="#/profiles"
@@ -109,7 +109,7 @@
         {:else}
           {#if navMenuOpen}
           <ul
-            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary"
@@ -141,9 +141,29 @@
     </div>
     <div class="navbar-center flex-none w-auto">
       {#if $isLoggedIn}
-        <a class="btn btn-primary btn-ghost text-2xl" href="#/" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
+        <a
+          class="btn btn-primary btn-ghost text-2xl flex items-center"
+          href="#/"
+          on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <img
+            src="/server_nexus.ico"
+            alt="Server Nexus logo"
+            class="w-10 h-10"
+            draggable="false" />
+          <span>SERVER NEXUS</span>
+        </a>
       {:else}
-        <a class="btn btn-primary btn-ghost text-2xl" href="#/" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>&#x1F517 SERVER NEXUS &#x2699</a>
+        <a
+          class="btn btn-primary btn-ghost text-2xl flex items-center"
+          href="#/"
+          on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <img
+            src="/server_nexus.ico"
+            alt="Server Nexus logo"
+            class="w-10 h-10"
+            draggable="false" />
+          <span>SERVER NEXUS</span>
+        </a>
       {/if}
     </div>
     <div class="navbar-end flex-none w-auto">
@@ -162,10 +182,10 @@
         {#if $isLoggedIn}
           {#if accountMenuOpen}
           <ul
-            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
+            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
                 class:bg-primary={isActivePath('/account')}
                 class:text-primary-content={isActivePath('/account')}
                 href="#/account"
@@ -173,7 +193,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/about')}
                 class:text-primary-content={isActivePath('/about')}
                 href="#/about"
@@ -181,7 +201,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/contact')}
                 class:text-primary-content={isActivePath('/contact')}
                 href="#/contact"
@@ -189,7 +209,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
                 on:click={(e) => {
                   closeAccountMenu();
                   logout();
@@ -201,10 +221,10 @@
         {:else}
           {#if accountMenuOpen}
           <ul
-            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-gray-500/80 to-base-100/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
+            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary hover:text-primary-content"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/login')}
                 class:text-primary-content={isActivePath('/login')}
                 href="#/login"
@@ -212,7 +232,7 @@
             </li>
             <li>
               <a
-                class="text-xl whitespace-nowrap hover:bg-primary hover:text-primary-content"
+                class="text-xl whitespace-nowrap hover:bg-primary justify-end"
                 class:bg-primary={isActivePath('/signup')}
                 class:text-primary-content={isActivePath('/signup')}
                 href="#/signup"

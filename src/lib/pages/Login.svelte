@@ -57,12 +57,12 @@
     });
 </script>
 
-<div class="px-4">
-    <h1 class="text-6xl mt-40 font-bold text-primary">Welcome to Server Nexus!</h1>
-    <p class="text-xl mt-10">Your one-stop location for anything Minecraft server.</p>
+<div class="px-4 select-none">
+    <h1 class="text-6xl mt-40 font-bold">Welcome Back!</h1>
+    <p class="text-xl mt-10 text-stone-400">One step away from greatness...</p>
 </div>
 
-<form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tl from-black to-base-300 card-lg m-auto mt-10">
+<form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-base-300 card-lg m-auto mt-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300"
@@ -79,11 +79,11 @@
             </div>
         <div class="mt-5">
             {#if !isLoading}
-                <button disabled={!$canLogin} class="btn btn-xl btn-primary">Login</button>
+                <button disabled={!$canLogin} class="btn btn-lg btn-primary">Login</button>
             {:else}
                 <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
             {/if}
-            <p class="mt-5 text-sm">Don't have an account?
+            <p class="mt-5 text-sm select-none">Don't have an account?
                 <a class="text-sm text-primary" href="#/signup">Sign up!</a>
             </p>
         </div>

@@ -102,7 +102,7 @@
         {/if}
         <div class="flex flex-col items-center gap-5">
             {#if !isLoading}
-                <button class="btn btn-primary btn-xl" disabled={!$canFetchServerData}>Fetch Server Data</button>
+                <button class="btn btn-primary btn-lg" disabled={!$canFetchServerData}>Fetch Server Data</button>
             {:else}
                 <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
             {/if}
