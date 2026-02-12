@@ -86,9 +86,9 @@
     </div>
 </div>
 
-<div class="max-w-3xl mx-auto mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
+<div class="max-w-3xl mx-auto mt-10 mb-10 p-5 sm:p-5 md:p-0 lg:p-0">
   {#if !isLoading}
-    <ul class="list p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-[65vh] overflow-y-auto space-y-5">
+    <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-xl overflow-y-auto space-y-5">
       {#if btnActive}
         {#if emptyList}
         <div class="p-5 rounded-box glass bg-gradient-to-l from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-2xl text-left">Looks kind of empty here... go save some servers!</div>

@@ -58,11 +58,11 @@
 </script>
 
 <div class="px-4 select-none">
-    <h1 class="text-6xl mt-40 font-bold">Welcome Back!</h1>
+    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-30 font-bold">Welcome Back!</h1>
     <p class="text-xl mt-10 text-stone-400">One step away from greatness...</p>
 </div>
 
-<form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-base-300 card-lg m-auto mt-10">
+<form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10">
     <div class="card-body">
         <div>
             <input bind:value={$email} type="input" class="input validator bg-base-300"

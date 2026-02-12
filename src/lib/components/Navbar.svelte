@@ -71,7 +71,7 @@
         {#if $isLoggedIn}
           {#if navMenuOpen}
           <ul
-            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/80 to-zinc-700/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary justify-center"
@@ -109,7 +109,7 @@
         {:else}
           {#if navMenuOpen}
           <ul
-            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
+            class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/80 to-zinc-700/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl">
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary"
@@ -150,7 +150,7 @@
             alt="Server Nexus logo"
             class="w-10 h-10"
             draggable="false" />
-          <span>SERVER NEXUS</span>
+          <span>Server Nexus</span>
         </a>
       {:else}
         <a
@@ -162,7 +162,7 @@
             alt="Server Nexus logo"
             class="w-10 h-10"
             draggable="false" />
-          <span>SERVER NEXUS</span>
+          <span>Server Nexus</span>
         </a>
       {/if}
     </div>
@@ -182,7 +182,7 @@
         {#if $isLoggedIn}
           {#if accountMenuOpen}
           <ul
-            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
+            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/80 to-zinc-700/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary justify-end"
@@ -221,7 +221,7 @@
         {:else}
           {#if accountMenuOpen}
           <ul
-            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black to-zinc-700 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
+            class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/80 to-zinc-700/80 rounded-box z-50 mt-3 w-max whitespace-nowrap p-2 -mx-2 shadow-2xl text-right">
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary justify-center"
