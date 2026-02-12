@@ -10,7 +10,7 @@
 
   --color-base-100: oklch(14% 0 0);
   --color-base-200: oklch(20% 0 0);
-  --color-base-300: oklch(26% 0 0);
+  --color-base-300: oklch(24% 0 0);
   --color-base-content: oklch(97% 0 0);
   --color-primary: oklch(60% 0.18 47.604);
   --color-primary-content: oklch(98% 0.016 73.684);
@@ -39,6 +39,7 @@
 }
 
 :root {
+  background-color: var(--color-base-300);
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   text-align: center;
 }
