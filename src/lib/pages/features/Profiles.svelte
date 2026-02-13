@@ -1,9 +1,9 @@
-<script lang="ts">
-    import ListElement from '../components/ListElement.svelte';
-    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../stores/server';
-    import { privateProfiles, publicProfile, serverProfiles } from '../stores/profiles';
-    import { username, userID } from '../stores/user';
-    import { supabase } from '../supabase';
+<!-- <script lang="ts">
+    import ListElement from '../../components/ListElement.svelte';
+    import { profileServerIp, profileServerPort, profileError, profileCanFetchServerData, profileServerData } from '../../stores/server';
+    import { privateProfiles, publicProfile, serverProfiles } from '../../stores/profiles';
+    import { username, userID } from '../../stores/user';
+    import { supabase } from '../../supabase';
     import { onDestroy, onMount } from 'svelte';
 
     $privateProfiles = true;
@@ -71,22 +71,24 @@
         serverProfiles.unsubscribe();
         unsubscribe();
     });
-</script>
+</script> -->
 
-{#if showAlert}
+<!-- {#if showAlert}
     <div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
         <div role="alert" class="alert text-primary bg-base-200 w-[90%] sm:w-120 relative -mt-20 mx-4">
             <button class="btn btn-sm btn-circle absolute right-2 top-2" on:click={closeAlert}>✕</button>
             <span class="text-sm sm:text-base">Server profile successfully created and added.</span>
         </div>
     </div>
-{/if}
+{/if} -->
 
-<div>
-    <h1 class="text-4xl font-bold mt-30">Create and view your own server profiles!</h1>
+<div class="px-5">
+    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">View your own profile and browse through others</h1>
+    <p class="mt-5 text-md text-stone-400">See your saved servers, ratings & reviews, and check out other people's profiles.</p>
+    <p class="mt-5 text-md text-primary">This page is under construction.</p>
 </div>
 
-<form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">
+<!-- <form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">
     <div class="flex flex-col space-y-2 w-full max-w-xs">
         <input type="input" bind:value={$profileServerIp}
             required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"
@@ -122,4 +124,4 @@
             <ListElement profile={server} number={index + 1} />
         {/each}
     </ul>
-</div>
+</div> -->

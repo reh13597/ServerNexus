@@ -1,9 +1,9 @@
 <script lang="ts">
-    import ListElement from '../components/ListElement.svelte';
-    import { userID } from '../stores/user';
-    import { supabase } from '../supabase';
+    import ListElement from '../../components/ListElement.svelte';
+    import { userID } from '../../stores/user';
+    import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
-    import type { ServerProfile } from '../types/serverInfo';
+    import type { ServerProfile } from '../../types/serverInfo';
 
     let servers: ServerProfile;
     let savedServers: ServerProfile;
@@ -22,7 +22,6 @@
         console.error('Error fetching servers:', error);
       } else {
         servers = data ?? [];
-        await new Promise(r => setTimeout(r, 600));
         isLoading = false;
       }
     }
@@ -48,12 +47,12 @@
             emptyList = false;
           }
 
-          await new Promise(r => setTimeout(r, 600));
+          await new Promise(r => setTimeout(r, 400));
           isLoading = false;
         }
       } else {
         isLoading= true;
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 400));
         isLoading = false;
         btnActive = false;
       }
@@ -63,8 +62,8 @@
       getServerData();
     });
 </script>
-
-<div>
+<div class="px-5">
+  <div>
     <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">Browse through popular Minecraft servers</h1>
     <p class="mt-5 text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
     <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
@@ -83,28 +82,30 @@
           </svg>
           <input type="search" class="grow" placeholder="Search for a server" />
       </label>
-      <button on:click={() => viewSaved()} class={`btn ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:border-primary hover:bg-transparent'}`}>View Saved</button>
+      <button on:click={() => viewSaved()} class={`btn ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
     </div>
-</div>
+  </div>
 
-<div class="max-w-3xl mx-auto md:mt-10 mb-10 p-5 sm:p-5 md:p-0 lg:p-0">
-  {#if !isLoading}
-    <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-[65vh] overflow-y-auto space-y-5">
-      {#if btnActive}
-        {#if emptyList}
-        <div class="p-5 rounded-box glass bg-gradient-to-l from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-2xl text-left">Looks kind of empty here... go save some servers!</div>
+  <div class="max-w-3xl mx-auto md:mt-10 mb-10 p-5 sm:p-5 md:p-0 lg:p-0">
+    {#if !isLoading}
+      <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-[60vh] overflow-y-auto space-y-5">
+        {#if btnActive}
+          {#if emptyList}
+          <div class="p-5 rounded-box glass bg-gradient-to-l from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">Looks kind of empty here... go save some servers!</div>
+          {:else}
+            {#each savedServers as server}
+              <ListElement profile={server} />
+            {/each}
+          {/if}
         {:else}
-          {#each savedServers as server}
+          {#each servers as server}
             <ListElement profile={server} />
           {/each}
         {/if}
-      {:else}
-        {#each servers as server}
-          <ListElement profile={server} />
-        {/each}
-      {/if}
-    </ul>
-  {:else}
-      <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
-  {/if}
+      </ul>
+    {:else}
+        <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
+    {/if}
+  </div>
 </div>
+
