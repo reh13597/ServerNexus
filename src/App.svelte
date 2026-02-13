@@ -12,10 +12,10 @@
   import Login from './lib/pages/Login.svelte';
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
-  import Status from './lib/pages/Status.svelte';
-  import Explore from './lib/pages/Explore.svelte';
-  import Profiles from './lib/pages/Profiles.svelte';
-  import ServerInfo from './lib/pages/ServerInfo.svelte';
+  import Status from './lib/pages/features/Status.svelte';
+  import Explore from './lib/pages/features/Explore.svelte';
+  import Profiles from './lib/pages/features/Profiles.svelte';
+  import ServerInfo from './lib/pages/features/ServerInfo.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
   import { isLoggedIn, authReady } from './lib/stores/login';

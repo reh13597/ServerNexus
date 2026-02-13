@@ -3,12 +3,15 @@ export interface ServerData {
     host: string;
     port: number;
     ip_address: string | null;
+    eula_blocked: boolean;
+
     version: {
         name_raw: string;
         name_clean: string;
         name_html: string;
         protocol: number;
     };
+
     players: {
         online: number;
         max: number;
@@ -17,14 +20,26 @@ export interface ServerData {
             id: string;
         }>;
     };
+
     motd: {
         raw: string;
         clean: string;
         html: string;
     };
+
     icon?: string;
+
+    mods?: Array<{
+        name: string;
+        version: string;
+    }>;
+
     software?: string;
-    plugins?: string[];
+
+    plugins?: Array<{
+        name: string;
+        version?: string;
+    }>;
 }
 
 export interface ServerProfile {
@@ -34,3 +49,4 @@ export interface ServerProfile {
     icon: string | null;
     avg_rating: number;
 }
+

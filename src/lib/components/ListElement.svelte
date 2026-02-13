@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { serverProfile } from '../stores/profiles';
-    import { supabase } from '../supabase';
     import type { ServerProfile } from '../types/serverInfo';
+    import { serverID } from '../stores/profiles';
     import { userID } from '../stores/user';
     import { push } from 'svelte-spa-router';
+    import { supabase } from '../supabase';
     import { onMount } from 'svelte';
 
     export let profile: ServerProfile;
     let btnActive = false;
 
     function goTo() {
-        $serverProfile = profile;
+        $serverID = profile.id;
         push(`/${profile.id}/server-info`);
     }
 

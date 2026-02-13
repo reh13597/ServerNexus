@@ -11,7 +11,9 @@ export const publicProfile = writable(false);
 
 export const serverProfile = writable<ServerProfile | null>(null);
 
-function createProfilesStore() {
+export const serverID = writable<number | null>(null);
+
+/* function createProfilesStore() {
     const { subscribe, set, update } = writable<ServerProfile[]>([]);
 
     let channel: any = null;
@@ -22,7 +24,7 @@ function createProfilesStore() {
         const { data, error } = await supabase
             .from('servers')
             .select('*')
-            /* .eq('id', uid); */
+            .eq('id', uid);
 
         if (error) {
             console.error('Error fetching profiles:', error);
@@ -77,4 +79,4 @@ function createProfilesStore() {
     };
 }
 
-export const serverProfiles = createProfilesStore();
+export const serverProfiles = createProfilesStore(); */
