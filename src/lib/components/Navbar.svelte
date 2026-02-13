@@ -54,7 +54,7 @@
   }
 </script>
 
-<div class="navbar glass bg-gradient-to-tr from-black to-zinc-700 h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-4 sm:gap-8 md:gap-16 xl:gap-32 2xl:gap-80">
+<div class="navbar glass bg-gradient-to-tr from-black/50 to-zinc-700/50 h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-4 sm:gap-8 md:gap-16 xl:gap-32 2xl:gap-80">
     <div class="navbar-start flex-none w-auto">
       <div class="relative" bind:this={navDropdownEl}>
         <button
@@ -102,7 +102,7 @@
                 class:bg-primary={isActivePath('/profiles')}
                 class:text-primary-content={isActivePath('/profiles')}
                 href="#/profiles"
-                on:click={closeNavMenu}>Profiles</a>
+                on:click={closeNavMenu}>User Profiles</a>
             </li>
           </ul>
           {/if}

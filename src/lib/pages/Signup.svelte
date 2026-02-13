@@ -92,7 +92,7 @@
                 <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
             {/if}
             <p class="mt-5 text-sm">Already have an account?
-                <a class="text-sm text-primary" href="#/login">Login!</a>
+                <a class="text-sm text-primary hover:underline" href="#/login">Login!</a>
             </p>
         </div>
     </div>

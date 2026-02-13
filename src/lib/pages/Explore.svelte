@@ -65,8 +65,9 @@
 </script>
 
 <div>
-    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">Browse through popular servers</h1>
-    <div class="max-w-3xl mx-auto flex gap-6 mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
+    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">Browse through popular Minecraft servers</h1>
+    <p class="mt-5 text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
+    <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
       <label class="input grow">
           <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g
@@ -86,9 +87,9 @@
     </div>
 </div>
 
-<div class="max-w-3xl mx-auto mt-10 mb-10 p-5 sm:p-5 md:p-0 lg:p-0">
+<div class="max-w-3xl mx-auto md:mt-10 mb-10 p-5 sm:p-5 md:p-0 lg:p-0">
   {#if !isLoading}
-    <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-xl overflow-y-auto space-y-5">
+    <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-[65vh] overflow-y-auto space-y-5">
       {#if btnActive}
         {#if emptyList}
         <div class="p-5 rounded-box glass bg-gradient-to-l from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-2xl text-left">Looks kind of empty here... go save some servers!</div>

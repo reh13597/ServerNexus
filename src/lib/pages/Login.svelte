@@ -83,8 +83,8 @@
             {:else}
                 <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
             {/if}
-            <p class="mt-5 text-sm select-none">Don't have an account?
-                <a class="text-sm text-primary" href="#/signup">Sign up!</a>
+            <p class="mt-5 text-sm select-none">Don't have an account yet?
+                <a class="text-sm text-primary hover:underline" href="#/signup">Sign up!</a>
             </p>
         </div>
     </div>
