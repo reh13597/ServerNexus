@@ -47,11 +47,14 @@
             $serverData = data;
         } catch (err) {
             $error = 'Failed to fetch server data.';
+            console.log($error);
+
             $serverData = {
                 online: false,
                 host: '',
                 port: 0,
                 ip_address: null,
+                eula_blocked: null,
                 version: {
                     name_clean: '',
                     name_raw: '',
@@ -66,7 +69,8 @@
                     raw: '',
                     clean: '',
                     html: ''
-                }
+                },
+
             };
         } finally {
             await new Promise(r => setTimeout(r, 200));
@@ -80,14 +84,14 @@
     });
 </script>
 
-<div class="mx-auto px-5 max-w-2xl sm:max-w-2xl lg:max-w-5xl">
+<div class="flex justify-center mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
     {#if $serverData && !isLoading}
-        <div class="mt-40 mb-10">
+        <div class="mt-30 xl:mt-40 mb-10">
             <Panel data={$serverData}  />
             <!--metrics + ratings/reviews go here-->
         </div>
     {:else}
-        <span class="mt-40 loading loading-spinner loading-xl scale-200 text-primary"></span>
+        <span class="mt-30 xl:mt-40 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
     {/if}
     <!--make an else statement to show an error-->
 </div>

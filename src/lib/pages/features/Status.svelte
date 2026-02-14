@@ -74,7 +74,7 @@
 </script>
 
 <div class="container mx-auto px-5">
-    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-30 select-none">Fetch the data of any Minecraft server</h1>
+    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-20 lg:mt-30 select-none">Fetch the data of any Minecraft server</h1>
     <p class="mt-5 text-md text-stone-400">Get information like live status, player count, required version, and more.</p>
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">

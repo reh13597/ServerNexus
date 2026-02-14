@@ -3,7 +3,7 @@ export interface ServerData {
     host: string;
     port: number;
     ip_address: string | null;
-    eula_blocked: boolean;
+    eula_blocked: boolean | null;
 
     version: {
         name_raw: string;

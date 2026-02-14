@@ -64,7 +64,7 @@
 </script>
 <div class="px-5">
   <div>
-    <h1 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-30 select-none">Browse through popular Minecraft servers</h1>
+    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-20 lg:mt-30 select-none">Browse through popular Minecraft servers</h1>
     <p class="mt-5 text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
     <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
       <label class="input grow">
