@@ -86,12 +86,12 @@
 
 <div class="flex justify-center mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
     {#if $serverData && !isLoading}
-        <div class="mt-30 xl:mt-40 mb-10">
+        <div class="mt-20 xl:mt-30 mb-10">
             <Panel data={$serverData}  />
             <!--metrics + ratings/reviews go here-->
         </div>
     {:else}
-        <span class="mt-30 xl:mt-40 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
+        <span class="mt-20 xl:mt-30 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
     {/if}
     <!--make an else statement to show an error-->
 </div>
