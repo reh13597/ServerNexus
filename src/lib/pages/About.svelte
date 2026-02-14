@@ -1,5 +1,5 @@
-<div class="px-5 max-w-2xl mx-auto pb-10 select-none">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-30">About</h1>
+<div class="px-10 max-w-2xl mx-auto pb-10 select-none">
+    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-20 lg:mt-30">About</h1>
     <div class="flex flex-col gap-4 mt-10 lg:text-xl md:text-lg sm:text-md text-md text-left">
         <p>Hey there! I'm <a aria-label="Alex's Portfolio Link" href="https://guoalex.com" target="_blank" class="text-green-500 hover:underline">Alex</a>,
             a Computer Science student at <a aria-label="SFU Link" href="https://www.sfu.ca/fas/computing.html" target="_blank" class="text-red-600 hover:underline">SFU</a>.</p>
