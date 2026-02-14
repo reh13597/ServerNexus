@@ -10,45 +10,45 @@
         <div class="card-body">
             <div class="stats stats-vertical">
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">Status</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Status</div>
                     {#if data.online}
                         <span class="text-md sm:text-md lg:text-lg text-success select-none">Online</span>
                     {:else if !data.online}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Offline</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">N/A</span>
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">Host</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Host</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg text-error select-none">N/A</div>
+                        <div class="text-md sm:text-md lg:text-lg text-error select-none">Error</div>
                     {:else}
                         <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.host}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">Port</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Port</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg text-error select-none">N/A</div>
+                        <div class="text-md sm:text-md lg:text-lg text-error select-none">Error</div>
                     {:else}
                         <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.port}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">IP</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">IP</div>
                     {#if $error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">N/A</span>
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {:else}
                         <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.ip_address}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">Players</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Players</div>
                     {#if $error}
                         <div class="text-md sm:text-md lg:text-lg select-none text-error">{data.players.online}/{data.players.max}</div>
                     {:else}
@@ -57,22 +57,70 @@
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">Version</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Version</div>
                     {#if $error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">N/A</span>
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {:else}
                         <div class="text-md sm:text-md lg:text-lg select-none text-stone-400">{data.version.name_clean}</div>
                     {/if}
                 </div>
 
+                <div class="stat flex flex-row items-start gap-10">
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Mods</div>
+                    {#if data.mods && data.mods.length > 0}
+                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md sm:text-md lg:text-lg text-stone-400 select-none">
+                            {#each data.mods as mod, i (mod.name + mod.version)}
+                                <span>{mod.name}{#if mod.version}<span class="text-stone-500"> ({mod.version})</span>{/if}</span>{#if i < data.mods.length - 1}, {/if}
+                            {/each}
+                        </div>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {/if}
+                </div>
+
+                <div class="stat flex flex-row items-start gap-10">
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Plugins</div>
+                    {#if data.plugins && data.plugins.length > 0}
+                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md sm:text-md lg:text-lg text-stone-400 select-none">
+                            {#each data.plugins as plugin, i (plugin.name + (plugin.version ?? ''))}
+                                <span>{plugin.name}{#if plugin.version}<span class="text-stone-500"> ({plugin.version})</span>{/if}</span>{#if i < data.plugins.length - 1}, {/if}
+                            {/each}
+                        </div>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {/if}
+                </div>
+
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-30 text-left">EULA Blocked</div>
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">EULA Blocked</div>
                     {#if data.eula_blocked}
                         <span class="text-md sm:text-md lg:text-lg text-success select-none">Yes</span>
                     {:else if !data.eula_blocked}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">No</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">No</span>
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                    {/if}
+                </div>
+
+                <div class="stat flex flex-row items-center gap-10">
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Protocol Version</div>
+                    {#if data.version.protocol}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.version.protocol}</span>
+                    {:else if !data.version.protocol}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                    {/if}
+                </div>
+
+                <div class="stat flex flex-row items-center gap-10">
+                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Software</div>
+                    {#if data.software}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.software}</span>
+                    {:else if !data.software}
+                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
             </div>

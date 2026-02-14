@@ -3,7 +3,9 @@ export interface ServerData {
     host: string;
     port: number;
     ip_address: string | null;
+    icon: string | null;
     eula_blocked: boolean | null;
+    software: string | null;
 
     version: {
         name_raw: string;
@@ -27,14 +29,10 @@ export interface ServerData {
         html: string;
     };
 
-    icon?: string;
-
     mods?: Array<{
         name: string;
         version: string;
     }>;
-
-    software?: string;
 
     plugins?: Array<{
         name: string;
