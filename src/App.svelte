@@ -76,7 +76,7 @@
     '/explore': Explore,
     '/profiles': Profiles,
 
-    '/:serverId/server-info': ServerInfo
+    '/server-info/:serverId': ServerInfo
   };
 </script>
 

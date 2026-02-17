@@ -11,7 +11,7 @@
 
     function goTo() {
         $serverID = profile.id;
-        push(`/${profile.id}/server-info`);
+        push(`/server-info/${profile.id}`);
     }
 
     async function saveOrUnsave() {
@@ -76,10 +76,10 @@
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
 
-        <a on:click={() => saveOrUnsave()} class="inline-flex w-fit bg-transparent hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+        <a on:click={() => saveOrUnsave()} class="inline-flex w-fit hover:scale-120 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
             <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
         </a>
-        <a on:click={() => goTo()} class="inline-flex w-fit bg-transparent hover:cursor-pointer hover:text-primary" aria-label="View Button">
+        <a on:click={() => goTo()} class="inline-flex w-fit hover:scale-120 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="View Button">
             <i class="fa-arrow-right fa-solid"></i>
         </a>
     </div>

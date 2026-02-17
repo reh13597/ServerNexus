@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type { ServerData } from '../types/serverInfo';
+    import type { ServerData, ServerProfile } from '../types/serverInfo';
     import { error } from '../stores/server';
 
+    export let profile: ServerProfile;
     export let data: ServerData;
 </script>
 
@@ -13,7 +14,7 @@
                     <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Status</div>
                     {#if data.online}
                         <span class="text-md sm:text-md lg:text-lg text-success select-none">Online</span>
-                    {:else if !data.online}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Offline</span>
                     {:else}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
@@ -50,7 +51,7 @@
                 <div class="stat flex flex-row items-center gap-10">
                     <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Players</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg select-none text-error">{data.players.online}/{data.players.max}</div>
+                        <div class="text-md sm:text-md lg:text-lg select-none text-error">Error</div>
                     {:else}
                         <div class="text-md sm:text-md lg:text-lg select-none text-stone-400">{data.players.online}/{data.players.max}</div>
                     {/if}
@@ -73,8 +74,10 @@
                                 <span>{mod.name}{#if mod.version}<span class="text-stone-500"> ({mod.version})</span>{/if}</span>{#if i < data.mods.length - 1}, {/if}
                             {/each}
                         </div>
-                    {:else}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
@@ -86,8 +89,10 @@
                                 <span>{plugin.name}{#if plugin.version}<span class="text-stone-500"> ({plugin.version})</span>{/if}</span>{#if i < data.plugins.length - 1}, {/if}
                             {/each}
                         </div>
-                    {:else}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                    {:else}
+                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
@@ -95,7 +100,7 @@
                     <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">EULA Blocked</div>
                     {#if data.eula_blocked}
                         <span class="text-md sm:text-md lg:text-lg text-success select-none">Yes</span>
-                    {:else if !data.eula_blocked}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">No</span>
                     {:else}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
@@ -106,7 +111,7 @@
                     <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Protocol Version</div>
                     {#if data.version.protocol}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.version.protocol}</span>
-                    {:else if !data.version.protocol}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
@@ -117,7 +122,7 @@
                     <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Software</div>
                     {#if data.software}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.software}</span>
-                    {:else if !data.software}
+                    {:else if !$error}
                         <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
                         <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
@@ -127,27 +132,75 @@
         </div>
     </div>
 
-    <div class="card h-fit bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
-        <div class="card-body">
-            <div class="stats stats-vertical">
-                <div class="stat flex flex-col items-center gap-5">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none">Icon</div>
-                    {#if data.icon}
-                        <div class="flex justify-center items-center">
-                            <img src={data.icon} alt="Server Icon" class="w-10 h-10 sm:w-10 sm:h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 object-contain select-none">
-                        </div>
-                    {:else}
-                        <span class="text-lg text-error select-none">Unavailable</span>
-                    {/if}
-                </div>
+    <div class="flex flex-col w-fit gap-5 xl:gap-10">
+        <div class="card h-fit bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+            <div class="card-body">
+                <div class="stats stats-vertical">
+                    <div class="stat flex flex-col items-center gap-5">
+                        <div class="text-lg sm:text-lg lg:text-xl select-none">Icon</div>
+                        {#if data.icon}
+                            <div class="flex justify-center items-center">
+                                <img src={data.icon} alt="Server Icon" class="w-10 h-10 sm:w-10 sm:h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 object-contain select-none">
+                            </div>
+                        {:else if !$error}
+                            <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        {:else}
+                            <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        {/if}
+                    </div>
 
-                <div class="stat flex flex-col items-center gap-5">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none">MOTD</div>
-                    {#if $error}
-                        <span class="text-lg text-error select-none">Unavailable</span>
-                    {:else}
-                        <div class="text-lg select-none">{@html data.motd.html}</div>
-                    {/if}
+                    <div class="stat flex flex-col items-center gap-5">
+                        <div class="text-lg sm:text-lg lg:text-xl select-none">MOTD</div>
+                        {#if data.motd}
+                            <div class="text-lg select-none">{@html data.motd.html}</div>
+                        {:else if !$error}
+                            <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        {:else}
+                            <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card h-fit bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+            <div class="card-body">
+                <div class="stats">
+                    <div class="stat flex flex-col items-center gap-5">
+                        <div class="text-lg sm:text-lg lg:text-xl select-none">Average Rating</div>
+                        <div class="flex items-center gap-1">
+                            <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            {#if $error}
+                                <p class="select-none text-stone-400">0.0</p>
+                            {:else}
+                                <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)}</p>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <div class="stat flex flex-col items-center gap-5">
+                        <div class="text-lg sm:text-lg lg:text-xl select-none"># of Reviews</div>
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            {#if $error}
+                                <p class="select-none text-stone-400">0</p>
+                            {:else}
+                                <p class="select-none text-stone-400">{profile.review_count}</p>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <div class="stat flex flex-col items-center gap-5">
+                        <div class="text-lg sm:text-lg lg:text-xl select-none"># of Saves</div>
+                        <div class="flex items-center gap-1">
+                            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            {#if $error}
+                                <p class="select-none text-stone-400">0</p>
+                            {:else}
+                                <p class="select-none text-stone-400">{profile.save_count}</p>
+                            {/if}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

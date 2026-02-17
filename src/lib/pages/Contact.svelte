@@ -79,7 +79,7 @@
                     class="textarea textarea-bordered w-full mb-3 bg-base-300"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">
+            <button type="submit" class="btn btn-primary btn-md hover:scale-110 transition duration-200">
                 Send
             </button>
         </form>

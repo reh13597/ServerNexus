@@ -23,7 +23,7 @@ export interface ServerData {
         }>;
     };
 
-    motd: {
+    motd?: {
         raw: string;
         clean: string;
         html: string;
@@ -46,5 +46,7 @@ export interface ServerProfile {
     port: number;
     icon: string | null;
     avg_rating: number;
+    review_count: number;
+    save_count: number;
 }
 

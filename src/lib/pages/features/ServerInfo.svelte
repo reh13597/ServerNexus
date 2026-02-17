@@ -15,13 +15,14 @@
 
         try {
             const { data, error } = await supabase
-                .from('servers_with_rating')
-                .select('id, host, port, icon, avg_rating')
+                .from('servers_with_stats')
+                .select('id, host, port, icon, avg_rating, review_count, save_count')
                 .eq('id', $serverID)
                 .single();
 
             if (error) {
                 console.error('Error fetching server data:', error);
+                isLoading = false;
                 return;
             }
 
@@ -29,10 +30,12 @@
                 profile = data;
             } else {
                 console.error('No server data found');
+                isLoading = false;
                 return;
             }
         } catch (err) {
             console.error('Failed to fetch server data:', err);
+            isLoading = false;
             return;
         }
 
@@ -70,7 +73,6 @@
                     clean: '',
                     html: ''
                 },
-
             };
         } finally {
             await new Promise(r => setTimeout(r, 200));
@@ -79,19 +81,20 @@
     });
 
     onDestroy(() => {
-        $serverData = null;
         $error = null;
+        $serverData = null;
     });
 </script>
 
-<div class="flex justify-center mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
-    {#if $serverData && !isLoading}
+<div class="relative flex justify-center mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
+    {#if $serverData && profile && !isLoading}
+        <a href="#/explore" class="absolute -left-30 top-20 xl:top-30 inline-flex w-fit text-3xl hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
+            <i class="fa-arrow-left fa-solid"></i>
+        </a>
         <div class="mt-20 xl:mt-30 mb-10">
-            <Panel data={$serverData}  />
-            <!--metrics + ratings/reviews go here-->
+            <Panel profile={profile} data={$serverData}  />
         </div>
     {:else}
         <span class="mt-20 xl:mt-30 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
     {/if}
-    <!--make an else statement to show an error-->
 </div>

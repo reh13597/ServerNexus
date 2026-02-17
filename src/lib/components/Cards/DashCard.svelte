@@ -15,7 +15,7 @@
       <h2 class="card-title text-2xl select-none justify-center">{title}</h2>
       <p class="text-center select-none mt-3 text-stone-400">{description}</p>
       <div class="card-actions mt-5 justify-center">
-        <button on:click={() => goTo()} class="btn btn-primary btn-lg shadow-2xl">Launch</button>
+        <button on:click={() => goTo()} class="btn btn-primary btn-lg hover:scale-110 transition duration-200">Launch</button>
       </div>
     </div>
 </div>
