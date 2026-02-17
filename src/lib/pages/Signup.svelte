@@ -79,7 +79,7 @@
             </div>
             <div class="mt-5">
                 {#if !isLoading}
-                    <button disabled={!$canSignup} class="btn btn-lg btn-primary">Sign Up</button>
+                    <button disabled={!$canSignup} class="btn btn-md btn-primary hover:scale-110 transition duration-200">Sign Up</button>
                 {:else}
                     <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
                 {/if}
