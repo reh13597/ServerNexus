@@ -4,7 +4,7 @@
 </script>
 
 <div class="mx-auto max-w-4xl px-10 pb-10 select-none">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-20 lg:mt-30">Contact</h1>
+    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-25 md:mt-30">Contact</h1>
     <p class="mt-5 text-md text-stone-400">Send me a message or check out my socials.</p>
     <div class="mt-10 flex gap-5 justify-center">
         <a
@@ -37,7 +37,7 @@
     </div>
     <div class="mt-10 flex flex-col gap-10 md:flex-row justify-center">
         <form
-            class="md:w-1/2 space-y-4 bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-5 shadow-lg border-1 border-neutral"
+            class="md:min-w-1/2 space-y-4 bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-5 shadow-lg border-1 border-neutral"
             on:submit|preventDefault>
             <div>
                 <label for="name" class="block text-sm font-semibold mb-3 text-left">Name</label>

@@ -4,7 +4,7 @@
 <div class="hero min-h-screen" style="background-image: url(https://i.imgur.com/b94EqPg.png);"> <!-- https://i.imgur.com/b94EqPg.png --> <!-- https://i.redd.it/92fyeqg1hfre1.png -->
     <div class="hero-overlay"></div>
     <div class="px-5 select-none mx-auto max-w-7xl">
-        <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-20 lg:mt-30 text-balance">Your one-stop location for everything <span class="text-primary">Minecraft server</span></h1>
+        <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-25 md:mt-30 text-balance">Your one-stop location for everything <span class="text-primary">Minecraft server</span></h1>
         <p class="mt-5 md:mt-10 text-lg md:text-xl text-stone-300">Embark on your Server Nexus journey.</p>
         <div class="flex flex-wrap justify-center gap-10 md:mt-20 mt-10 sm:pb-10 pb-10">
             <Card iconClass={"fa-solid fa-magnifying-glass"} title="Server Status" description="Check the live status, player count, and details of any Minecraft server."/>

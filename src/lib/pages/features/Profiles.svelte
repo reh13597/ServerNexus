@@ -83,7 +83,7 @@
 {/if} -->
 
 <div class="px-5">
-    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-20 lg:mt-30 select-none">View your own profile and browse through others</h1>
+    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-25 md:mt-30 select-none">View your own profile and browse through others</h1>
     <p class="mt-5 text-md text-stone-400">See your saved servers, ratings & reviews, and check out other people's profiles.</p>
     <p class="mt-5 text-md text-primary">This page is under construction.</p>
 </div>

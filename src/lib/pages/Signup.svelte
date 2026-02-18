@@ -41,7 +41,7 @@
 </script>
 
 <div class="px-4">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-20 lg:mt-30 font-bold">Welcome to <span class="text-primary">Server Nexus</span></h1>
+    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-25 md:mt-30 font-bold">Welcome to <span class="text-primary">Server Nexus</span></h1>
     <p class="text-lg md:text-xl mt-10 text-stone-400">We're excited to have you here!</p>
 
     <form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10">
