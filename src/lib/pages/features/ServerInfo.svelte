@@ -4,6 +4,7 @@
     import { error } from '../../stores/server';
     import type { ServerProfile } from '../../types/serverInfo';
     import Panel from '../../components/ServerPanel.svelte';
+    import Reviews from '../../components/Reviews.svelte';
     import { onMount, onDestroy } from 'svelte';
     import { supabase } from '../../supabase';
 
@@ -57,7 +58,9 @@
                 host: '',
                 port: 0,
                 ip_address: null,
+                icon: null,
                 eula_blocked: null,
+                software: null,
                 version: {
                     name_clean: '',
                     name_raw: '',
@@ -86,15 +89,27 @@
     });
 </script>
 
-<div class="relative flex justify-center mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
+<div class="flex justify-center mt-25 xl:mt-30 mb-10 mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
     {#if $serverData && profile && !isLoading}
-        <a href="#/explore" class="absolute -left-30 top-20 xl:top-30 inline-flex w-fit text-3xl hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
-            <i class="fa-arrow-left fa-solid"></i>
-        </a>
-        <div class="mt-20 xl:mt-30 mb-10">
-            <Panel profile={profile} data={$serverData}  />
+        <div class="flex flex-row gap-15">
+            <div>
+                <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
+                    <i class="fa-arrow-left fa-solid text-3xl"></i>
+                </a>
+            </div>
+            <div class="tabs tabs-lift">
+                <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10 pb-0">
+                    <Panel profile={profile} data={$serverData}  />
+                </div>
+
+                <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10 pb-0">
+                    <Reviews profile={profile} data={$serverData}/>
+                </div>
+            </div>
         </div>
     {:else}
-        <span class="mt-20 xl:mt-30 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
+        <span class="mt-25 xl:mt-30 loading loading-spinner loading-xl scale-100 sm:scale-100 md:scale-150 lg:scale-200 text-primary"></span>
     {/if}
 </div>
