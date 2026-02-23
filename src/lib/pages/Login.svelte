@@ -61,7 +61,7 @@
     <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-25 md:mt-30 font-bold">Welcome Back!</h1>
     <p class="text-lg md:text-xl mt-10 text-stone-400">One step away from greatness...</p>
 
-    <form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10">
+    <form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 border-1 border-neutral">
         <div class="card-body">
             <div>
                 <input bind:value={$email} type="input" class="input validator bg-base-300"
@@ -78,7 +78,7 @@
                 </div>
             <div class="mt-5">
                 {#if !isLoading}
-                    <button disabled={!$canLogin} class="btn btn-md btn-primary hover:scale-110 transition duration-200">Login</button>
+                    <button disabled={!$canLogin} class="btn btn-primary w-full hover:scale-105 transition duration-200">Login</button>
                 {:else}
                     <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
                 {/if}

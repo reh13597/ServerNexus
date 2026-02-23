@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ListElement from '../../components/ListElement.svelte';
+    import ServerElement from '../../components/ServerElement.svelte';
     import { userID } from '../../stores/user';
     import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
@@ -94,12 +94,12 @@
           <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">Looks kind of empty here... go save some servers!</div>
           {:else}
             {#each savedServers as server}
-              <ListElement profile={server} />
+              <ServerElement profile={server} />
             {/each}
           {/if}
         {:else}
           {#each servers as server}
-            <ListElement profile={server} />
+            <ServerElement profile={server} />
           {/each}
         {/if}
       </ul>

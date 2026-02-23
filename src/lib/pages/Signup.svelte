@@ -44,7 +44,7 @@
     <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-25 md:mt-30 font-bold">Welcome to <span class="text-primary">Server Nexus</span></h1>
     <p class="text-lg md:text-xl mt-10 text-stone-400">We're excited to have you here!</p>
 
-    <form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10">
+    <form on:submit|preventDefault={signup} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
         <div class="card-body">
             <div>
                 <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"
@@ -79,7 +79,7 @@
             </div>
             <div class="mt-5">
                 {#if !isLoading}
-                    <button disabled={!$canSignup} class="btn btn-md btn-primary hover:scale-110 transition duration-200">Sign Up</button>
+                    <button disabled={!$canSignup} class="btn btn-primary w-full hover:scale-105 transition duration-200">Sign Up</button>
                 {:else}
                     <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
                 {/if}

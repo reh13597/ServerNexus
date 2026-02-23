@@ -6,157 +6,157 @@
     export let data: ServerData;
 </script>
 
-<div class="flex flex-col w-fit xl:flex-row gap-10">
-    <div class="card max-h-[58.5vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
+<div class="flex flex-col w-full xl:flex-row gap-10 mb-10">
+    <div class="card xl:min-w-lg max-h-[64.5vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
         <div class="card-body">
             <div class="stats stats-vertical">
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Status</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Status</div>
                     {#if data.online}
-                        <span class="text-md sm:text-md lg:text-lg text-success select-none">Online</span>
+                        <span class="text-md lg:text-lg text-success select-none">Online</span>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Offline</span>
+                        <span class="text-md lg:text-lg text-error select-none">Offline</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Host</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Host</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg text-error select-none">Error</div>
+                        <div class="text-md lg:text-lg text-error select-none">Error</div>
                     {:else}
-                        <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.host}</div>
+                        <div class="text-md lg:text-lg text-stone-400">{data.host}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Port</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Port</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg text-error select-none">Error</div>
+                        <div class="text-md lg:text-lg text-error select-none">Error</div>
                     {:else}
-                        <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.port}</div>
+                        <div class="text-md lg:text-lg text-stone-400">{data.port}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">IP</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">IP</div>
                     {#if $error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {:else}
-                        <div class="text-md sm:text-md lg:text-lg text-stone-400">{data.ip_address}</div>
+                        <div class="text-md lg:text-lg text-stone-400">{data.ip_address}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Players</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Players</div>
                     {#if $error}
-                        <div class="text-md sm:text-md lg:text-lg select-none text-error">Error</div>
+                        <div class="text-md lg:text-lg select-none text-error">Error</div>
                     {:else}
-                        <div class="text-md sm:text-md lg:text-lg select-none text-stone-400">{data.players.online}/{data.players.max}</div>
-                    {/if}
-                </div>
-
-                <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Version</div>
-                    {#if $error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
-                    {:else}
-                        <div class="text-md sm:text-md lg:text-lg select-none text-stone-400">{data.version.name_clean}</div>
+                        <div class="text-md lg:text-lg select-none text-stone-400">{data.players.online}/{data.players.max}</div>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-start gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Mods</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Version</div>
+                    {#if $error}
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
+                    {:else}
+                        <div class="text-md lg:text-lg select-none text-stone-400 break-all">{data.version.name_clean}</div>
+                    {/if}
+                </div>
+
+                <div class="stat flex flex-row items-start gap-10">
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Mods</div>
                     {#if data.mods && data.mods.length > 0}
-                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md sm:text-md lg:text-lg text-stone-400 select-none">
+                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md lg:text-lg text-stone-400 select-none">
                             {#each data.mods as mod, i (mod.name + mod.version)}
                                 <span>{mod.name}{#if mod.version}<span class="text-stone-500"> ({mod.version})</span>{/if}</span>{#if i < data.mods.length - 1}, {/if}
                             {/each}
                         </div>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-start gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Plugins</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Plugins</div>
                     {#if data.plugins && data.plugins.length > 0}
-                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md sm:text-md lg:text-lg text-stone-400 select-none">
+                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-md lg:text-lg text-stone-400 select-none">
                             {#each data.plugins as plugin, i (plugin.name + (plugin.version ?? ''))}
                                 <span>{plugin.name}{#if plugin.version}<span class="text-stone-500"> ({plugin.version})</span>{/if}</span>{#if i < data.plugins.length - 1}, {/if}
                             {/each}
                         </div>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">EULA Blocked</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">EULA Blocked</div>
                     {#if data.eula_blocked}
-                        <span class="text-md sm:text-md lg:text-lg text-success select-none">Yes</span>
+                        <span class="text-md lg:text-lg text-success select-none">Yes</span>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">No</span>
+                        <span class="text-md lg:text-lg text-error select-none">No</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Protocol Version</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Protocol</div>
                     {#if data.version.protocol}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.version.protocol}</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">{data.version.protocol}</span>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
 
                 <div class="stat flex flex-row items-center gap-10">
-                    <div class="text-lg sm:text-lg lg:text-xl select-none min-w-45 text-left">Software</div>
+                    <div class="text-md lg:text-xl select-none min-w-30 text-left">Software</div>
                     {#if data.software}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">{data.software}</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">{data.software}</span>
                     {:else if !$error}
-                        <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                        <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                     {:else}
-                        <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                        <span class="text-md lg:text-lg text-error select-none">Error</span>
                     {/if}
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="flex flex-col max-w-xl gap-10">
+    <div class="flex flex-col justify-between gap-10">
         <div class="card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
             <div class="card-body">
                 <div class="stats stats-vertical">
                     <div class="stat flex flex-col items-center gap-5">
-                        <div class="text-lg sm:text-lg lg:text-xl select-none">Icon</div>
+                        <div class="text-md lg:text-xl select-none">Icon</div>
                         {#if data.icon}
                             <div class="flex justify-center items-center">
                                 <img src={data.icon} alt="Server Icon" class="w-10 h-10 sm:w-10 sm:h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 object-contain select-none">
                             </div>
                         {:else if !$error}
-                            <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                            <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                         {:else}
-                            <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                            <span class="text-md lg:text-lg text-error select-none">Error</span>
                         {/if}
                     </div>
 
                     <div class="stat flex flex-col items-center gap-5">
-                        <div class="text-lg sm:text-lg lg:text-xl select-none">MOTD</div>
+                        <div class="text-md lg:text-xl select-none">MOTD</div>
                         {#if data.motd}
-                            <div class="text-lg select-none">{@html data.motd.html}</div>
+                            <div class="text-sm md:text-md lg:text-lg select-none">{@html data.motd.html}</div>
                         {:else if !$error}
-                            <span class="text-md sm:text-md lg:text-lg text-stone-400 select-none">N/A</span>
+                            <span class="text-md lg:text-lg text-stone-400 select-none">N/A</span>
                         {:else}
-                            <span class="text-md sm:text-md lg:text-lg text-error select-none">Error</span>
+                            <span class="text-md lg:text-lg text-error select-none">Error</span>
                         {/if}
                     </div>
                 </div>
@@ -167,9 +167,9 @@
             <div class="card-body">
                 <div class="stats">
                     <div class="stat flex flex-col items-center gap-5">
-                        <div class="text-lg sm:text-lg lg:text-xl select-none">Average Rating</div>
+                        <div class="text-md lg:text-xl select-none">Average Rating</div>
                         <div class="flex items-center gap-1">
-                            <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
                             {#if $error}
                                 <p class="select-none text-stone-400">0.0</p>
                             {:else}
@@ -179,9 +179,9 @@
                     </div>
 
                     <div class="stat flex flex-col items-center gap-5">
-                        <div class="text-lg sm:text-lg lg:text-xl select-none"># of Reviews</div>
+                        <div class="text-md lg:text-xl select-none"># of Reviews</div>
                         <div class="flex items-center gap-1">
-                            <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
                             {#if $error}
                                 <p class="select-none text-stone-400">0</p>
                             {:else}
@@ -191,9 +191,9 @@
                     </div>
 
                     <div class="stat flex flex-col items-center gap-5">
-                        <div class="text-lg sm:text-lg lg:text-xl select-none"># of Saves</div>
+                        <div class="text-md lg:text-xl select-none"># of Saves</div>
                         <div class="flex items-center gap-1">
-                            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg sm:text-md text-md"></i>
+                            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
                             {#if $error}
                                 <p class="select-none text-stone-400">0</p>
                             {:else}

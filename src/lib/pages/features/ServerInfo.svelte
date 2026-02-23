@@ -9,10 +9,29 @@
     import { supabase } from '../../supabase';
 
     export let profile: ServerProfile;
+    export let serverId: string | undefined = undefined;
     let isLoading = false;
 
     onMount(async () => {
         isLoading = true;
+
+        if (!$serverID) {
+            if (serverId) {
+                $serverID = parseInt(serverId, 10);
+            } else {
+                const hash = window.location.hash;
+                const pathMatch = hash.match(/\/server-info\/(\d+)/) || window.location.pathname.match(/\/server-info\/(\d+)/);
+                if (pathMatch && pathMatch[1]) {
+                    $serverID = parseInt(pathMatch[1], 10);
+                }
+            }
+        }
+
+        if (!$serverID) {
+            console.error('No server ID found');
+            isLoading = false;
+            return;
+        }
 
         try {
             const { data, error } = await supabase
@@ -89,23 +108,23 @@
     });
 </script>
 
-<div class="flex justify-center mt-25 xl:mt-30 mb-10 mx-auto px-10 max-w-3xl sm:max-w-3xl lg:max-w-7xl">
+<div class="flex justify-center mt-20 md:mt-25 xl:mt-30 mb-10 mx-auto px-10 max-w-3xl xl:max-w-7xl">
     {#if $serverData && profile && !isLoading}
-        <div class="flex flex-row gap-15">
-            <div>
+        <div class="flex flex-col md:flex-row gap-5 md:gap-15 items-start">
+            <div class="flex justify-start">
                 <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
-                    <i class="fa-arrow-left fa-solid text-3xl"></i>
+                    <i class="fa-arrow-left fa-solid text-xl md:text-3xl"></i>
                 </a>
             </div>
-            <div class="tabs tabs-lift">
+            <div class="tabs tabs-lift mb-10">
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10 pb-0">
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
                     <Panel profile={profile} data={$serverData}  />
                 </div>
 
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10 pb-0">
-                    <Reviews profile={profile} data={$serverData}/>
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
+                    <Reviews profile={profile}/>
                 </div>
             </div>
         </div>
