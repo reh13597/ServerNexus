@@ -3,8 +3,8 @@
     import { serverID } from '../../stores/profiles';
     import { error } from '../../stores/server';
     import type { ServerProfile } from '../../types/serverInfo';
-    import Panel from '../../components/ServerPanel.svelte';
-    import Reviews from '../../components/Reviews.svelte';
+    import ServerPanel from '../../components/ServerPanel.svelte';
+    import ReviewPanel from '../../components/ReviewPanel.svelte';
     import { onMount, onDestroy } from 'svelte';
     import { supabase } from '../../supabase';
 
@@ -119,12 +119,12 @@
             <div class="tabs tabs-lift mb-10">
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
                 <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
-                    <Panel profile={profile} data={$serverData}  />
+                    <ServerPanel profile={profile} data={$serverData}  />
                 </div>
 
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
                 <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
-                    <Reviews profile={profile}/>
+                    <ReviewPanel profile={profile}/>
                 </div>
             </div>
         </div>
