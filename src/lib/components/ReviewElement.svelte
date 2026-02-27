@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { ReviewInfo } from '../types/reviewInfo';
-    import { userID, username } from '../stores/user';
+    import { userID } from '../stores/user';
     import Steve from '../../assets/steve.jpg';
     import { supabase } from '../supabase';
 
@@ -35,14 +35,14 @@
     }
 </script>
 
-<li class="w-lg list-row flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
+<li class="list-row max-w-lg flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
     <div class="flex items-center gap-5">
         <div class="avatar">
             <div class="w-8 md:w-10 rounded">
               <img src={Steve} alt="The users' Minecraft avatar." />
             </div>
           </div>
-        <p class="select-none text-md md:text-lg">{$username}</p>
+        <p class="select-none text-md md:text-lg">{info.username}</p>
         <div class="flex items-center gap-1">
             <i class="fa-star fa-solid text-primary text-md md:text-lg"></i>
             <p class="select-none text-sm md:text-md">{info.rating}/5</p>
@@ -60,7 +60,7 @@
     </div>
 
     <dialog id="delete_modal_{info.id}" class="modal">
-        <div class="modal-box flex flex-col gap-5 bg-base-300">
+        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
             <h3 class="text-lg font-bold"><span class="text-primary">Delete</span> your review?</h3>
             <p class="py-4 text-stone-400 text-sm">Caution: This action cannot be undone.</p>
             <div class="flex justify-center gap-3">
@@ -76,7 +76,7 @@
         </div>
     </dialog>
 
-    <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-2xl md:text-lg sm:text-md text-md">
-        <p class="text-stone-400 text-sm italic">{info.review}</p>
+    <div class="flex items-center">
+        <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
     </div>
 </li>

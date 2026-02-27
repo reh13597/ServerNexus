@@ -108,7 +108,7 @@
     });
 </script>
 
-<div class="flex justify-center mt-20 md:mt-25 xl:mt-30 mb-10 mx-auto px-10 max-w-3xl xl:max-w-7xl">
+<div class="flex justify-center mt-20 md:mt-25 xl:mt-30 mb-10 mx-auto px-10 max-w-3xl xl:max-w-7xl pb-5">
     {#if $serverData && profile && !isLoading}
         <div class="flex flex-col md:flex-row gap-5 md:gap-15 items-start">
             <div class="flex justify-start">
@@ -118,12 +118,12 @@
             </div>
             <div class="tabs tabs-lift mb-10">
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-10">
                     <ServerPanel profile={profile} data={$serverData}  />
                 </div>
 
                 <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 px-10 pt-10">
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-10">
                     <ReviewPanel profile={profile}/>
                 </div>
             </div>

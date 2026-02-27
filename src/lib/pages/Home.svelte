@@ -20,7 +20,7 @@
             </p>
         </div>
         <a target="_blank" href="https://www.reddit.com/r/Minecraft/comments/mw5dmq/the_knew_ice_caves_with_shaders_look_stunning/" class="hover:underline">
-            <p class="pb-5 mt-10 text-stone-300 text-sm select-none">Image belongs to klaus_nieto's post on r/Minecraft</p>
+            <p class="pb-10 mt-10 text-stone-300 text-sm select-none">Image belongs to klaus_nieto's post on r/Minecraft</p>
         </a>
     </div>
 </div>

@@ -6,8 +6,8 @@
     export let data: ServerData;
 </script>
 
-<div class="flex flex-col w-full xl:flex-row gap-10 mb-10">
-    <div class="card xl:min-w-lg max-h-[64.5vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
+<div class="flex flex-col w-full xl:flex-row gap-5">
+    <div class="card xl:min-w-lg max-h-[60vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
         <div class="card-body">
             <div class="stats stats-vertical">
                 <div class="stat flex flex-row items-center gap-10">
@@ -132,7 +132,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col justify-between gap-10">
+    <div class="flex flex-col justify-between gap-5">
         <div class="card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
             <div class="card-body">
                 <div class="stats stats-vertical">

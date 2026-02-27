@@ -73,13 +73,13 @@
     });
 </script>
 
-<div class="container mx-auto px-5">
+<div class="container mx-auto px-5 pb-5" style="min-height: calc(100vh - 200px);">
     <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-25 md:mt-30 select-none">Fetch the data of any Minecraft server</h1>
     <p class="mt-5 text-md text-stone-400">Get information like live status, player count, required version, and more.</p>
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
-                required placeholder="Enter Server IP" class="input validator bg-base-300" minlength="7" maxlength="30"
+                required placeholder="hypixel.net" class="input validator bg-base-300" minlength="7" maxlength="30"
                 title="Server IP"/>
             <p class="validator-hint hidden">
                 Enter a valid server IP address.
@@ -88,7 +88,7 @@
         </div>
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverPort}
-                required placeholder="Enter Server Port (Default: 25565)" class="input validator bg-base-300" minlength="5" maxlength="5"
+                required placeholder="25565" class="input validator bg-base-300" minlength="5" maxlength="5"
                 title="Server Port" pattern="[0-9]+"/>
             <p class="validator-hint hidden">
                 Enter a valid server port number.
@@ -102,15 +102,17 @@
             </p>
         {/if}
         <div class="flex flex-col items-center gap-5">
-            {#if !isLoading}
-                <button class="btn btn-primary btn-md hover:scale-110 transition duration-200" disabled={!$canFetchServerData}>Fetch Server Data</button>
-            {:else}
-                <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
-            {/if}
+            <button class="btn btn-primary btn-md hover:scale-110 transition duration-200" disabled={!$canFetchServerData}>
+                {#if !isLoading}
+                    Fetch Server Data
+                {:else}
+                    <span class="loading loading-spinner loading-sm"></span> Fetching...
+                {/if}
+            </button>
         </div>
     </form>
     {#if $serverData && !isLoading}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 sm:pb-10 pb-10 p-5">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             <Card title="Server Information" data={$serverData} type="info" />
             <Card title="Connection Details" data={$serverData} type="connection" />
             <Card title="Miscellaneous" data={$serverData} type="icon" />
