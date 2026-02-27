@@ -5,6 +5,9 @@
   import Router, { push } from 'svelte-spa-router';
   import type { RouteLoadedEvent } from 'svelte-spa-router';
 
+  import { isLoggedIn, authReady } from './lib/stores/login';
+  import { onProfile } from './lib/stores/profiles';
+
   import Dashboard from './lib/pages/Dashboard.svelte';
   import Home from './lib/pages/Home.svelte';
   import About from './lib/pages/About.svelte';
@@ -18,8 +21,7 @@
   import ServerInfo from './lib/pages/features/ServerInfo.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
-  import { isLoggedIn, authReady } from './lib/stores/login';
-  import { onProfile } from './lib/stores/profiles';
+  import Footer from './lib/components/Footer.svelte';
 
   onMount(async () => {
     const params = new URLSearchParams(window.location.search);
@@ -30,16 +32,6 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
   });
-
-  const profilePages = ['/profile-status', '/chat', '/stats', '/map']
-
-  function handleRoute(event: RouteLoadedEvent) {
-    const currentPath = event.detail.location;
-
-    const isProfilePage = profilePages.some((page) => currentPath.endsWith(page));
-
-    $onProfile = isProfilePage;
-  }
 
   const routes = {
     '/': wrap({
@@ -80,12 +72,16 @@
   };
 </script>
 
-<Navbar />
+<div class="flex flex-col min-h-screen">
+  <Navbar />
 
-<main>
-  {#if $authReady}
-      <Router {routes} on:routeLoaded={handleRoute} />
-  {/if}
-</main>
+  <main class="flex-1">
+    {#if $authReady}
+        <Router {routes} />
+    {/if}
+  </main>
+
+  <Footer />
+</div>
 
 

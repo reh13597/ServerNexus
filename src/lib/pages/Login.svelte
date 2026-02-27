@@ -57,7 +57,7 @@
     });
 </script>
 
-<div class="px-5 select-none">
+<div class="px-5 select-none" style="min-height: calc(100vh - 200px);">
     <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-25 md:mt-30 font-bold">Welcome Back!</h1>
     <p class="text-lg md:text-xl mt-10 text-stone-400">One step away from greatness...</p>
 

@@ -3,19 +3,10 @@
     const iconClass = "text-2xl text-white hover:text-primary";
 </script>
 
-<div class="mx-auto max-w-4xl px-10 pb-10 select-none">
+<div class="mx-auto max-w-4xl px-10 select-none pb-10">
     <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-25 md:mt-30">Contact</h1>
     <p class="mt-5 text-md text-stone-400">Send me a message or check out my socials.</p>
     <div class="mt-10 flex gap-5 justify-center">
-        <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://instagram.com/alex_guo_888/"
-            aria-label="Instagram Icon/Link"
-            class={iconWrap}
-        >
-            <i class={`fa-brands fa-instagram ${iconClass}`}></i>
-        </a>
         <a
             target="_blank"
             rel="noreferrer"
