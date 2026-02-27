@@ -112,10 +112,28 @@
         </div>
     </form>
     {#if $serverData && !isLoading}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5" bind:this={cardsContainer}>
             <Card title="Server Information" data={$serverData} type="info" />
             <Card title="Connection Details" data={$serverData} type="connection" />
             <Card title="Miscellaneous" data={$serverData} type="icon" />
+        </div>
+    {:else if isLoading}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
+            {#each ['Server Information', 'Connection Details', 'Miscellaneous'] as title}
+            <div class="card w-full min-h-[404px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+                <div class="card-body">
+                <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
+                <div class="stats stats-vertical shadow">
+                    {#each [0, 1, 2] as _}
+                    <div class="stat flex flex-col items-center">
+                        <div class="skeleton h-6 w-24 mb-3"></div>
+                        <div class="skeleton h-5 w-32"></div>
+                    </div>
+                    {/each}
+                </div>
+                </div>
+            </div>
+            {/each}
         </div>
     {/if}
 </div>

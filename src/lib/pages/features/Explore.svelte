@@ -104,7 +104,21 @@
         {/if}
       </ul>
     {:else}
-        <span class="loading loading-spinner loading-xl scale-150 text-primary"></span>
+      <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] space-y-5">
+        {#each [0, 1, 2] as _}
+          <li class="list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-200 to-zinc-600">
+            <div class="flex items-center gap-3">
+              <div class="skeleton rounded-xl w-10 h-10 lg:w-16 lg:h-16 shrink-0"></div>
+              <div class="skeleton h-6 w-32 md:w-48"></div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6">
+              <div class="skeleton h-5 w-10"></div>
+              <div class="skeleton h-5 w-5"></div>
+              <div class="skeleton h-5 w-5"></div>
+            </div>
+          </li>
+        {/each}
+      </ul>
     {/if}
   </div>
 </div>
