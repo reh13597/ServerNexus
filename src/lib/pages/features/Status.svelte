@@ -74,8 +74,8 @@
 </script>
 
 <div class="container mx-auto px-5 pb-5" style="min-height: calc(100vh - 200px);">
-    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-25 md:mt-30 select-none">Fetch the data of any Minecraft server</h1>
-    <p class="mt-5 text-md text-stone-400">Get information like live status, player count, required version, and more.</p>
+    <h1 class="text-xl md:text-2xl lg:text-3xl font-bold mt-25 md:mt-30 select-none">Fetch the data of any Minecraft server</h1>
+    <p class="mt-5 text-sm md:text-md text-stone-400">Get information like live status, player count, required version, and more.</p>
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
@@ -120,19 +120,19 @@
     {:else if isLoading}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             {#each ['Server Information', 'Connection Details', 'Miscellaneous'] as title}
-            <div class="card w-full min-h-[404px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
-                <div class="card-body">
-                <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
-                <div class="stats stats-vertical shadow">
-                    {#each [0, 1, 2] as _}
-                    <div class="stat flex flex-col items-center">
-                        <div class="skeleton h-6 w-24 mb-3"></div>
-                        <div class="skeleton h-5 w-32"></div>
+                <div class="card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+                    <div class="card-body">
+                        <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
+                        <div class="stats stats-vertical shadow">
+                            {#each [0, 1, 2] as _}
+                                <div class="stat flex flex-col items-center">
+                                    <div class="skeleton h-6 w-24 mb-3"></div>
+                                    <div class="skeleton h-5 w-32"></div>
+                                </div>
+                            {/each}
+                        </div>
                     </div>
-                    {/each}
                 </div>
-                </div>
-            </div>
             {/each}
         </div>
     {/if}

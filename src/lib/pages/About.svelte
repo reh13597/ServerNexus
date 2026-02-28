@@ -1,6 +1,6 @@
 <div class="px-10 max-w-2xl mx-auto pb-12 select-none">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-25 md:mt-30">About</h1>
-    <div class="flex flex-col gap-4 mt-10 lg:text-xl md:text-lg sm:text-md text-md text-left">
+    <h1 class="lg:text-4xl md:text-3xl text-2xl font-bold mt-25 md:mt-30">About</h1>
+    <div class="flex flex-col gap-4 mt-10 lg:text-lg md:text-md text-sm text-left">
         <p>Hey there! I'm <a aria-label="Alex's Portfolio Link" href="https://guoalex.com" target="_blank" class="text-green-500 hover:underline">Alex</a>,
             a Computer Science student at <a aria-label="SFU Link" href="https://www.sfu.ca/fas/computing.html" target="_blank" class="text-red-600 hover:underline">SFU</a>.</p>
         <p>I built this website with the purpose of addressing some issues I often run into when dealing with information about Minecraft servers.</p>
