@@ -8,7 +8,7 @@
         <p class="mt-5 md:mt-10 text-lg md:text-xl text-stone-300">Embark on your Server Nexus journey.</p>
         <div class="flex flex-wrap justify-center gap-10 md:mt-30 mt-20">
             <Card iconClass={"fa-solid fa-magnifying-glass"} title="Server Status" description="Check the live status, player count, and details of any Minecraft server."/>
-            <Card iconClass={"fa-regular fa-map"} title="Discover Servers" description="Browse through popular Minecraft servers and search for specific ones."/>
+            <Card iconClass={"fa-regular fa-map"} title="Discover Servers" description="Browse through popular Minecraft servers, search for specific ones, or leave a review."/>
             <Card iconClass={"fa-regular fa-address-book"} title="User Profiles" description="Modify your profile and browse through public profiles to see their server ratings/reviews."/>
         </div>
         <div class="select-none">

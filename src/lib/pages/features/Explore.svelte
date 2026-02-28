@@ -66,7 +66,7 @@
   <div>
     <h1 class="text-xl md:text-2xl lg:text-3xl font-bold mt-25 md:mt-30 select-none">Browse through popular Minecraft servers</h1>
     <p class="mt-5 text-sm md:text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
-    <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
+    <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0 drop-shadow-xl/80">
       <label class="input grow">
           <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g
@@ -82,7 +82,7 @@
           </svg>
           <input type="search" class="grow" placeholder="Search for a server" />
       </label>
-      <button on:click={() => viewSaved()} class={`btn hover:scale-110 transition duration-200 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
+      <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-110 transition duration-200 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
     </div>
   </div>
 
@@ -105,10 +105,10 @@
       </ul>
     {:else}
       <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] space-y-5">
-        {#each [0, 1, 2] as _}
-          <li class="list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-200 to-zinc-600">
+        {#each [0, 1, 2, 3] as _}
+          <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700">
             <div class="flex items-center gap-3">
-              <div class="skeleton rounded-xl w-10 h-10 lg:w-16 lg:h-16 shrink-0"></div>
+              <div class="skeleton rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12"></div>
               <div class="skeleton h-6 w-32 md:w-48"></div>
             </div>
             <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6">

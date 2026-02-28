@@ -9,7 +9,7 @@
     <p class="mt-10 text-sm text-stone-400"><span class="text-primary">Note:</span> <br>Currently, only Java edition servers are supported. Bedrock edition support is coming soon!</p>
     <div class="flex flex-wrap justify-center gap-10 md:mt-30 mt-20">
         <Card title="Server Status" description="Check the live status, player count, and details of any Minecraft server." path="status" />
-        <Card title="Discover Servers" description="Browse through popular Minecraft servers and search for specific ones." path="explore" />
+        <Card title="Discover Servers" description="Browse through popular Minecraft servers, search for specific ones, or leave a review." path="explore" />
         <Card title="User Profiles" description="Modify your profile and browse through public profiles to see their server ratings/reviews." path="profiles" />
     </div>
 </div>
