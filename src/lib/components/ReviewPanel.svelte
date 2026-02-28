@@ -114,7 +114,7 @@
 </script>
 
 <div class="flex flex-col w-full xl:flex-row gap-10 justify-between">
-  <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box xl:min-w-lg h-[60vh] overflow-y-auto space-y-5">
+  <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box xl:min-w-lg h-[60vh] overflow-y-auto space-y-5">
     {#if emptyList}
       <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm md:text-md lg:text-lg text-left">
         Looks kind of empty here... leave a review here!

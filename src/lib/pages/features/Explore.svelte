@@ -88,7 +88,7 @@
 
   <div class="max-w-3xl mx-auto md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
     {#if !isLoading}
-      <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] overflow-y-auto space-y-5">
+      <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] overflow-y-auto space-y-5">
         {#if btnActive}
           {#if emptyList}
           <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">Looks kind of empty here... go save some servers!</div>
@@ -104,7 +104,7 @@
         {/if}
       </ul>
     {:else}
-      <ul class="list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] space-y-5">
+      <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] space-y-5">
         {#each [0, 1, 2] as _}
           <li class="list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-200 to-zinc-600">
             <div class="flex items-center gap-3">

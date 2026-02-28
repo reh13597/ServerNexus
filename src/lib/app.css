@@ -18,7 +18,7 @@
   --color-secondary-content: oklch(97% 0.017 320.058);
   --color-accent: oklch(70% 0.213 47.604);
   --color-accent-content: oklch(98% 0.016 73.684);
-  --color-neutral: oklch(43% 0 0);
+  --color-neutral: oklch(37.83% 0 0);
   --color-neutral-content: oklch(98% 0 0);
   --color-info: oklch(78% 0.154 211.53);
   --color-info-content: oklch(30% 0.056 229.695);
@@ -39,7 +39,8 @@
 }
 
 :root {
-  background-color: var(--color-base-300);
+  background: #27272A;
+  background: radial-gradient(circle, rgba(39, 39, 42, 1) 10%, rgba(10, 10, 10, 1) 70%);
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   text-align: center;
 }

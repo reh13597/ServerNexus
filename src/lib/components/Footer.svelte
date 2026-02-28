@@ -1,4 +1,4 @@
-<footer class="bottom-0 glass bg-gradient-to-tr from-black/50 to-zinc-700/50 px-6 py-10 select-none">
+<footer class="bottom-0 bg-black border-t border-neutral px-6 py-10 select-none">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
     <div class="flex items-center gap-2">
       <img src="/server_nexus.ico" alt="Server Nexus logo" class="w-8 h-8 md:w-10 md:h-10 hover:animate-spin hover:[animation-duration:3s]" draggable="false" />

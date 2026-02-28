@@ -10,7 +10,7 @@
     }
 </script>
 
-<div class="card card-lg w-96 bg-gradient-to-tr from-black to-zinc-700 shadow-2xl border-1 border-neutral">
+<div class="card card-lg w-96 bg-gradient-to-tr from-black to-zinc-700 drop-shadow-xl/80 border-1 border-neutral">
     <div class="card-body text-balance">
       <h2 class="card-title text-xl select-none justify-center">{title}</h2>
       <p class="text-center select-none mt-3 text-stone-400">{description}</p>
