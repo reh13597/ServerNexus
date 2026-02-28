@@ -167,7 +167,7 @@
 
     <button
       type="submit"
-      class="btn btn-primary w-full hover:scale-103 transition duration-200"
+      class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-200"
       disabled={!isFormValid || isSubmitting}
       on:click={handleSubmit}
     >

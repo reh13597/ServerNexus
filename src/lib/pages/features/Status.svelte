@@ -102,7 +102,7 @@
             </p>
         {/if}
         <div class="flex flex-col items-center gap-5">
-            <button class="btn btn-primary btn-md hover:scale-110 transition duration-200" disabled={!$canFetchServerData}>
+            <button class="drop-shadow-xl/80 btn btn-primary btn-md hover:scale-110 transition duration-200" disabled={!$canFetchServerData}>
                 {#if !isLoading}
                     Fetch Server Data
                 {:else}
@@ -120,7 +120,7 @@
     {:else if isLoading}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             {#each ['Server Information', 'Connection Details', 'Miscellaneous'] as title}
-                <div class="card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+                <div class="drop-shadow-xl/80 card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
                     <div class="card-body">
                         <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
                         <div class="stats stats-vertical shadow">
