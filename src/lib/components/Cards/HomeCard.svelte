@@ -4,7 +4,7 @@
     export let description: string;
 </script>
 
-<div class="card card-lg w-96 bg-gradient-to-tr from-black to-zinc-700 shadow-2xl border-1 border-neutral">
+<div class="drop-shadow-xl/100 card card-lg w-96 bg-gradient-to-tr from-black to-zinc-700 border-1 border-neutral">
     <div class="card-body text-balance flex flex-col items-center">
       <i class={`justify-center text-2xl text-primary hover:scale-115 transition duration-200 ${iconClass}`}></i>
       <h2 class="card-title mt-3 text-xl select-none justify-center">{title}</h2>

@@ -64,7 +64,7 @@
     });
 </script>
 
-<li class="list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
+<li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <div class="flex items-center gap-2 md:gap-4">
         <img src={profile.icon} alt="Server Icon" class="rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 select-none" />
         <div class="text-xs md:text-lg lg:text-xl text-left">{profile.host}</div>

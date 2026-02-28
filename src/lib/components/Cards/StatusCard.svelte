@@ -7,10 +7,10 @@
     export let type: 'info' | 'connection' | 'icon';
 </script>
 
-<div class="card card-sm bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+<div class="drop-shadow-xl/80 card card-sm bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
     <div class="card-body">
         <h2 class="text-primary card-title justify-center text-lg lg:text-xl select-none">{title}</h2>
-        <div class="stats stats-vertical shadow">
+        <div class="stats stats-vertical">
             {#if type === 'info'}
                 <div class="stat">
                     <div class="text-lg lg:text-xl select-none">Version</div>

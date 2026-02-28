@@ -35,7 +35,7 @@
     }
 </script>
 
-<li class="list-row max-w-lg flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
+<li class="drop-shadow-xl/80 list-row max-w-lg flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <div class="flex items-center gap-5">
         <div class="avatar">
             <div class="w-8 md:w-10 rounded">
@@ -60,7 +60,7 @@
     </div>
 
     <dialog id="delete_modal_{info.id}" class="modal">
-        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
+        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
             <h3 class="text-lg font-bold"><span class="text-primary">Delete</span> your review?</h3>
             <p class="py-4 text-stone-400 text-sm">Caution: This action cannot be undone.</p>
             <div class="flex justify-center gap-3">

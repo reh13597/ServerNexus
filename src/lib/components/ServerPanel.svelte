@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex flex-col w-full xl:flex-row gap-5">
-    <div class="card xl:min-w-lg max-h-[60vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
+    <div class="drop-shadow-xl/80 card xl:min-w-lg max-h-[60vh] overflow-y-auto bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
         <div class="card-body">
             <div class="stats stats-vertical">
                 <div class="stat flex flex-row items-center gap-10">
@@ -133,7 +133,7 @@
     </div>
 
     <div class="flex flex-col justify-between gap-5">
-        <div class="card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
+        <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
             <div class="card-body">
                 <div class="stats stats-vertical">
                     <div class="stat flex flex-col items-center gap-5">
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <div class="card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
+        <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-base-100 to-zinc-700 border-1 border-neutral">
             <div class="card-body">
                 <div class="stats">
                     <div class="stat flex flex-col items-center gap-5">
