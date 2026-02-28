@@ -65,21 +65,21 @@
 </script>
 
 <li class="list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-600">
-    <div class="flex items-center gap-3">
-        <img src={profile.icon} alt="Server Icon" class="rounded-xl max-w-10 max-h-10 md:max-w-15 md:max-h-15 lg:max-w-20 lg:max-h-20 select-none" />
-        <div class="text-md sm:text-md md:text-lg lg:text-2xl text-left">{profile.host}</div>
+    <div class="flex items-center gap-2 md:gap-4">
+        <img src={profile.icon} alt="Server Icon" class="rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 select-none" />
+        <div class="text-xs md:text-lg lg:text-xl text-left">{profile.host}</div>
     </div>
 
-    <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-2xl md:text-lg sm:text-md text-md">
+    <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-xl md:text-lg text-sm">
         <div class="flex items-center gap-1">
             <i class="fa-star fa-solid text-primary"></i>
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
 
-        <a on:click={() => saveOrUnsave()} class="inline-flex w-fit hover:scale-120 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+        <a on:click={() => saveOrUnsave()} class="inline-flex w-fit hover:scale-115 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
             <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
         </a>
-        <a on:click={() => goTo()} class="inline-flex w-fit hover:scale-120 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="View Button">
+        <a on:click={() => goTo()} class="inline-flex w-fit hover:scale-115 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="View Button">
             <i class="fa-arrow-right fa-solid"></i>
         </a>
     </div>

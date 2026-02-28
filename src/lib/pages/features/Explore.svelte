@@ -64,8 +64,8 @@
 </script>
 <div class="px-5 pb-12">
   <div>
-    <h1 class="text-xl lg:text-4xl md:text-3xl sm:text-xl font-bold mt-25 md:mt-30 select-none">Browse through popular Minecraft servers</h1>
-    <p class="mt-5 text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
+    <h1 class="text-xl md:text-2xl lg:text-3xl font-bold mt-25 md:mt-30 select-none">Browse through popular Minecraft servers</h1>
+    <p class="mt-5 text-sm md:text-md text-stone-400">Discover the top-rated servers, check their information, and see user reviews.</p>
     <div class="max-w-3xl mx-auto flex gap-6 md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
       <label class="input grow">
           <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

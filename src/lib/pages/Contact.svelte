@@ -1,12 +1,12 @@
 <script lang="ts">
-    const iconWrap = "inline-flex w-fit transition duration-200 hover:scale-115 hover:bg-transparent";
+    const iconWrap = "inline-flex w-fit transition duration-200 hover:scale-110 hover:bg-transparent";
     const iconClass = "text-2xl text-white hover:text-primary";
 </script>
 
 <div class="mx-auto max-w-4xl px-10 select-none pb-10">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold mt-25 md:mt-30">Contact</h1>
-    <p class="mt-5 text-md text-stone-400">Send me a message or check out my socials.</p>
-    <div class="mt-10 flex gap-5 justify-center">
+    <h1 class="lg:text-4xl md:text-3xl text-2xl font-bold mt-25 md:mt-30">Contact</h1>
+    <p class="mt-5 text-sm md:text-md text-stone-400">Send me a message or check out my socials.</p>
+    <div class="mt-5 flex gap-5 justify-center">
         <a
             target="_blank"
             rel="noreferrer"
@@ -70,7 +70,7 @@
                     class="textarea textarea-bordered w-full mb-3 bg-base-300"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary w-full hover:scale-105 transition duration-200">Send Message</button>
+            <button type="submit" class="btn btn-primary w-full hover:scale-103 transition duration-200">Send Message</button>
         </form>
     </div>
 </div>

@@ -58,8 +58,8 @@
 </script>
 
 <div class="px-5 select-none" style="min-height: calc(100vh - 200px);">
-    <h1 class="lg:text-6xl md:text-5xl sm:text-4xl text-4xl mt-25 md:mt-30 font-bold">Welcome Back!</h1>
-    <p class="text-lg md:text-xl mt-10 text-stone-400">One step away from greatness...</p>
+    <h1 class="lg:text-5xl md:text-3xl text-2xl mt-25 md:mt-30 font-bold">Welcome Back!</h1>
+    <p class="text-md md:text-lg mt-10 text-stone-400">One step away from greatness...</p>
 
     <form on:submit|preventDefault={login} class="card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 border-1 border-neutral">
         <div class="card-body">
