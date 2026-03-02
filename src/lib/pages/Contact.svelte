@@ -14,7 +14,7 @@
             aria-label="GitHub Icon/Link"
             class={iconWrap}
         >
-            <i class={`fa-brands fa-github ${iconClass}`}></i>
+            <i class={`drop-shadow-xl/80 fa-brands fa-github ${iconClass}`}></i>
         </a>
         <a
             target="_blank"
@@ -23,7 +23,7 @@
             aria-label="LinkedIn Icon/Link"
             class={iconWrap}
         >
-            <i class={`fa-brands fa-linkedin ${iconClass}`}></i>
+            <i class={`drop-shadow-xl/80 fa-brands fa-linkedin ${iconClass}`}></i>
         </a>
     </div>
     <div class="mt-10 flex flex-col gap-10 md:flex-row justify-center">
@@ -70,7 +70,7 @@
                     class="textarea textarea-bordered w-full mb-3 bg-base-300"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary w-full hover:scale-103 transition duration-200">Send Message</button>
+            <button type="submit" class="btn btn-primary w-full hover:scale-102 transition duration-200">Send Message</button>
         </form>
     </div>
 </div>

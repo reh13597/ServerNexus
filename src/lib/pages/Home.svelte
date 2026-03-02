@@ -19,8 +19,8 @@
                 <a class="text-primary hover:underline" href="#/signup">Sign up!</a>
             </p>
         </div>
-        <a target="_blank" href="https://www.reddit.com/r/Minecraft/comments/mw5dmq/the_knew_ice_caves_with_shaders_look_stunning/" class="hover:underline">
-            <p class="pb-5 mt-30 text-stone-300 text-sm select-none">Image belongs to klaus_nieto's post on r/Minecraft</p>
+        <a target="_blank" href="https://www.reddit.com/r/Minecraft/comments/mw5dmq/the_knew_ice_caves_with_shaders_look_stunning/" class="pb-5 mt-30 text-stone-300 text-sm select-none hover:underline">
+            Image belongs to klaus_nieto's post on r/Minecraft
         </a>
     </div>
 </div>

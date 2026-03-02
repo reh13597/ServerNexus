@@ -82,7 +82,7 @@
           </svg>
           <input type="search" class="grow" placeholder="Search for a server" />
       </label>
-      <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-110 transition duration-200 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
+      <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-105 transition duration-200 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
     </div>
   </div>
 

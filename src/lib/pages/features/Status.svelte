@@ -12,38 +12,73 @@
 
         try {
             const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$serverIp}:${$serverPort}`);
-            const data = await response.json();
+            const data: any = await response.json();
 
-            if (!data.version) {
-                throw new Error();
+            let normalizedData: any = data;
+
+            if (data && data.online === false) {
+                normalizedData = {
+                    online: false,
+                    host: '',
+                    port: 0,
+                    ip_address: null,
+                    icon: null,
+                    eula_blocked: null,
+                    software: null,
+                    version: {
+                        name_clean: '',
+                        name_raw: '',
+                        name_html: '',
+                        protocol: 0
+                    },
+                    players: {
+                        online: 0,
+                        max: 0
+                    },
+                    motd: {
+                        raw: '',
+                        clean: '',
+                        html: ''
+                    }
+                };
             }
 
-            $serverData = data;
+            if (!data.online && data.ip_address === null && data.srv_record === null) {
+                throw new Error('Invalid server');
+            }
+
+            $serverData = normalizedData;
 
             const iconUrl = $serverData?.icon ?? null;
 
-            const { error: serverError } = await supabase
-                .from('servers')
-                .upsert(
-                    [{
-                        host: $serverIp,
-                        port: $serverPort,
-                        icon: iconUrl
-                    }],
-                    { onConflict: 'host, port', ignoreDuplicates: true }
-                );
+            if (data.ip_address && data.srv_record && !$error) {
+                const { error: serverError } = await supabase
+                    .from('servers')
+                    .upsert(
+                        [{
+                            host: $serverIp,
+                            port: $serverPort,
+                            icon: iconUrl
+                        }],
+                        { onConflict: 'host, port', ignoreDuplicates: true }
+                    );
 
-            if (serverError) {
-                console.error('Error inserting server:', serverError);
-                return;
+                if (serverError) {
+                    console.error('Error inserting server:', serverError);
+                    return;
+                }
             }
         } catch (err) {
             $error = 'Failed to fetch server data.';
+            console.error($error);
             $serverData = {
                 online: false,
-                host: $serverIp,
+                host: '',
                 port: 0,
                 ip_address: null,
+                icon: null,
+                eula_blocked: null,
+                software: null,
                 version: {
                     name_clean: '',
                     name_raw: '',
@@ -112,7 +147,7 @@
         </div>
     </form>
     {#if $serverData && !isLoading}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5" bind:this={cardsContainer}>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             <Card title="Server Information" data={$serverData} type="info" />
             <Card title="Connection Details" data={$serverData} type="connection" />
             <Card title="Miscellaneous" data={$serverData} type="icon" />
@@ -120,7 +155,7 @@
     {:else if isLoading}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             {#each ['Server Information', 'Connection Details', 'Miscellaneous'] as title}
-                <div class="drop-shadow-xl/80 card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral">
+                <div class="drop-shadow-xl/80 card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-700 border-1 border-neutral">
                     <div class="card-body">
                         <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
                         <div class="stats stats-vertical shadow">
