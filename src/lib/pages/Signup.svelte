@@ -7,12 +7,21 @@
     let showAlert = false;
     let isLoading = false;
 
+    function openModal() {
+        (document.getElementById(`signup_modal`) as HTMLDialogElement)?.showModal();
+    }
+
+    function closeModal() {
+        (document.getElementById(`signup_modal`) as HTMLDialogElement)?.close();
+    }
+
     function closeAlert() {
         showAlert = false;
         push('/login');
     }
 
     async function signup() {
+        isLoading = true;
         const { error } = await supabase.auth.signUp({
             email: $email,
             password: $password,
@@ -30,7 +39,7 @@
         }
 
         isLoading = false;
-        showAlert = true;
+        openModal();
     }
 
     onDestroy(() => {
@@ -78,11 +87,15 @@
                 </p>
             </div>
             <div class="mt-5">
-                {#if !isLoading}
-                    <button disabled={!$canSignup} class="btn btn-primary w-full hover:scale-105 transition duration-200">Sign Up</button>
-                {:else}
-                    <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
-                {/if}
+
+                <button disabled={!$canSignup} class="btn btn-primary w-full hover:scale-102 transition duration-200">
+                    {#if !isLoading}
+                        Sign Up
+                    {:else}
+                        <span class="loading loading-spinner loading-sm"></span>Signing Up...
+                    {/if}
+                </button>
+
                 <p class="mt-5 text-sm">Already have an account?
                     <a class="text-sm text-primary hover:underline" href="#/login">Login!</a>
                 </p>
@@ -91,11 +104,11 @@
     </form>
 </div>
 
-{#if showAlert}
-    <div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-        <div role="alert" class="alert text-primary bg-base-200 w-[90%] sm:w-130 relative -mt-20 mx-4">
-            <button class="btn btn-sm btn-circle absolute right-2 top-2" on:click={closeAlert}>✕</button>
-            <span class="text-sm sm:text-base">Please check your email for the confirmation link.</span>
+<dialog id="signup_modal" class="modal">
+    <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+        <h3 class="text-lg font-bold">Please check your email for a confirmation link.</h3>
+        <div class="flex justify-center gap-3">
+            <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal}>Close</button>
         </div>
     </div>
-{/if}
+</dialog>

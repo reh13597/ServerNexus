@@ -3,8 +3,8 @@
     import { serverID } from '../../stores/profiles';
     import { error } from '../../stores/server';
     import type { ServerProfile } from '../../types/serverInfo';
-    import ServerPanel from '../../components/ServerPanel.svelte';
-    import ReviewPanel from '../../components/ReviewPanel.svelte';
+    import ServerPanel from '../../components/ServerInfo/ServerPanel.svelte';
+    import ReviewPanel from '../../components/ServerInfo/ReviewPanel.svelte';
     import { onMount, onDestroy } from 'svelte';
     import { supabase } from '../../supabase';
 

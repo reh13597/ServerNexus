@@ -2,10 +2,19 @@
   import { supabase } from '../supabase';
   import { isLoggedIn } from '../stores/login';
   import { onDestroy } from 'svelte';
-  import { location } from 'svelte-spa-router';
+  import { location, push } from 'svelte-spa-router';
 
   let accountMenuOpen = false;
   let accountDropdownEl: HTMLDivElement | null = null;
+  let isLoggingOut = false;
+
+  function openModal() {
+        (document.getElementById(`logout_modal`) as HTMLDialogElement)?.showModal();
+  }
+
+    function closeModal() {
+        (document.getElementById(`logout_modal`) as HTMLDialogElement)?.close();
+  }
 
   function isActivePath(path: string) {
     const currentPath = $location || '/';
@@ -29,12 +38,19 @@
   }
 
   async function logout() {
-    isLoggedIn.set(false);
     const { error } = await supabase.auth.signOut();
 
     if (error) {
       console.error("Error logging out:", error);
+      isLoggingOut = false;
+      closeModal();
       return;
+    } else {
+      isLoggingOut = true;
+      isLoggedIn.set(false);
+      closeModal();
+      push('/home');
+      isLoggingOut = false;
     }
   }
 
@@ -142,10 +158,10 @@
             <li>
               <a
                 class="text-xl whitespace-nowrap hover:bg-primary justify-end"
-                on:click={(e) => {
-                  logout();
-                }}
-                href="#/home">Log Out</a>
+                on:click={() => { openModal(); }}
+                >
+                Log Out
+              </a>
             </li>
           </ul>
         {/if}
@@ -173,3 +189,19 @@
   </div>
 </div>
 
+<dialog id="logout_modal" class="modal">
+  <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+      <h3 class="text-lg font-bold"><span class="text-primary">Log out</span> of your account?</h3>
+      <p class="py-4 text-stone-400 text-sm"><span class="text-primary">Caution:</span> You must log back in to access your account.</p>
+      <div class="flex justify-center gap-3">
+          <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isLoggingOut}>Cancel</button>
+          <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={logout} disabled={isLoggingOut}>
+              {#if isLoggingOut}
+                  <span class="loading loading-spinner loading-xs"></span>
+              {:else}
+                  Log Out
+              {/if}
+          </button>
+      </div>
+  </div>
+</dialog>

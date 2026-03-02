@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ServerElement from '../../components/ServerElement.svelte';
+    import ServerElement from '../../components/ServerInfo/ServerElement.svelte';
     import { userID } from '../../stores/user';
     import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
