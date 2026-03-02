@@ -5,7 +5,7 @@
       <p class="text-sm md:text-md text-stone-500">© 2026 <span class="text-primary">Server Nexus</span>. All rights reserved.</p>
     </div>
     <div class="flex items-center gap-2">
-      <p class="text-sm md:text-lg text-stone-500">Made with <i class="text-primary fa-solid fa-heart"></i> by <a aria-label="Alex's Portfolio Link" href="https://guoalex.com" target="_blank" class="hover:text-green-500 hover:underline">Alex Guo</a></p>
+      <p class="text-sm md:text-lg text-stone-500">Made with <i class="text-primary fa-solid fa-heart"></i> by <a aria-label="Alex's Portfolio Link" href="https://guoalex.com" target="_blank" class="transition-colors text-green-500 hover:underline">Alex Guo</a></p>
       <span class="text-stone-500">|</span>
       <a href="https://github.com/reh13597" target="_blank" aria-label="GitHub" class="text-stone-500 text-xl hover:scale-110 hover:text-primary transition duration-200">
         <i class="fa-brands fa-github"></i>

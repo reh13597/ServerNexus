@@ -51,10 +51,10 @@
         {#if $userID === String(info.user_id)}
             <a
                 on:click={openModal}
-                class="cursor-pointer hover:scale-115 transition duration-200 text-md md:text-lg ml-auto"
+                class="cursor-pointer text-md md:text-lg ml-auto"
                 aria-label="delete icon"
             >
-                <i class="fa-solid fa-trash-can hover:text-primary"></i>
+                <i class="fa-solid fa-trash-can hover:text-primary transition-colors"></i>
             </a>
         {/if}
     </div>
