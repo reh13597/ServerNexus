@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { ServerData, ServerProfile } from '../types/serverInfo';
-    import { error } from '../stores/server';
+    import type { ServerData, ServerProfile } from '../../types/serverInfo';
+    import { error } from '../../stores/server';
 
     export let profile: ServerProfile;
     export let data: ServerData;

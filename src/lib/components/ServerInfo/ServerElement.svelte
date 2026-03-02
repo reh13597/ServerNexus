@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { ServerProfile } from '../types/serverInfo';
-    import { serverID } from '../stores/profiles';
-    import { userID } from '../stores/user';
+    import type { ServerProfile } from '../../types/serverInfo';
+    import { serverID } from '../../stores/profiles';
+    import { userID } from '../../stores/user';
     import { push } from 'svelte-spa-router';
-    import { supabase } from '../supabase';
+    import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
 
     export let profile: ServerProfile;

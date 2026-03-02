@@ -1,20 +1,32 @@
 <script lang="ts">
-    import type { ReviewInfo } from '../types/reviewInfo';
-    import { userID } from '../stores/user';
-    import Steve from '../../assets/steve.jpg';
-    import { supabase } from '../supabase';
+    import type { ReviewInfo } from '../../types/reviewInfo';
+    import { userID } from '../../stores/user';
+    import Steve from '../../../assets/steve.jpg';
+    import { supabase } from '../../supabase';
+    import { fade, scale } from 'svelte/transition';
 
     export let info: ReviewInfo;
     export let onDeleted: (id: number) => void = () => {};
 
     let isDeleting = false;
+    let showModal = false;
+
+    function portal(node: HTMLElement) {
+        document.body.appendChild(node);
+
+        return {
+            destroy() {
+                node.remove();
+            }
+        };
+    }
 
     function openModal() {
-        (document.getElementById(`delete_modal_${info.id}`) as HTMLDialogElement)?.showModal();
+        showModal = true;
     }
 
     function closeModal() {
-        (document.getElementById(`delete_modal_${info.id}`) as HTMLDialogElement)?.close();
+        showModal = false;
     }
 
     async function deleteReview() {
@@ -30,6 +42,7 @@
             closeModal();
         } else {
             onDeleted(info.id);
+            isDeleting = false;
             closeModal();
         }
     }
@@ -50,7 +63,7 @@
 
         {#if $userID === String(info.user_id)}
             <a
-                on:click={openModal}
+                on:click={() => { openModal(); }}
                 class="cursor-pointer text-md md:text-lg ml-auto"
                 aria-label="delete icon"
             >
@@ -59,10 +72,16 @@
         {/if}
     </div>
 
-    <dialog id="delete_modal_{info.id}" class="modal">
-        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+    <div class="flex items-center">
+        <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
+    </div>
+</li>
+
+{#if showModal}
+    <div use:portal class="modal modal-open" style="z-index: 9999;" transition:fade={{ duration: 200 }}>
+        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700" transition:scale={{ duration: 200, start: 0.95 }}>
             <h3 class="text-lg font-bold"><span class="text-primary">Delete</span> your review?</h3>
-            <p class="py-4 text-stone-400 text-sm">Caution: This action cannot be undone.</p>
+            <p class="py-4 text-stone-400 text-sm"><span class="text-primary">Caution:</span> This action cannot be undone.</p>
             <div class="flex justify-center gap-3">
                 <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isDeleting}>Cancel</button>
                 <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={deleteReview} disabled={isDeleting}>
@@ -74,9 +93,5 @@
                 </button>
             </div>
         </div>
-    </dialog>
-
-    <div class="flex items-center">
-        <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
     </div>
-</li>
+{/if}

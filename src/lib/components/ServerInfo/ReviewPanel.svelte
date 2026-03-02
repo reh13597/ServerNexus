@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { ServerProfile } from '../types/serverInfo';
-  import type { ReviewInfo } from '../types/reviewInfo';
-  import { userID, username } from '../stores/user';
+  import type { ServerProfile } from '../../types/serverInfo';
+  import type { ReviewInfo } from '../../types/reviewInfo';
+  import { userID, username } from '../../stores/user';
   import ReviewElement from './ReviewElement.svelte';
-  import { supabase } from '../supabase';
+  import { supabase } from '../../supabase';
   import { onDestroy } from 'svelte';
 
   export let profile: ServerProfile;
