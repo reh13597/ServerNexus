@@ -110,7 +110,7 @@
 
 <div class="container mx-auto px-5 pb-5" style="min-height: calc(100vh - 200px);">
     <h1 class="text-xl md:text-2xl lg:text-3xl font-bold mt-25 md:mt-30 select-none">Fetch the data of any Minecraft server</h1>
-    <p class="mt-5 text-sm md:text-md text-stone-400">Get information like live status, player count, required version, and more.</p>
+    <p class="mt-5 text-sm md:text-md text-stone-400 select-none">Get information like live status, player count, required version, and more.</p>
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}

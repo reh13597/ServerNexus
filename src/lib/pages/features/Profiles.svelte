@@ -84,8 +84,8 @@
 
 <div class="px-5" style="min-height: calc(100vh - 200px);">
     <h1 class="text-xl md:text-2xl lg:text-3xl font-bold mt-25 md:mt-30 select-none">View your own profile and browse through others</h1>
-    <p class="mt-5 text-sm md:text-md text-stone-400">See your saved servers, ratings & reviews, and check out other people's profiles.</p>
-    <p class="mt-5 text-sm md:text-md text-primary">This page is under construction.</p>
+    <p class="mt-5 text-sm md:text-md text-stone-400 select-none">See your saved servers, ratings & reviews, and check out other people's profiles.</p>
+    <p class="mt-5 text-sm md:text-md text-primary select-none">This page is under construction.</p>
 </div>
 
 <!-- <form on:submit|preventDefault={createProfile} class="mt-15 flex flex-col items-center space-y-4">
