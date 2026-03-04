@@ -146,13 +146,13 @@
                 </a>
             </div>
             <div class="tabs tabs-lift mb-10 drop-shadow-xl/80">
-                <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-10">
+                <input type="radio" name="my_tabs_3" class="tab text-md md:text-lg text-primary hover:text-primary" aria-label="Server Info" checked />
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-5 md:p-10">
                     <ServerPanel profile={profile} data={$serverData}  />
                 </div>
 
-                <input type="radio" name="my_tabs_3" class="tab text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
-                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-10">
+                <input type="radio" name="my_tabs_3" class="tab text-md md:text-lg text-primary hover:text-primary" aria-label="Ratings & Reviews" />
+                <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-5 md:p-10">
                     <ReviewPanel profile={profile}/>
                 </div>
             </div>

@@ -8,10 +8,17 @@
 
     export let profile: ServerProfile;
     let btnActive = false;
+    let copied = false;
 
     function goTo() {
         $serverID = profile.id;
         push(`/server-info/${profile.id}`);
+    }
+
+    async function copyToClipboard() {
+        await navigator.clipboard.writeText(profile.host);
+        copied = true;
+        setTimeout(() => copied = false, 3000);
     }
 
     async function saveOrUnsave() {
@@ -67,7 +74,14 @@
 <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <div class="flex items-center gap-2 md:gap-4">
         <img src={profile.icon} alt="Server Icon" class="rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 select-none" />
-        <div class="text-xs md:text-lg lg:text-xl text-left">{profile.host}</div>
+        <div class="cursor-pointer text-xs md:text-lg lg:text-xl text-left" on:click={copyToClipboard}>
+            {profile.host}
+            {#if copied}
+                <i class="text-xs md:text-sm fa-solid fa-check text-green-500"></i>
+            {:else}
+                <i class="text-xs md:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+            {/if}
+        </div>
     </div>
 
     <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-xl md:text-lg text-sm">
@@ -76,10 +90,10 @@
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
 
-        <a on:click={() => saveOrUnsave()} class="inline-flex w-fit hover:scale-110 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+        <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
             <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
         </a>
-        <a on:click={() => goTo()} class="inline-flex w-fit hover:scale-110 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="View Button">
+        <a on:click={() => goTo()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-200 hover:cursor-pointer hover:text-primary" aria-label="View Button">
             <i class="fa-arrow-right fa-solid"></i>
         </a>
     </div>

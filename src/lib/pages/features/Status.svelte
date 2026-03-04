@@ -114,7 +114,7 @@
     <form on:submit|preventDefault={initServerData} class="mt-10 flex flex-col items-center space-y-4">
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverIp}
-                required placeholder="hypixel.net" class="input validator bg-base-300" minlength="7" maxlength="30"
+                required placeholder="hypixel.net" class="drop-shadow-xl/80 input validator bg-base-300" minlength="7" maxlength="30"
                 title="Server IP"/>
             <p class="validator-hint hidden">
                 Enter a valid server IP address.
@@ -123,7 +123,7 @@
         </div>
         <div class="flex flex-col space-y-2 w-full max-w-xs">
             <input type="input" bind:value={$serverPort}
-                required placeholder="25565" class="input validator bg-base-300" minlength="5" maxlength="5"
+                required placeholder="25565" class="drop-shadow-xl/80 input validator bg-base-300" minlength="5" maxlength="5"
                 title="Server Port" pattern="[0-9]+"/>
             <p class="validator-hint hidden">
                 Enter a valid server port number.
