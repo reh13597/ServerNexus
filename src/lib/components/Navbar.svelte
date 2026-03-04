@@ -74,7 +74,7 @@
   }
 </script>
 
-<div class="navbar border-b border-neutral bg-black h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-20 lg:gap-40">
+<div class="navbar border-b border-neutral bg-black h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-35 lg:gap-40">
   <div class="navbar-start flex-none w-auto">
     <a
       class="hover:text-primary transition-colors font-bold text-md md:text-xl flex items-center gap-2"
@@ -146,7 +146,7 @@
     <div class="relative lg:hidden" bind:this={hamburgerDropdownEl}>
       <a
         type="button"
-        class="inline-flex w-fit hover:cursor-pointer hover:text-primary transition-colors mt-1 md:mt-2"
+        class="inline-flex w-fit hover:cursor-pointer hover:scale-110 hover:text-primary transition duration-200 mt-1 md:mt-2"
         class:text-primary={isActivePath('/') || isActivePath('/home') || isActivePath('/status') || isExploreActive() || isActivePath('/profiles') || isActivePath ('/about') || isActivePath('/contact')}
         aria-label="Hamburger"
         aria-haspopup="menu"
@@ -238,7 +238,7 @@
     <div class="relative" bind:this={accountDropdownEl}>
       <a
         type="button"
-        class="inline-flex w-fit hover:cursor-pointer hover:text-primary transition-colors md:mt-1"
+        class="inline-flex w-fit hover:cursor-pointer hover:scale-115 hover:text-primary transition duration-200 md:mt-1.5"
         class:text-primary={isActivePath('/account') || isActivePath('/login') || isActivePath('/signup')}
         aria-label="Account menu"
         aria-haspopup="menu"

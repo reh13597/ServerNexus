@@ -12,7 +12,9 @@
     let showModal = false;
 
     function portal(node: HTMLElement) {
-        document.body.appendChild(node);
+        requestAnimationFrame(() => {
+            document.body.appendChild(node);
+        });
 
         return {
             destroy() {
@@ -67,7 +69,7 @@
                 class="cursor-pointer text-md md:text-lg ml-auto"
                 aria-label="delete icon"
             >
-                <i class="fa-solid fa-trash-can hover:text-primary transition-colors"></i>
+                <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-200"></i>
             </a>
         {/if}
     </div>

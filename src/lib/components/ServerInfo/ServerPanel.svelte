@@ -4,6 +4,14 @@
 
     export let profile: ServerProfile;
     export let data: ServerData;
+
+    let copied: string | number | null = null;
+
+    async function copyToClipboard(text: string | number) {
+        await navigator.clipboard.writeText(String(text));
+        copied = text;
+        setTimeout(() => copied = null, 3000);
+    }
 </script>
 
 <div class="flex flex-col w-full xl:flex-row gap-5">
@@ -24,7 +32,14 @@
                     {#if !data.online && !$error}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="text-md lg:text-lg text-stone-400">{data.host}</div>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.host)}>
+                            {data.host}
+                            {#if copied === data.host}
+                                <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
+                            {:else}
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                            {/if}
+                        </div>
                     {/if}
                 </div>
 
@@ -33,7 +48,14 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="text-md lg:text-lg text-stone-400">{data.port}</div>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.port)}>
+                            {data.port}
+                            {#if copied === data.port}
+                                <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
+                            {:else}
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                            {/if}
+                        </div>
                     {/if}
                 </div>
 
@@ -42,7 +64,14 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="text-md lg:text-lg text-stone-400">{data.ip_address}</div>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.ip_address)}>
+                            {data.ip_address}
+                            {#if copied === data.ip_address}
+                                <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
+                            {:else}
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                            {/if}
+                        </div>
                     {/if}
                 </div>
 
@@ -51,7 +80,7 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="text-md lg:text-lg select-none text-stone-400">{data.players.online}/{data.players.max}</div>
+                        <div class="text-md lg:text-lg select-none text-stone-400">{data.players.online} / {data.players.max}</div>
                     {/if}
                 </div>
 
@@ -130,7 +159,7 @@
                         <div class="text-md lg:text-xl select-none">Icon</div>
                         {#if data.icon}
                             <div class="flex justify-center items-center">
-                                <img src={data.icon} alt="Server Icon" class="w-10 h-10 sm:w-10 sm:h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 object-contain select-none">
+                                <img src={data.icon} alt="Server Icon" class="w-10 h-10 lg:w-15 lg:h-15 object-contain select-none">
                             </div>
                         {:else}
                             <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
@@ -140,7 +169,7 @@
                     <div class="stat flex flex-col items-center gap-5">
                         <div class="text-md lg:text-xl select-none">MOTD</div>
                         {#if data.motd}
-                            <div class="text-sm md:text-md lg:text-lg select-none">{@html data.motd.html}</div>
+                            <div class="text-sm lg:text-md select-none">{@html data.motd.html}</div>
                         {:else}
                             <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                         {/if}
