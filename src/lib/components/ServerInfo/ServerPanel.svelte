@@ -37,7 +37,7 @@
                             {#if copied === data.host}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
                             {:else}
-                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
                             {/if}
                         </div>
                     {/if}
@@ -53,7 +53,7 @@
                             {#if copied === data.port}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
                             {:else}
-                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
                             {/if}
                         </div>
                     {/if}
@@ -69,7 +69,7 @@
                             {#if copied === data.ip_address}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
                             {:else}
-                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                                <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
                             {/if}
                         </div>
                     {/if}
