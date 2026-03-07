@@ -79,7 +79,7 @@
             {#if copied}
                 <i class="text-xs md:text-sm fa-solid fa-check text-green-500"></i>
             {:else}
-                <i class="text-xs md:text-sm fa-regular fa-copy hover:text-primary hover:scale-110 transition duration-200"></i>
+                <i class="text-xs md:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
             {/if}
         </div>
     </div>

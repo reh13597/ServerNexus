@@ -29,6 +29,7 @@
         if (!uid) {
             console.error('Login succeeded but no user ID found.');
             loginError = true;
+            isLoading = false;
             return;
         }
 
@@ -77,13 +78,15 @@
                 {#if loginError}
                     <p class="text-error text-xs mt-2">Invalid email or password. Try again.</p>
                 {/if}
-                </div>
+            </div>
             <div class="mt-5">
-                {#if !isLoading}
-                    <button disabled={!$canLogin} class="btn btn-primary w-full hover:scale-102 transition duration-200">Login</button>
-                {:else}
-                    <span class="loading loading-spinner loading-xl scale-100 text-primary"></span>
-                {/if}
+                <button disabled={!$canLogin} class="btn btn-primary w-full hover:scale-102 transition duration-200">
+                    {#if isLoading && !loginError}
+                        <span class="loading loading-spinner loading-sm"></span> Logging in...
+                    {:else}
+                        Login
+                    {/if}
+                </button>
                 <p class="mt-5 text-sm select-none">Don't have an account yet?
                     <a class="text-sm text-primary hover:underline" href="#/signup">Sign up!</a>
                 </p>

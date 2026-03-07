@@ -13,10 +13,6 @@
 
     function closeModal() {
         (document.getElementById(`signup_modal`) as HTMLDialogElement)?.close();
-    }
-
-    function closeAlert() {
-        showAlert = false;
         push('/login');
     }
 
@@ -109,7 +105,7 @@
 
 <dialog id="signup_modal" class="modal">
     <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-        <h3 class="text-lg font-bold">Please check your email for a confirmation link.</h3>
+        <h3 class="text-lg font-bold">Please check your <span class="text-primary">email</span> for a confirmation link.</h3>
         <div class="flex justify-center gap-3">
             <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal}>Close</button>
         </div>
