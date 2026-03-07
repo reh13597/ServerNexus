@@ -126,56 +126,85 @@
     {/if}
   </ul>
 
-  <div class="flex flex-col gap-5 flex-1">
-    <div>
-      <h1 class="text-sm md:text-md lg:text-lg">Rate & Review the server</h1>
+  <div class="flex flex-col gap-10">
+    <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
+      <div class="card-body">
+        <div class="stats">
+          <div class="stat flex flex-col items-center gap-5">
+            <div class="flex items-center gap-1">
+              <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+              <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
+            </div>
+          </div>
+
+          <div class="stat flex flex-col items-center gap-5">
+            <div class="flex items-center gap-1">
+              <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
+              <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
+            </div>
+          </div>
+
+          <div class="stat flex flex-col items-center gap-5">
+            <div class="flex items-center gap-1">
+              <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+              <p class="select-none text-stone-400">{profile.save_count} Saves</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="rating justify-center">
-      {#each [1, 2, 3, 4, 5] as star}
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-primary"
-          aria-label="{star} star"
-          value={star}
-          checked={selectedRating === star}
-          on:change={() => selectedRating = star}
-        />
-      {/each}
-    </div>
+    <div class="flex flex-col gap-5 flex-1">
+      <div>
+        <h1 class="text-sm md:text-md lg:text-lg">Rate & Review the server</h1>
+      </div>
 
-    <div>
-      <textarea
-        id="message"
-        name="message"
-        rows="4"
-        placeholder="Write your review here..."
-        class="textarea textarea-bordered w-full mb-3 bg-base-300"
-        bind:value={reviewText}
-      ></textarea>
-      {#if charsRemaining > 0 && !submitError}
-        <p class="text-xs text-stone-400">{charsRemaining} more character{charsRemaining !== 1 ? 's' : ''} required</p>
-      {/if}
-      {#if submitError}
-        <p class="text-error text-xs">Error: You can only submit one review per server.</p>
-      {/if}
-      {#if submitSuccess}
-        <p class="text-success text-xs">Review submitted successfully!</p>
-      {/if}
-    </div>
+      <div class="rating justify-center">
+        {#each [1, 2, 3, 4, 5] as star}
+          <input
+            type="radio"
+            name="rating-2"
+            class="mask mask-star-2 bg-primary"
+            aria-label="{star} star"
+            value={star}
+            checked={selectedRating === star}
+            on:change={() => selectedRating = star}
+          />
+        {/each}
+      </div>
 
-    <button
-      type="submit"
-      class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-200"
-      disabled={!isFormValid || isSubmitting}
-      on:click={handleSubmit}
-    >
-      {#if isSubmitting}
-        <span class="loading loading-spinner loading-sm"></span> Submitting...
-      {:else}
-        Submit Review
-      {/if}
-    </button>
+      <div>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          placeholder="Write your review here..."
+          class="textarea textarea-bordered w-full mb-3 bg-base-300"
+          bind:value={reviewText}
+        ></textarea>
+        {#if charsRemaining > 0 && !submitError}
+          <p class="text-xs text-stone-400">{charsRemaining} more character{charsRemaining !== 1 ? 's' : ''} required</p>
+        {/if}
+        {#if submitError}
+          <p class="text-error text-xs">Error: You can only submit one review per server.</p>
+        {/if}
+        {#if submitSuccess}
+          <p class="text-success text-xs">Review submitted successfully!</p>
+        {/if}
+      </div>
+
+      <button
+        type="submit"
+        class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-200"
+        disabled={!isFormValid || isSubmitting}
+        on:click={handleSubmit}
+      >
+        {#if isSubmitting}
+          <span class="loading loading-spinner loading-sm"></span> Submitting...
+        {:else}
+          Submit Review
+        {/if}
+      </button>
+    </div>
   </div>
 </div>

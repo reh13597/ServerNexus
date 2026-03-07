@@ -64,13 +64,15 @@
     <form on:submit|preventDefault={login} class="drop-shadow-xl/80 card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 border-1 border-neutral">
         <div class="card-body">
             <div>
+                <label for="email" class="block text-sm font-semibold mb-3 text-left">Enter Email</label>
                 <input bind:value={$email} type="input" class="input validator bg-base-300"
-                    required placeholder="Enter Email" title="Username" minlength="3" maxlength="32"
+                    required placeholder="herobrine@nether.com" title="Username" minlength="3" maxlength="32"
                     pattern="[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]+" />
             </div>
             <div class="mt-5">
+                <label for="password" class="block text-sm font-semibold mb-3 text-left">Enter Password</label>
                 <input bind:value={$password} type="password" class="input validator bg-base-300"
-                    required placeholder="Enter Password" minlength="8" title="Password"
+                    required placeholder="ihatesteve123$" minlength="8" title="Password"
                     pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} />
                 {#if loginError}
                     <p class="text-error text-xs mt-2">Invalid email or password. Try again.</p>
