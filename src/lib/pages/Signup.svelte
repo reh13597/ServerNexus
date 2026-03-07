@@ -56,7 +56,8 @@
     <form on:submit|preventDefault={signup} class="drop-shadow-xl/80 card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
         <div class="card-body">
             <div>
-                <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="Enter Email"
+                <label for="email" class="block text-sm font-semibold mb-3 text-left">Enter Email</label>
+                <input bind:value={$email} class="input validator bg-base-300" type="email" required placeholder="herobrine@nether.com"
                     pattern="[A-Za-z0-9.]+@[A-Za-z0-9]+\.[A-Za-z]+"/>
                 <p class="validator-hint hidden">
                     Enter valid email address
@@ -64,8 +65,9 @@
                 </p>
             </div>
             <div class="mt-5">
+                <label for="username" class="block text-sm font-semibold mb-3 text-left">Create Username</label>
                 <input bind:value={$username} type="input" class="input validator bg-base-300"
-                    required placeholder="Create Username" minlength="4" maxlength="20"
+                    required placeholder="herobrine_goat_666" minlength="4" maxlength="20"
                     title="Username" pattern="[A-Za-z0-9]*" />
                 <p class="validator-hint hidden">
                     Username can only contain:
@@ -74,8 +76,9 @@
                 </p>
             </div>
             <div class="mt-5">
+                <label for="password" class="block text-sm font-semibold mb-3 text-left">Create Password</label>
                 <input bind:value={$password} type="password" class="input validator bg-base-300"
-                    required placeholder="Create Password" minlength="8" maxlength="20" title="Password"
+                    required placeholder="ihatesteve123$" minlength="8" maxlength="20" title="Password"
                     pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} />
                 <p class="validator-hint hidden">
                     Password must contain:
