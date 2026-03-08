@@ -1,7 +1,7 @@
 <script lang="ts">
     import { supabase } from '../supabase';
     import { userID } from '../stores/user';
-    import { email, password, canLogin, isLoggedIn } from '../stores/login';
+    import { email, password, canLogin, isLoggedIn, suppressAuthListener } from '../stores/login';
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
 
@@ -46,9 +46,11 @@
             return;
         }
 
+        suppressAuthListener.set(true);
+        await new Promise(r => setTimeout(r, 500));
         isLoggedIn.set(true);
+        suppressAuthListener.set(false);
         push('/');
-        await new Promise(r => setTimeout(r, 1000));
         isLoading = false;
     }
 

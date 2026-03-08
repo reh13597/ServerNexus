@@ -184,7 +184,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-col justify-between gap-5">
+                            <div class="flex flex-col gap-5">
 
                             <div class="drop-shadow-xl/80 card bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
                                 <div class="card-body flex flex-col gap-0">
@@ -207,7 +207,6 @@
                                         {#each [0,1,2] as _}
                                         <div class="stat flex flex-col items-center gap-5">
                                             <div class="skeleton h-5 w-24"></div>
-                                            <div class="skeleton h-5 w-12"></div>
                                         </div>
                                         {/each}
                                     </div>

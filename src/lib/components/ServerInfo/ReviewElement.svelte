@@ -88,7 +88,7 @@
                 <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isDeleting}>Cancel</button>
                 <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={deleteReview} disabled={isDeleting}>
                     {#if isDeleting}
-                        <span class="loading loading-spinner loading-xs"></span>
+                        <span class="loading loading-spinner loading-xs"></span>Deleting...
                     {:else}
                         Delete
                     {/if}

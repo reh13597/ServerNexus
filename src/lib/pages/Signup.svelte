@@ -4,7 +4,6 @@
     import { onDestroy } from 'svelte';
     import { push } from 'svelte-spa-router';
 
-    let showAlert = false;
     let isLoading = false;
 
     function openModal() {
@@ -64,11 +63,11 @@
                 <label for="username" class="block text-sm font-semibold mb-3 text-left">Create Username</label>
                 <input bind:value={$username} type="input" class="input validator bg-base-300"
                     required placeholder="herobrine_goat_666" minlength="4" maxlength="20"
-                    title="Username" pattern="[A-Za-z0-9]*" />
+                    title="Username" pattern="[A-Za-z0-9_]*" />
                 <p class="validator-hint hidden">
                     Username can only contain:
                     <br/>4-20 characters
-                    <br/>Letters and numbers
+                    <br/>Letters, numbers and underscores
                 </p>
             </div>
             <div class="mt-5">

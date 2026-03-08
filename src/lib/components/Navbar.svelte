@@ -1,6 +1,6 @@
 <script lang="ts">
   import { supabase } from '../supabase';
-  import { isLoggedIn } from '../stores/login';
+  import { isLoggedIn, suppressAuthListener } from '../stores/login';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
 
@@ -45,6 +45,7 @@
   }
 
   async function logout() {
+    isLoggingOut = true;
     const { error } = await supabase.auth.signOut();
 
     if (error) {
@@ -53,11 +54,13 @@
       closeModal();
       return;
     } else {
-      isLoggingOut = true;
+      suppressAuthListener.set(true);
+      await new Promise(r => setTimeout(r, 500));
       isLoggedIn.set(false);
+      suppressAuthListener.set(false);
+      isLoggingOut = false;
       closeModal();
       push('/home');
-      isLoggingOut = false;
     }
   }
 
@@ -299,7 +302,7 @@
           <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isLoggingOut}>Cancel</button>
           <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={logout} disabled={isLoggingOut}>
               {#if isLoggingOut}
-                  <span class="loading loading-spinner loading-xs"></span>
+                  <span class="loading loading-spinner loading-xs"></span>Logging out...
               {:else}
                   Log Out
               {/if}
