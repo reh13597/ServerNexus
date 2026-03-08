@@ -73,7 +73,7 @@
             <div class="mt-5">
                 <label for="password" class="block text-sm font-semibold mb-3 text-left">Create Password</label>
                 <input bind:value={$password} type="password" class="input validator bg-base-300"
-                    required placeholder="ihatesteve123$" minlength="8" maxlength="20" title="Password"
+                    required placeholder="Ihatesteve123$" minlength="8" maxlength="20" title="Password"
                     pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} />
                 <p class="validator-hint hidden">
                     Password must contain:
