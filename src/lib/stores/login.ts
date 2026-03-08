@@ -15,6 +15,7 @@ export const canLogin = derived(
 
 export const isLoggedIn = writable(false);
 export const authReady = writable(false);
+export const suppressAuthListener = writable(false); // add this
 
 function setUserData(session) {
   if (session?.user) {
@@ -33,6 +34,10 @@ supabase.auth.getSession().then(({ data: { session } }) => {
 });
 
 supabase.auth.onAuthStateChange((_event, session) => {
+  if (suppressAuthListener) {
+    return;
+  }
+
   isLoggedIn.set(!!session);
   setUserData(session);
   authReady.set(true);
