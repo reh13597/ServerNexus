@@ -15,7 +15,7 @@ export const canLogin = derived(
 
 export const isLoggedIn = writable(false);
 export const authReady = writable(false);
-export const suppressAuthListener = writable(false); // add this
+export const suppressAuthListener = writable(false);
 
 function setUserData(session) {
   if (session?.user) {

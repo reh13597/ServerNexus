@@ -1,6 +1,6 @@
 <script lang="ts">
     import { supabase } from '../supabase';
-    import { userID } from '../stores/user';
+    import { userID, username } from '../stores/user';
     import { email, password, canLogin, isLoggedIn, suppressAuthListener } from '../stores/login';
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
@@ -35,15 +35,17 @@
 
         userID.set(uid);
 
-        const { error: usernameError } = await supabase
+        const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('username')
             .eq('id', uid)
             .maybeSingle()
 
-        if (usernameError) {
-            console.error('Error fetching username:', usernameError);
+        if (profileError) {
+            console.error('Error fetching username:', profileError);
             return;
+        } else if (profile?.username) {
+            username.set(profile.username);
         }
 
         suppressAuthListener.set(true);
@@ -78,7 +80,7 @@
                     required placeholder="Ihatesteve123$" minlength="8" title="Password"
                     pattern={"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-za-z0-9]).{8,}"} />
                 {#if loginError}
-                    <p class="text-error text-xs mt-2">Invalid email or password. Try again.</p>
+                    <p class="text-error text-xs mt-2">Error: Invalid email or password. Please try again.</p>
                 {/if}
             </div>
             <div class="mt-5">
