@@ -69,7 +69,7 @@
                 }
             }
         } catch (err) {
-            $error = 'Failed to fetch server data.';
+            $error = 'Error: Failed to fetch server data.';
             console.error($error);
             $serverData = {
                 online: false,
@@ -133,7 +133,7 @@
         {#if $error}
             <p class="text-error text-xs">
                 {$error}
-                <br/>Invalid IP or Port, try again.
+                <br/>Invalid IP or Port, please try again.
             </p>
         {/if}
         <div class="flex flex-col items-center gap-5">
