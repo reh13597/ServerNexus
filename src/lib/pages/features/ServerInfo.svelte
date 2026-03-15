@@ -173,39 +173,41 @@
 
                             <div class="drop-shadow-xl/80 card xl:min-w-lg h-[60vh] overflow-y-auto bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
                                 <div class="card-body flex flex-col gap-4">
-                                    <div class="stats stats-vertical">
-                                        {#each [0,1,2,3,4,5,6,7,8,9,10, 11] as _}
-                                            <div class="stat flex flex-row items-center gap-10 py-2">
-                                                <div class="skeleton h-7 min-w-30 w-30"></div>
-                                                <div class="skeleton h-7 w-32"></div>
+                                    <div class="stats stats-vertical bg-transparent shadow-none">
+                                        {#each [0,1,2,3,4,5,6,7,8,9,10,11] as _}
+                                            <div class="stat flex flex-row items-center gap-10 py-3 border-neutral/50">
+                                                <div class="skeleton h-6 w-1/4 min-w-[100px]"></div>
+                                                <div class="skeleton h-6 w-1/2"></div>
                                             </div>
                                         {/each}
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="flex flex-col gap-5">
+                            <div class="flex flex-col gap-5 w-full xl:w-auto">
 
-                            <div class="drop-shadow-xl/80 card bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
+                            <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral w-full">
                                 <div class="card-body flex flex-col gap-0">
-                                    <div class="stats stats-vertical">
-                                        <div class="stat flex flex-col items-center gap-5">
-                                            <div class="skeleton h-5 w-18"></div>
-                                            <div class="skeleton w-18 h-16 rounded-lg"></div>
+                                    <div class="stats stats-vertical bg-transparent shadow-none">
+                                        <div class="stat flex flex-col items-center gap-5 border-neutral/50">
+                                            <div class="skeleton h-6 w-20"></div>
+                                            <div class="skeleton w-16 h-16 rounded-lg"></div>
                                         </div>
-                                        <div class="stat flex flex-col items-center gap-5">
-                                            <div class="skeleton h-5 w-18"></div>
-                                            <div class="skeleton h-5 w-52"></div>
+                                        <div class="stat flex flex-col items-center gap-5 border-none">
+                                            <div class="skeleton h-6 w-20"></div>
+                                            <div class="skeleton h-5 w-full max-w-[300px]"></div>
+                                            <div class="skeleton h-5 w-3/4 max-w-[300px]"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="drop-shadow-xl/80 card bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
+                            <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral w-full">
                                 <div class="card-body">
-                                    <div class="stats">
+                                    <div class="stats bg-transparent shadow-none w-full">
                                         {#each [0,1,2] as _}
-                                        <div class="stat flex flex-col items-center gap-5">
+                                        <div class="stat flex flex-col items-center gap-5 border-neutral/50">
+                                            <div class="skeleton h-4 w-12 mb-2"></div>
                                             <div class="skeleton h-5 w-24"></div>
                                         </div>
                                         {/each}

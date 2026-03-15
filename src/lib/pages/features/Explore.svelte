@@ -12,13 +12,11 @@
     let isLoading = false;
     let searchQuery = '';
 
-    $: filteredServers = (btnActive ? savedServers : servers).filter(server => 
+    $: filteredServers = (btnActive ? savedServers : servers).filter(server =>
       server.host.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     async function getServerData() {
-      isLoading = true;
-
       const { data, error } = await supabase
         .from('servers_with_rating')
         .select('id, host, port, icon, avg_rating')
@@ -27,15 +25,10 @@
         console.error('Error fetching servers:', error);
       } else {
         servers = data ?? [];
-        isLoading = false;
       }
     }
 
-    async function viewSaved() {
-      if (!btnActive) {
-        btnActive = true;
-        isLoading = true;
-
+    async function getSavedServers() {
         const { data, error } = await supabase
           .from('saved_servers_with_rating')
           .select('id, host, port, icon, avg_rating')
@@ -45,26 +38,19 @@
           console.error('Error fetching saved servers:', error);
         } else {
           savedServers = data ?? [];
-
-          if (savedServers.length === 0) {
-            emptyList = true;
-          } else {
-            emptyList = false;
-          }
-
-          await new Promise(r => setTimeout(r, 400));
-          isLoading = false;
+          emptyList = savedServers.length === 0;
         }
-      } else {
-        isLoading= true;
-        await new Promise(r => setTimeout(r, 400));
-        isLoading = false;
-        btnActive = false;
-      }
     }
 
-    onMount(() => {
-      getServerData();
+    async function viewSaved() {
+      btnActive = !btnActive;
+    }
+
+    onMount(async () => {
+      isLoading = true;
+      await Promise.all([getServerData(), getSavedServers()]);
+      await new Promise(r => setTimeout(r, 400));
+      isLoading = false;
     });
 </script>
 <div class="px-5 pb-12">
@@ -107,13 +93,13 @@
     {:else}
       <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] space-y-5">
         {#each [0, 1, 2, 3] as _}
-          <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700">
+          <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
             <div class="flex items-center gap-3">
-              <div class="skeleton rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12"></div>
-              <div class="skeleton h-6 w-32 md:w-48"></div>
+              <div class="skeleton rounded-lg w-10 h-10 md:w-12 md:h-12"></div>
+              <div class="skeleton h-6 w-24 md:w-48"></div>
             </div>
             <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6">
-              <div class="skeleton h-5 w-10"></div>
+              <div class="skeleton h-5 w-8 md:w-12"></div>
               <div class="skeleton h-5 w-5"></div>
               <div class="skeleton h-5 w-5"></div>
             </div>
