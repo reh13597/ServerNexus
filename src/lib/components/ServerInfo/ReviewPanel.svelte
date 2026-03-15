@@ -130,25 +130,19 @@
     <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
       <div class="card-body">
         <div class="stats">
-          <div class="stat flex flex-col items-center gap-5">
-            <div class="flex items-center gap-1">
-              <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
-              <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
-            </div>
+          <div class="stat flex flex-col items-center gap-1">
+            <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+            <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
           </div>
 
-          <div class="stat flex flex-col items-center gap-5">
-            <div class="flex items-center gap-1">
-              <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
-              <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
-            </div>
+          <div class="stat flex flex-col items-center gap-1">
+            <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
+            <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
           </div>
 
-          <div class="stat flex flex-col items-center gap-5">
-            <div class="flex items-center gap-1">
-              <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
-              <p class="select-none text-stone-400">{profile.save_count} Saves</p>
-            </div>
+          <div class="stat flex flex-col items-center gap-1">
+            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+            <p class="select-none text-stone-400">{profile.save_count} Saves</p>
           </div>
         </div>
       </div>

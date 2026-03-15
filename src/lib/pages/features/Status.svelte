@@ -157,12 +157,12 @@
             {#each ['Server Information', 'Connection Details', 'Miscellaneous'] as title}
                 <div class="drop-shadow-xl/80 card card-sm w-full min-h-[372px] bg-gradient-to-tr from-black to-zinc-700 border-1 border-neutral">
                     <div class="card-body">
-                        <div class="skeleton h-7 w-48 mx-auto mb-2"></div>
-                        <div class="stats stats-vertical shadow">
+                        <div class="skeleton h-7 w-2/3 mx-auto mb-4"></div>
+                        <div class="stats stats-vertical shadow bg-transparent">
                             {#each [0, 1, 2] as _}
-                                <div class="stat flex flex-col items-center">
-                                    <div class="skeleton h-6 w-24 mb-3"></div>
-                                    <div class="skeleton h-5 w-32"></div>
+                                <div class="stat flex flex-col items-center border-neutral/50">
+                                    <div class="skeleton h-6 w-1/3 mb-3"></div>
+                                    <div class="skeleton h-5 w-1/2"></div>
                                 </div>
                             {/each}
                         </div>
