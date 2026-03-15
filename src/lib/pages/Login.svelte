@@ -1,7 +1,6 @@
 <script lang="ts">
     import { supabase } from '../supabase';
-    import { userID, username } from '../stores/user';
-    import { email, password, canLogin, isLoggedIn, suppressAuthListener } from '../stores/login';
+    import { email, password, canLogin } from '../stores/login';
     import { push } from 'svelte-spa-router';
     import { onDestroy } from 'svelte';
 
@@ -21,6 +20,7 @@
             loginError = true;
             email.set('');
             password.set('');
+            isLoading = false;
             return;
         }
 
@@ -33,25 +33,6 @@
             return;
         }
 
-        userID.set(uid);
-
-        const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('username')
-            .eq('id', uid)
-            .maybeSingle()
-
-        if (profileError) {
-            console.error('Error fetching username:', profileError);
-            return;
-        } else if (profile?.username) {
-            username.set(profile.username);
-        }
-
-        suppressAuthListener.set(true);
-        await new Promise(r => setTimeout(r, 500));
-        isLoggedIn.set(true);
-        suppressAuthListener.set(false);
         push('/');
         isLoading = false;
     }
@@ -63,7 +44,7 @@
 </script>
 
 <div class="px-5 select-none" style="min-height: calc(100vh - 200px);">
-    <h1 class="lg:text-5xl md:text-3xl text-2xl mt-25 md:mt-30 font-bold">Welcome Back!</h1>
+    <h1 class="lg:text-5xl md:text-3xl text-2xl mt-25 md:mt-30 font-bold">Welcome Back</h1>
     <p class="text-md md:text-lg mt-10 text-stone-400">One step away from greatness...</p>
 
     <form on:submit|preventDefault={login} class="drop-shadow-xl/80 card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">

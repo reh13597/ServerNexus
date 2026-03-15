@@ -1,6 +1,6 @@
 <script lang="ts">
   import { supabase } from '../supabase';
-  import { isLoggedIn, suppressAuthListener } from '../stores/login';
+  import { isLoggedIn } from '../stores/login';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
 
@@ -54,10 +54,6 @@
       closeModal();
       return;
     } else {
-      suppressAuthListener.set(true);
-      await new Promise(r => setTimeout(r, 500));
-      isLoggedIn.set(false);
-      suppressAuthListener.set(false);
       isLoggingOut = false;
       closeModal();
       push('/home');
@@ -132,17 +128,34 @@
           href="#/home"
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/home')}
-          class:text-primary={isActivePath('/home')}>Home</a>
+          class:text-primary={isActivePath('/home')}
+          >
+          Home
+        </a>
         <a
           href="#/about"
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/about')}
-          class:text-primary={isActivePath('/about')}>About</a>
+          class:text-primary={isActivePath('/about')}
+          >
+          About
+        </a>
         <a
           href="#/contact"
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/contact')}
-          class:text-primary={isActivePath('/contact')}>Contact</a>
+          class:text-primary={isActivePath('/contact')}
+        >
+          Contact
+        </a>
+        <a
+          href="#/login"
+          class="hover:text-primary transition-colors"
+          class:text-white={!isActivePath('/login')}
+          class:text-primary={isActivePath('/login')}
+        >
+          Log In
+        </a>
       </nav>
     {/if}
 
@@ -165,7 +178,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/')}
                 class:text-primary-content={isActivePath('/')}
-                href="#/">Home</a>
+                href="#/"
+              >
+                Home
+              </a>
             </li>
 
             <li>
@@ -173,7 +189,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/status')}
                 class:text-primary-content={isActivePath('/status')}
-                href="#/status">Status</a>
+                href="#/status"
+              >
+                Status
+              </a>
             </li>
 
             <li>
@@ -181,7 +200,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isExploreActive()}
                 class:text-primary-content={isExploreActive()}
-                href="#/explore">Explore</a>
+                href="#/explore"
+              >
+                Explore
+              </a>
             </li>
 
             <li>
@@ -189,7 +211,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/profiles')}
                 class:text-primary-content={isActivePath('/profiles')}
-                href="#/profiles">Profiles</a>
+                href="#/profiles"
+              >
+                Profiles
+              </a>
             </li>
 
             <li>
@@ -197,7 +222,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/about')}
                 class:text-primary-content={isActivePath('/about')}
-                href="#/about">About</a>
+                href="#/about"
+              >
+                About
+              </a>
             </li>
 
             <li>
@@ -205,7 +233,10 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/contact')}
                 class:text-primary-content={isActivePath('/contact')}
-                href="#/contact">Contact</a>
+                href="#/contact"
+              >
+                Contact
+              </a>
             </li>
           </ul>
         {/if}
@@ -217,80 +248,100 @@
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/home')}
                 class:text-primary-content={isActivePath('/home')}
-                href="#/home">Home</a>
+                href="#/home"
+              >
+                Home
+              </a>
             </li>
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/about')}
                 class:text-primary-content={isActivePath('/about')}
-                href="#/about">About</a>
+                href="#/about"
+              >
+                About
+              </a>
             </li>
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/contact')}
                 class:text-primary-content={isActivePath('/contact')}
-                href="#/contact">Contact</a>
-            </li>
-          </ul>
-        {/if}
-      {/if}
-    </div>
-
-    <div class="relative" bind:this={accountDropdownEl}>
-      <a
-        type="button"
-        class="inline-flex w-fit hover:cursor-pointer hover:scale-115 hover:text-primary transition duration-200 md:mt-1.5"
-        class:text-primary={isActivePath('/account') || isActivePath('/login') || isActivePath('/signup')}
-        aria-label="Account menu"
-        aria-haspopup="menu"
-        aria-expanded={accountMenuOpen}
-        on:click|stopPropagation={() => (accountMenuOpen = !accountMenuOpen)}>
-          <i class="fa-regular fa-user text-md md:text-lg"></i>
-      </a>
-      {#if $isLoggedIn}
-        {#if accountMenuOpen}
-          <ul class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 w-max whitespace-nowrap p-2">
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/account')}
-                class:text-primary-content={isActivePath('/account')}
-                href="#/account">Account</a>
-            </li>
-
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                on:click={() => { openModal(); }}
-                >
-                Log Out
+                href="#/contact"
+              >
+                Contact
               </a>
             </li>
-          </ul>
-        {/if}
-      {:else}
-        {#if accountMenuOpen}
-          <ul class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 w-max whitespace-nowrap p-2">
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
                 class:bg-primary={isActivePath('/login')}
                 class:text-primary-content={isActivePath('/login')}
-                href="#/login">Log In</a>
-            </li>
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/signup')}
-                class:text-primary-content={isActivePath('/signup')}
-                href="#/signup">Sign Up</a>
+                href="#/login"
+              >
+                Log In
+              </a>
             </li>
           </ul>
         {/if}
       {/if}
     </div>
+
+    {#if $isLoggedIn}
+      <div class="relative" bind:this={accountDropdownEl}>
+        <a
+          class=""
+          aria-label="Account menu"
+          aria-haspopup="menu"
+          aria-expanded={accountMenuOpen}
+          on:click|stopPropagation={() => (accountMenuOpen = !accountMenuOpen)}
+        >
+          <img class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-200" src="src/assets/steve.jpg" alt="User avatar" />
+        </a>
+        {#if accountMenuOpen}
+          <ul class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 mt-3 rounded-box z-50 w-max whitespace-nowrap p-2">
+            <li>
+              <a
+                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
+                class:bg-primary={isActivePath('/account')}
+                class:text-primary-content={isActivePath('/account')}
+                href="#/account"
+              >
+                Account
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
+                class:bg-primary={isActivePath('/')}
+                class:text-primary-content={isActivePath('/')}
+                href="#/"
+              >
+                Profile
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center text-error"
+                on:click={() => { openModal(); }}
+              >
+                Log Out
+              </a>
+            </li>
+          </ul>
+        {/if}
+      </div>
+    {:else}
+      <div class="flex items-center gap-2 md:gap-4">
+        <a
+          href="#/signup"
+          class="btn btn-primary btn-sm lg:btn-md hover:scale-105 transition duration-200"
+        >
+          Get Started
+        </a>
+      </div>
+    {/if}
   </div>
 </div>
 
