@@ -15,31 +15,39 @@ export const canLogin = derived(
 
 export const isLoggedIn = writable(false);
 export const authReady = writable(false);
-export const suppressAuthListener = writable(false);
 
-function setUserData(session) {
+async function setUserData(session) {
   if (session?.user) {
     userID.set(session.user.id);
-    username.set(session.user.user_metadata?.username);
+    
+    // Fetch username from profiles table
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('id', session.user.id)
+      .maybeSingle();
+      
+    if (profile?.username) {
+      username.set(profile.username);
+    } else {
+      username.set(session.user.user_metadata?.username || '');
+    }
   } else {
     userID.set('');
     username.set('');
   }
 }
 
+// Initialize session
 supabase.auth.getSession().then(({ data: { session } }) => {
   isLoggedIn.set(!!session);
-  setUserData(session);
   authReady.set(true);
+  setUserData(session);
 });
 
 supabase.auth.onAuthStateChange((_event, session) => {
-  if (suppressAuthListener) {
-    return;
-  }
-
   isLoggedIn.set(!!session);
-  setUserData(session);
   authReady.set(true);
+  setUserData(session);
 });
 

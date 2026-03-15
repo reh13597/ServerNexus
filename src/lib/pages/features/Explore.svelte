@@ -5,11 +5,16 @@
     import { onMount } from 'svelte';
     import type { ServerProfile } from '../../types/serverInfo';
 
-    let servers: ServerProfile;
-    let savedServers: ServerProfile;
+    let servers: ServerProfile[] = [];
+    let savedServers: ServerProfile[] = [];
     let btnActive = false;
     let emptyList = false;
     let isLoading = false;
+    let searchQuery = '';
+
+    $: filteredServers = (btnActive ? savedServers : servers).filter(server => 
+      server.host.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     async function getServerData() {
       isLoading = true;
@@ -80,7 +85,7 @@
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
-          <input type="search" class="grow" placeholder="Search for a server..." />
+          <input bind:value={searchQuery} type="search" class="grow" placeholder="Search for a server..." />
       </label>
       <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-105 transition duration-200 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
     </div>
@@ -89,16 +94,12 @@
   <div class="max-w-3xl mx-auto md:mt-10 p-5 sm:p-5 md:p-0 lg:p-0">
     {#if !isLoading}
       <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box h-[55vh] overflow-y-auto space-y-5">
-        {#if btnActive}
-          {#if emptyList}
+        {#if btnActive && emptyList}
           <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">Looks kind of empty here... go save some servers!</div>
-          {:else}
-            {#each savedServers as server}
-              <ServerElement profile={server} />
-            {/each}
-          {/if}
+        {:else if filteredServers.length === 0}
+          <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">No servers found matching "{searchQuery}"</div>
         {:else}
-          {#each servers as server}
+          {#each filteredServers as server}
             <ServerElement profile={server} />
           {/each}
         {/if}
