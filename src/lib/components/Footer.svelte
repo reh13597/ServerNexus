@@ -7,7 +7,7 @@
     <div class="flex items-center gap-2">
       <p class="text-sm md:text-md text-stone-500">Made with <i class="text-primary fa-solid fa-heart hover:scale-110 transition duration-200"></i> by <a aria-label="Alex's Portfolio Link" href="https://guoalex.com" target="_blank" class="transition-colors text-green-500 hover:underline">Alex Guo</a></p>
       <span class="text-sm md:text-md text-stone-500">|</span>
-      <a href="https://github.com/reh13597" target="_blank" aria-label="GitHub" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-200">
+      <a href="https://github.com/reh13597/ServerNexus" target="_blank" aria-label="GitHub" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-200">
         <i class="fa-brands fa-github"></i>
       </a>
       <a href="https://www.linkedin.com/in/-alex-guo-/" target="_blank" aria-label="Discord" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-200">
