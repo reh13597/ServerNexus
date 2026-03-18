@@ -64,7 +64,7 @@
         <a
             target="_blank"
             rel="noreferrer"
-            href="https://github.com/reh13597"
+            href="https://github.com/reh13597/ServerNexus"
             aria-label="GitHub Icon/Link"
             class={iconWrap}
         >
