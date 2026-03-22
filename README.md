@@ -6,7 +6,10 @@ Users can create an account to fetch the data of any server, browse through popu
 ## Tech Stack:
 
 Front-End:
-- Svelte, TypeScript, Tailwind CSS, Daisy UI
+- Svelte
+- TypeScript
+- Tailwind CSS
+- Daisy UI
 
 Back-End:
 - Supabase
