@@ -7,5 +7,5 @@ Users can create an account to fetch the data of any server, browse through popu
 
 | **Front-End** | **Back-End** | **Deployment** | **APIs** |
 | :--------: | :--------: | :--------: | :--------: |
-| Svelte, TypeScript, Tailwind CSS, Daisy UI | Supabase | Vercel | MCStatus API, EmailJS |
+| Svelte, TypeScript, <br> Tailwind CSS, Daisy UI | Supabase | Vercel | MCStatus API, EmailJS |
 
