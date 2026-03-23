@@ -5,7 +5,10 @@ Users can create an account to fetch the data of any server, browse through popu
 
 ## Tech Stack:
 
-| **Front-End** | **Back-End** | **Deployment** | **APIs** |
-| -------- | -------- | -------- | -------- |
-| Svelte, TypeScript, Tailwind CSS, Daisy UI | Supabase | Vercel | MCStatus API, EmailJS |
+| **Front-End** | -------- | Svelte, TypeScript, Tailwind CSS, Daisy UI |
+| **Back-End** | -------- | Supabase |
+| **Deployment** | -------- | Vercel |
+| **APIs** | -------- | MCStatus API, EmailJS |
+
+
 
