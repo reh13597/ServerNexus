@@ -3,10 +3,8 @@
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
   import Router, { push } from 'svelte-spa-router';
-  import type { RouteLoadedEvent } from 'svelte-spa-router';
 
   import { isLoggedIn, authReady } from './lib/stores/login';
-  import { onProfile } from './lib/stores/profiles';
 
   import Dashboard from './lib/pages/Dashboard.svelte';
   import Home from './lib/pages/Home.svelte';
