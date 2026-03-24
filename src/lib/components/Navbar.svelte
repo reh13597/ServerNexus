@@ -1,6 +1,7 @@
 <script lang="ts">
   import { supabase } from '../supabase';
-  import { isLoggedIn } from '../stores/login';
+  import { isLoggedIn, email } from '../stores/login';
+  import { username } from '../stores/user';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
 
@@ -73,7 +74,7 @@
   }
 </script>
 
-<div class="navbar border-b border-neutral bg-black h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-35 lg:gap-40">
+<div class="navbar border-b border-neutral bg-black h-15 grow left-1/2 -translate-x-1/2 top-0 z-50 fixed justify-center px-6 gap-60 md:gap-70 lg:gap-80">
   <div class="navbar-start flex-none w-auto">
     <a
       class="hover:text-primary transition-colors font-bold text-md md:text-xl flex items-center gap-2"
@@ -172,12 +173,11 @@
       </a>
       {#if $isLoggedIn}
         {#if hamburgerMenuOpen}
-          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 w-max whitespace-nowrap p-2">
+          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/')}
-                class:text-primary-content={isActivePath('/')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/')}
                 href="#/"
               >
                 Home
@@ -186,9 +186,8 @@
 
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/status')}
-                class:text-primary-content={isActivePath('/status')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/status')}
                 href="#/status"
               >
                 Status
@@ -197,9 +196,8 @@
 
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isExploreActive()}
-                class:text-primary-content={isExploreActive()}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isExploreActive()}
                 href="#/explore"
               >
                 Explore
@@ -208,9 +206,8 @@
 
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/profiles')}
-                class:text-primary-content={isActivePath('/profiles')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/profiles')}
                 href="#/profiles"
               >
                 Profiles
@@ -219,9 +216,8 @@
 
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/about')}
-                class:text-primary-content={isActivePath('/about')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/about')}
                 href="#/about"
               >
                 About
@@ -230,9 +226,8 @@
 
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/contact')}
-                class:text-primary-content={isActivePath('/contact')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/contact')}
                 href="#/contact"
               >
                 Contact
@@ -242,12 +237,11 @@
         {/if}
       {:else}
         {#if hamburgerMenuOpen}
-          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 w-max whitespace-nowrap p-2">
+          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/home')}
-                class:text-primary-content={isActivePath('/home')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/home')}
                 href="#/home"
               >
                 Home
@@ -255,9 +249,8 @@
             </li>
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/about')}
-                class:text-primary-content={isActivePath('/about')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/about')}
                 href="#/about"
               >
                 About
@@ -265,9 +258,8 @@
             </li>
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/contact')}
-                class:text-primary-content={isActivePath('/contact')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/contact')}
                 href="#/contact"
               >
                 Contact
@@ -275,9 +267,8 @@
             </li>
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/login')}
-                class:text-primary-content={isActivePath('/login')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/login')}
                 href="#/login"
               >
                 Log In
@@ -300,12 +291,18 @@
           <img class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-200" src="src/assets/steve.jpg" alt="User avatar" />
         </a>
         {#if accountMenuOpen}
-          <ul class="menu menu-sm absolute left-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 mt-3 rounded-box z-50 w-max whitespace-nowrap p-2">
+          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 mt-4.5 md:mt-3.5 rounded-box z-50 w-max whitespace-nowrap p-2">
+            <p class="text-md md:text-lg whitespace-nowrap justify-center p-2">
+              {$username}
+            </p>
+            <p class="text-md md:text-lg whitespace-nowrap justify-center p-2">
+              {$email}
+            </p>
+
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/account')}
-                class:text-primary-content={isActivePath('/account')}
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/account')}
                 href="#/account"
               >
                 Account
@@ -313,17 +310,7 @@
             </li>
             <li>
               <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center"
-                class:bg-primary={isActivePath('/')}
-                class:text-primary-content={isActivePath('/')}
-                href="#/"
-              >
-                Profile
-              </a>
-            </li>
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:bg-primary justify-center text-error"
+                class="text-md md:text-lg whitespace-nowrap justify-center text-error/60 hover:text-error"
                 on:click={() => { openModal(); }}
               >
                 Log Out
