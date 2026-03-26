@@ -15,6 +15,7 @@
   let submitSuccess = false;
   let emptyList = false;
   let channel: ReturnType<typeof supabase.channel> | null = null;
+  let copied: string | number | null = null;
 
   $: isFormValid = selectedRating > 0 && reviewText.trim().length >= 40;
   $: charsRemaining = Math.max(0, 40 - reviewText.trim().length);
@@ -22,6 +23,12 @@
   $: if (profile?.id) {
     fetchReviews();
     setupRealtime();
+  }
+
+  async function copyToClipboard(text: string | number) {
+      await navigator.clipboard.writeText(String(text));
+      copied = text;
+      setTimeout(() => copied = null, 3000);
   }
 
   async function fetchReviews() {
@@ -129,19 +136,27 @@
   <div class="flex flex-col gap-10">
     <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
       <div class="card-body">
+        <p class="pb-2 lg:text-xl md:text-lg text-md border-b border-dashed border-neutral cursor-pointer hover:text-primary transition-colors" on:click={() => copyToClipboard(profile.host)}>
+          {profile.host}
+          {#if copied === profile.host}
+            <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
+          {:else}
+            <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
+          {/if}
+        </p>
         <div class="stats">
           <div class="stat flex flex-col items-center gap-1">
             <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
             <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
           </div>
 
-          <div class="stat flex flex-col items-center gap-1">
+          <div class="stat flex flex-col items-center gap-1 border-l border-dashed border-neutral">
             <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
             <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
           </div>
 
-          <div class="stat flex flex-col items-center gap-1">
-            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+          <div class="stat flex flex-col items-center gap-1 border-l border-dashed border-neutral">
+            <i class="fa-bookmark fa-solid text-primary lg:text-solid lg:text-xl md:text-lg text-md"></i>
             <p class="select-none text-stone-400">{profile.save_count} Saves</p>
           </div>
         </div>
@@ -189,7 +204,7 @@
 
       <button
         type="submit"
-        class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-200"
+        class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-300"
         disabled={!isFormValid || isSubmitting}
         on:click={handleSubmit}
       >

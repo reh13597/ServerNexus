@@ -65,7 +65,7 @@
                 {/if}
             </div>
             <div class="mt-5">
-                <button disabled={!$canLogin} class="btn btn-primary w-full hover:scale-102 transition duration-200">
+                <button disabled={!$canLogin} class="btn btn-primary w-full hover:scale-102 transition duration-300">
                     {#if isLoading && !loginError}
                         <span class="loading loading-spinner loading-sm"></span> Logging in...
                     {:else}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { supabase } from '../supabase';
-  import { isLoggedIn, email } from '../stores/login';
-  import { username } from '../stores/user';
+  import { isLoggedIn } from '../stores/login';
+  import { username, userEmail } from '../stores/user';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
 
@@ -10,6 +10,20 @@
   let hamburgerMenuOpen = false;
   let hamburgerDropdownEl: HTMLDivElement | null = null;
   let isLoggingOut = false;
+
+  function toggleAccountMenu() {
+    accountMenuOpen = !accountMenuOpen;
+    if (accountMenuOpen) {
+      hamburgerMenuOpen = false;
+    }
+  }
+
+  function toggleHamburgerMenu() {
+    hamburgerMenuOpen = !hamburgerMenuOpen;
+    if (hamburgerMenuOpen) {
+      accountMenuOpen = false;
+    }
+  }
 
   function openModal() {
     (document.getElementById(`logout_modal`) as HTMLDialogElement)?.showModal();
@@ -163,17 +177,17 @@
     <div class="relative lg:hidden" bind:this={hamburgerDropdownEl}>
       <a
         type="button"
-        class="inline-flex w-fit hover:cursor-pointer hover:scale-110 hover:text-primary transition duration-200 mt-1 md:mt-2"
+        class="inline-flex w-fit hover:cursor-pointer hover:scale-110 hover:text-primary transition duration-300 mt-1 md:mt-2"
         class:text-primary={isActivePath('/') || isActivePath('/home') || isActivePath('/status') || isExploreActive() || isActivePath('/profiles') || isActivePath ('/about') || isActivePath('/contact')}
         aria-label="Hamburger"
         aria-haspopup="menu"
         aria-expanded={hamburgerMenuOpen}
-        on:click|stopPropagation={() => (hamburgerMenuOpen = !hamburgerMenuOpen)}>
+        on:click|stopPropagation={toggleHamburgerMenu}>
           <i class="fa-solid fa-bars text-lg md:text-xl"></i>
       </a>
       {#if $isLoggedIn}
         {#if hamburgerMenuOpen}
-          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
+          <ul class="menu menu-sm absolute right-0 backdrop-blur-sm bg-gradient-to-tr/30 from-black to-zinc-500 border-1 border-neutral rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
@@ -237,7 +251,7 @@
         {/if}
       {:else}
         {#if hamburgerMenuOpen}
-          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
+          <ul class="menu menu-sm absolute right-0 glass backdrop-blur-md bg-black/40 border border-white/10 rounded-box z-50 mt-5 md:mt-4 w-max whitespace-nowrap p-2">
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
@@ -282,23 +296,26 @@
     {#if $isLoggedIn}
       <div class="relative" bind:this={accountDropdownEl}>
         <a
-          class=""
+          class="cursor-pointer"
           aria-label="Account menu"
           aria-haspopup="menu"
           aria-expanded={accountMenuOpen}
-          on:click|stopPropagation={() => (accountMenuOpen = !accountMenuOpen)}
+          on:click|stopPropagation={toggleAccountMenu}
         >
-          <img class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-200" src="src/assets/steve.jpg" alt="User avatar" />
+          <img class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-300" src="src/assets/steve.jpg" alt="User avatar" />
         </a>
         {#if accountMenuOpen}
-          <ul class="menu menu-sm absolute right-0 glass bg-gradient-to-tr from-black/90 to-zinc-700/90 mt-4.5 md:mt-3.5 rounded-box z-50 w-max whitespace-nowrap p-2">
-            <p class="text-md md:text-lg whitespace-nowrap justify-center p-2">
-              {$username}
-            </p>
-            <p class="text-md md:text-lg whitespace-nowrap justify-center p-2">
-              {$email}
-            </p>
-
+          <ul class="menu menu-sm absolute right-0 backdrop-blur-sm bg-gradient-to-tr/30 from-black to-zinc-500 border-1 border-neutral mt-4.5 md:mt-3.5 rounded-box z-50 w-max whitespace-nowrap p-2">
+            <li>
+              <a class="hover:cursor-default pointer-events-none text-md md:text-lg whitespace-nowrap justify-center text-white/60">
+                {$username}
+              </a>
+            </li>
+            <li>
+              <a class="hover:cursor-default pointer-events-none text-md md:text-lg whitespace-nowrap justify-center text-white/60">
+                {$userEmail}
+              </a>
+            </li>
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
@@ -323,7 +340,7 @@
       <div class="flex items-center gap-2 md:gap-4">
         <a
           href="#/signup"
-          class="btn btn-primary btn-sm lg:btn-md hover:scale-105 transition duration-200"
+          class="btn btn-primary btn-sm lg:btn-md hover:scale-105 transition duration-300"
         >
           Get Started
         </a>
@@ -337,8 +354,8 @@
       <h3 class="text-lg font-bold"><span class="text-primary">Log out</span> of your account?</h3>
       <p class="py-4 text-stone-400 text-sm"><span class="text-primary">Caution:</span> You must log back in to access your account.</p>
       <div class="flex justify-center gap-3">
-          <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isLoggingOut}>Cancel</button>
-          <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={logout} disabled={isLoggingOut}>
+          <button class="btn btn-primary hover:scale-105 transition duration-300" on:click={closeModal} disabled={isLoggingOut}>Cancel</button>
+          <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-300" on:click={logout} disabled={isLoggingOut}>
               {#if isLoggingOut}
                   <span class="loading loading-spinner loading-xs"></span>Logging out...
               {:else}
