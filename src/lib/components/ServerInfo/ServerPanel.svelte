@@ -32,7 +32,7 @@
                     {#if !data.online && !$error}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.host)}>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400 hover:text-primary transition-colors" on:click={() => copyToClipboard(data.host)}>
                             {data.host}
                             {#if copied === data.host}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
@@ -48,7 +48,7 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.port)}>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400 hover:text-primary transition-colors" on:click={() => copyToClipboard(data.port)}>
                             {data.port}
                             {#if copied === data.port}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
@@ -64,7 +64,7 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="cursor-pointer text-md lg:text-lg text-stone-400" on:click={() => copyToClipboard(data.ip_address)}>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400 hover:text-primary transition-colors" on:click={() => copyToClipboard(data.ip_address)}>
                             {data.ip_address}
                             {#if copied === data.ip_address}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
@@ -154,8 +154,37 @@
     <div class="flex flex-col gap-5">
         <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
             <div class="card-body">
+                <p class="pb-2 lg:text-xl md:text-lg text-md border-b border-dashed border-neutral cursor-pointer hover:text-primary transition-colors" on:click={() => copyToClipboard(data.host)}>
+                    {data.host}
+                    {#if copied === data.host}
+                        <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
+                    {:else}
+                        <i class="text-xs lg:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
+                    {/if}
+                </p>
+                <div class="stats">
+                    <div class="stat flex flex-col items-center gap-1">
+                        <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
+                        <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
+                    </div>
+
+                    <div class="stat flex flex-col items-center gap-1 border-l border-dashed border-neutral">
+                        <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
+                        <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
+                    </div>
+
+                    <div class="stat flex flex-col items-center gap-1 border-l border-dashed border-neutral">
+                        <i class="fa-bookmark fa-solid text-primary lg:text-solid lg:text-xl md:text-lg text-md"></i>
+                        <p class="select-none text-stone-400">{profile.save_count} Saves</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
+            <div class="card-body">
                 <div class="stats stats-vertical">
-                    <div class="stat flex flex-col items-center gap-5">
+                    <div class="stat flex flex-col items-center gap-5 !p-0">
                         <div class="text-md lg:text-xl select-none">Icon</div>
                         {#if data.icon}
                             <div class="flex justify-center items-center">
@@ -166,40 +195,13 @@
                         {/if}
                     </div>
 
-                    <div class="stat flex flex-col items-center gap-5">
+                    <div class="stat flex flex-col items-center gap-5 !p-0">
                         <div class="text-md lg:text-xl select-none">MOTD</div>
                         {#if data.motd}
                             <div class="text-sm lg:text-md select-none">{@html data.motd.html}</div>
                         {:else}
                             <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                         {/if}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="drop-shadow-xl/80 card h-fit bg-gradient-to-tl from-black to-zinc-700 border-1 border-neutral">
-            <div class="card-body">
-                <div class="stats">
-                    <div class="stat flex flex-col items-center gap-5">
-                       <div class="flex items-center gap-1">
-                            <i class="fa-star fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
-                            <p class="select-none text-stone-400">{profile.avg_rating.toFixed(1)} Average</p>
-                        </div>
-                    </div>
-
-                    <div class="stat flex flex-col items-center gap-5">
-                      <div class="flex items-center gap-1">
-                            <i class="fa-solid fa-comment-dots text-primary lg:text-xl md:text-lg text-md"></i>
-                            <p class="select-none text-stone-400">{profile.review_count} Reviews</p>
-                        </div>
-                    </div>
-
-                    <div class="stat flex flex-col items-center gap-5">
-                       <div class="flex items-center gap-1">
-                            <i class="fa-bookmark fa-solid text-primary lg:text-xl md:text-lg text-md"></i>
-                            <p class="select-none text-stone-400">{profile.save_count} Saves</p>
-                        </div>
                     </div>
                 </div>
             </div>

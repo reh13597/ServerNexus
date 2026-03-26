@@ -141,7 +141,7 @@
     {#if $serverData && profile && !isLoading}
         <div class="flex flex-col md:flex-row gap-5 md:gap-15 items-start">
             <div class="flex justify-start">
-                <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
+                <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-300" aria-label="Back Button">
                     <i class="fa-arrow-left fa-solid text-xl md:text-3xl"></i>
                 </a>
             </div>
@@ -161,7 +161,7 @@
         <div class="flex justify-center mx-auto px-10 max-w-3xl xl:max-w-7xl">
             <div class="flex flex-col md:flex-row gap-5 md:gap-15 items-start">
                 <div class="flex justify-start">
-                    <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-200" aria-label="Back Button">
+                    <a href="#/explore" class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-300" aria-label="Back Button">
                     <i class="fa-arrow-left fa-solid text-xl md:text-3xl"></i>
                     </a>
                 </div>

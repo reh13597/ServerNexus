@@ -137,7 +137,7 @@
             </p>
         {/if}
         <div class="flex flex-col items-center gap-5">
-            <button class="drop-shadow-xl/80 btn btn-primary btn-md hover:scale-110 transition duration-200" disabled={!$canFetchServerData}>
+            <button class="drop-shadow-xl/80 btn btn-primary btn-md hover:scale-104 transition duration-300" disabled={!$canFetchServerData}>
                 {#if !isLoading}
                     Fetch Server Data
                 {:else}

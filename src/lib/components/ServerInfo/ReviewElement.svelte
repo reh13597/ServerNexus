@@ -69,7 +69,7 @@
                 class="cursor-pointer text-md md:text-lg ml-auto"
                 aria-label="delete icon"
             >
-                <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-200"></i>
+                <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
             </a>
         {/if}
     </div>
@@ -80,13 +80,13 @@
 </li>
 
 {#if showModal}
-    <div use:portal class="modal modal-open" style="z-index: 9999;" transition:fade={{ duration: 200 }}>
-        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700" transition:scale={{ duration: 200, start: 0.95 }}>
+    <div use:portal class="modal modal-open" style="z-index: 9999;" transition:fade={{ duration: 300 }}>
+        <div class="modal-box flex flex-col gap-5 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700" transition:scale={{ duration: 300, start: 0.95 }}>
             <h3 class="text-lg font-bold"><span class="text-primary">Delete</span> your review?</h3>
             <p class="py-4 text-stone-400 text-sm"><span class="text-primary">Caution:</span> This action cannot be undone.</p>
             <div class="flex justify-center gap-3">
-                <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-200" on:click={closeModal} disabled={isDeleting}>Cancel</button>
-                <button class="btn btn-primary hover:scale-105 transition duration-200" on:click={deleteReview} disabled={isDeleting}>
+                <button class="btn btn-primary hover:scale-105 transition duration-300" on:click={closeModal} disabled={isDeleting}>Cancel</button>
+                <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-300" on:click={deleteReview} disabled={isDeleting}>
                     {#if isDeleting}
                         <span class="loading loading-spinner loading-xs"></span>Deleting...
                     {:else}

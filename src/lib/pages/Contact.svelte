@@ -3,7 +3,7 @@
     import { onDestroy } from 'svelte';
     import { name, email, subject, message } from '../stores/email';
 
-    const iconWrap = "inline-flex w-fit transition duration-200 hover:scale-110 hover:bg-transparent";
+    const iconWrap = "inline-flex w-fit transition duration-300 hover:scale-110 hover:bg-transparent";
     const iconClass = "text-2xl text-white hover:text-primary";
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
@@ -142,7 +142,7 @@
             </div>
 
             <button type="submit"
-                class="btn btn-primary w-full hover:scale-102 transition duration-200"
+                class="btn btn-primary w-full hover:scale-102 transition duration-300"
                 disabled={!isFormValid || isSubmitting}
             >
                 {#if isSubmitting}

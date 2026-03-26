@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import { supabase } from '../supabase';
-import { username, userID } from './user';
+import { username, userID, userEmail } from './user';
 
 export const email = writable('');
 export const password = writable('');
@@ -19,6 +19,7 @@ export const authReady = writable(false);
 async function setUserData(session) {
   if (session?.user) {
     userID.set(session.user.id);
+    userEmail.set(session.user.email || '');
     
     // Fetch username from profiles table
     const { data: profile } = await supabase
@@ -35,6 +36,7 @@ async function setUserData(session) {
   } else {
     userID.set('');
     username.set('');
+    userEmail.set('');
   }
 }
 
