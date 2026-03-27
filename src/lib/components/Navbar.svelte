@@ -302,7 +302,12 @@
           aria-expanded={accountMenuOpen}
           on:click|stopPropagation={toggleAccountMenu}
         >
-          <img class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-300" src="src/assets/steve.jpg" alt="User avatar" />
+          <img
+            class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-300"
+            class:border-primary={isActivePath('/account')}
+            src="src/assets/steve.jpg"
+            alt="Avatar"
+          />
         </a>
         {#if accountMenuOpen}
           <ul class="menu menu-sm absolute right-0 backdrop-blur-sm bg-gradient-to-tr/30 from-black to-zinc-500 border-1 border-neutral mt-4.5 md:mt-3.5 rounded-box z-50 w-max whitespace-nowrap p-2">
@@ -311,11 +316,11 @@
                 {$username}
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a class="hover:cursor-default pointer-events-none text-md md:text-lg whitespace-nowrap justify-center text-white/60">
                 {$userEmail}
               </a>
-            </li>
+            </li> -->
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
@@ -357,9 +362,9 @@
           <button class="btn btn-primary hover:scale-105 transition duration-300" on:click={closeModal} disabled={isLoggingOut}>Cancel</button>
           <button class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-300" on:click={logout} disabled={isLoggingOut}>
               {#if isLoggingOut}
-                  <span class="loading loading-spinner loading-xs"></span>Logging out...
+                <span class="loading loading-spinner loading-xs"></span>Logging out...
               {:else}
-                  Log Out
+                Log Out
               {/if}
           </button>
       </div>
