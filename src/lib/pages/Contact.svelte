@@ -82,7 +82,7 @@
     </div>
     <div class="mt-10 flex flex-col gap-10 md:flex-row justify-center">
         <form
-            class="md:min-w-1/2 space-y-4 bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-5 drop-shadow-xl/80 border-1 border-neutral"
+            class="md:min-w-1/2 space-y-6 bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-5 drop-shadow-xl/80 border-1 border-neutral"
             on:submit={sendEmail}
         >
             <div>
