@@ -49,6 +49,8 @@
 
   let toasts: Toast[] = [];
   let toastId = 0;
+  const pendingEmailStorageKey = 'account.pendingEmailChange';
+  let pendingEmail = '';
   let isLoading = false;
   let isLoggingOut = false;
   let showPassword = false;
@@ -63,6 +65,8 @@
     editValues.username = $username;
     editValues.visibility = isPublic;
     editValues.memberSince = createdAt;
+    refreshPendingEmail();
+    checkEmailChangeCompletion();
   });
 
   async function fetchProfile() {
@@ -102,6 +106,36 @@
     }, 4000);
   }
 
+  function getPendingEmailKey() {
+    return `${pendingEmailStorageKey}.${$userID}`;
+  }
+
+  function refreshPendingEmail() {
+    if (typeof window === 'undefined' || !$userID) return;
+    pendingEmail = window.localStorage.getItem(getPendingEmailKey()) || '';
+  }
+
+  function storePendingEmail(nextEmail: string) {
+    if (typeof window === 'undefined' || !$userID) return;
+    window.localStorage.setItem(getPendingEmailKey(), nextEmail);
+    pendingEmail = nextEmail;
+  }
+
+  function clearPendingEmail() {
+    if (typeof window === 'undefined' || !$userID) return;
+    window.localStorage.removeItem(getPendingEmailKey());
+    pendingEmail = '';
+  }
+
+  function checkEmailChangeCompletion() {
+    if (!pendingEmail || !$userEmail) return;
+    if ($userEmail.toLowerCase() !== pendingEmail.toLowerCase()) return;
+
+    clearPendingEmail();
+    setMessage('email', 'Email address confirmed and updated.', 'success');
+    pushToast('Email address updated successfully.', 'success');
+  }
+
   async function updateField(section: keyof typeof editStates) {
     isLoading = true;
     try {
@@ -121,9 +155,17 @@
         pushToast('Username updated successfully.', 'success');
       }
       else if (section === 'email') {
-        const { error } = await supabase.auth.updateUser({ email: editValues.email });
+        const nextEmail = editValues.email.trim().toLowerCase();
+        if (!nextEmail) throw new Error('Email cannot be empty.');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) throw new Error('Enter a valid email address.');
+        if (nextEmail === $userEmail.toLowerCase()) throw new Error('Email is unchanged.');
+
+        const emailRedirectTo = typeof window !== 'undefined' ? `${window.location.origin}/account` : undefined;
+        const { error } = await supabase.auth.updateUser({ email: nextEmail }, { emailRedirectTo });
         if (error) throw error;
-        setMessage('email', 'Verification sent!', 'success');
+        storePendingEmail(nextEmail);
+        setMessage('email', 'Confirmation email sent to your new address.', 'success');
+        pushToast('Confirmation email sent. Verify to finish email change.', 'success');
       }
       else if (section === 'password') {
         if (!editValues.password) throw new Error("Password cannot be empty");
@@ -173,6 +215,10 @@
       if (section === 'email') editValues.email = $userEmail;
       if (section === 'visibility') editValues.visibility = isPublic;
     }
+  }
+
+  $: if ($userEmail) {
+    checkEmailChangeCompletion();
   }
 </script>
 
@@ -285,6 +331,9 @@
               {/if}
             {:else}
               <p class="mt-2 text-md text-stone-400 text-left">{$userEmail}</p>
+              {#if pendingEmail && pendingEmail.toLowerCase() !== $userEmail.toLowerCase()}
+                <p class="mt-1 text-xs text-warning text-left">Pending confirmation for: {pendingEmail}</p>
+              {/if}
             {/if}
           </div>
           <button
