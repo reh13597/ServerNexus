@@ -30,6 +30,8 @@
   };
 
   // --- Feedback Messages ---
+  type FeedbackType = 'success' | 'error';
+
   let messages = {
     username: { text: '', type: '' },
     mcID: { text: '', type: '' },
@@ -39,6 +41,14 @@
     memberSince: { text: '', type: '' }
   };
 
+  type Toast = {
+    id: number;
+    text: string;
+    type: FeedbackType;
+  };
+
+  let toasts: Toast[] = [];
+  let toastId = 0;
   let isLoading = false;
   let isLoggingOut = false;
   let showPassword = false;
@@ -76,24 +86,39 @@
     }
   }
 
-  function setMessage(section: keyof typeof messages, text: string, type: 'success' | 'error') {
+  function setMessage(section: keyof typeof messages, text: string, type: FeedbackType) {
     messages[section] = { text, type };
     setTimeout(() => {
       messages[section] = { text: '', type: '' };
     }, 5000);
   }
 
+  function pushToast(text: string, type: FeedbackType = 'success') {
+    const id = ++toastId;
+    toasts = [...toasts, { id, text, type }];
+
+    setTimeout(() => {
+      toasts = toasts.filter((toast) => toast.id !== id);
+    }, 4000);
+  }
+
   async function updateField(section: keyof typeof editStates) {
     isLoading = true;
     try {
       if (section === 'username') {
+        const nextUsername = editValues.username.trim();
+        if (!nextUsername) throw new Error('Username cannot be empty.');
+        if (nextUsername === $username) throw new Error('Username is unchanged.');
+
         const { error } = await supabase
           .from('profiles')
-          .update({ username: editValues.username })
+          .update({ username: nextUsername })
           .eq('id', $userID);
         if (error) throw error;
-        username.set(editValues.username);
-        setMessage('username', 'Updated!', 'success');
+        editValues.username = nextUsername;
+        username.set(nextUsername);
+        setMessage('username', 'Username updated.', 'success');
+        pushToast('Username updated successfully.', 'success');
       }
       else if (section === 'email') {
         const { error } = await supabase.auth.updateUser({ email: editValues.email });
@@ -196,15 +221,17 @@
       <!-- User Info -->
       <div class="w-full space-y-2">
         {#if editStates.username}
-          <div class="flex gap-2 items-center">
+          <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center w-full max-w-md">
             <input
               bind:value={editValues.username}
-              class="input input-bordered bg-black/20 focus:border-primary w-full text-xl font-bold h-10"
+              class="input input-bordered bg-black/20 focus:border-primary w-full text-lg md:text-xl font-bold h-10"
+              maxlength="30"
+              placeholder="Enter username"
             />
-            <button class="btn btn-sm btn-square btn-primary" on:click={() => updateField('username')}>
+            <button class="btn btn-sm btn-primary sm:btn-square" on:click={() => updateField('username')} disabled={isLoading}>
               <i class="fa-solid fa-check"></i>
             </button>
-            <button class="btn btn-sm btn-square btn-ghost" on:click={() => toggleEdit('username')}>
+            <button class="btn btn-sm btn-ghost sm:btn-square" on:click={() => toggleEdit('username')} disabled={isLoading}>
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
@@ -346,6 +373,14 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="toast toast-bottom toast-end z-50">
+  {#each toasts as toast (toast.id)}
+    <div class={`alert shadow-lg ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
+      <span>{toast.text}</span>
+    </div>
+  {/each}
 </div>
 
 <style>
