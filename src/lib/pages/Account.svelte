@@ -200,13 +200,17 @@
         pushToast('Password updated successfully.', 'success');
       }
       else if (section === 'visibility') {
+        if (editValues.visibility === isPublic) throw new Error('Visibility is unchanged.');
+
         const { error } = await supabase
           .from('profiles')
           .update({ is_public: editValues.visibility })
           .eq('id', $userID);
         if (error) throw error;
         isPublic = editValues.visibility;
-        setMessage('visibility', 'Updated!', 'success');
+        const visibilityLabel = isPublic ? 'Public' : 'Private';
+        setMessage('visibility', `Profile visibility set to ${visibilityLabel}.`, 'success');
+        pushToast(`Profile visibility changed to ${visibilityLabel}.`, 'success');
       }
       else if (section === 'mcID') {
         // Functionality not needed yet as per instructions
@@ -475,6 +479,9 @@
               {/if}
             {:else}
               <p class="mt-2 text-md text-stone-400 text-left">{isPublic ? 'Public' : 'Private'}</p>
+              <p class="mt-1 text-xs text-stone-500 text-left">
+                {isPublic ? 'Anyone can view your public profile.' : 'Only you can view your profile details.'}
+              </p>
             {/if}
           </div>
           <button
