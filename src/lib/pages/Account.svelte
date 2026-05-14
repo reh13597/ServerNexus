@@ -24,7 +24,9 @@
   let editValues = {
     username: '',
     email: '',
-    password: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
     visibility: false,
     memberSince: ''
   };
@@ -53,7 +55,9 @@
   let pendingEmail = '';
   let isLoading = false;
   let isLoggingOut = false;
-  let showPassword = false;
+  let showCurrentPassword = false;
+  let showNewPassword = false;
+  let showConfirmPassword = false;
 
   onMount(async () => {
     if (!$userID) {
@@ -168,11 +172,32 @@
         pushToast('Confirmation email sent. Verify to finish email change.', 'success');
       }
       else if (section === 'password') {
-        if (!editValues.password) throw new Error("Password cannot be empty");
-        const { error } = await supabase.auth.updateUser({ password: editValues.password });
+        const currentPassword = editValues.currentPassword.trim();
+        const newPassword = editValues.newPassword.trim();
+        const confirmPassword = editValues.confirmPassword.trim();
+
+        if (!currentPassword) throw new Error('Current password is required.');
+        if (!newPassword) throw new Error('New password is required.');
+        if (newPassword.length < 8) throw new Error('New password must be at least 8 characters.');
+        if (newPassword !== confirmPassword) throw new Error('New password fields do not match.');
+        if (currentPassword === newPassword) throw new Error('New password must differ from current password.');
+
+        const { error: verifyError } = await supabase.auth.signInWithPassword({
+          email: $userEmail,
+          password: currentPassword
+        });
+        if (verifyError) throw new Error('Current password is incorrect.');
+
+        const { error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) throw error;
-        editValues.password = '';
-        setMessage('password', 'Password updated!', 'success');
+        editValues.currentPassword = '';
+        editValues.newPassword = '';
+        editValues.confirmPassword = '';
+        showCurrentPassword = false;
+        showNewPassword = false;
+        showConfirmPassword = false;
+        setMessage('password', 'Password updated.', 'success');
+        pushToast('Password updated successfully.', 'success');
       }
       else if (section === 'visibility') {
         const { error } = await supabase
@@ -214,6 +239,14 @@
       if (section === 'username') editValues.username = $username;
       if (section === 'email') editValues.email = $userEmail;
       if (section === 'visibility') editValues.visibility = isPublic;
+      if (section === 'password') {
+        editValues.currentPassword = '';
+        editValues.newPassword = '';
+        editValues.confirmPassword = '';
+        showCurrentPassword = false;
+        showNewPassword = false;
+        showConfirmPassword = false;
+      }
     }
   }
 
@@ -352,15 +385,59 @@
               <i class="fa-solid fa-key text-primary text-md md:text-lg"></i>
             </div>
             {#if editStates.password}
-              <input
-                bind:value={editValues.password}
-                type="password"
-                placeholder="New password"
-                class="input input-sm input-bordered bg-black/20 focus:border-primary w-full mt-2"
-              />
+              <div class="space-y-2 mt-2">
+                <div class="relative">
+                  <input
+                    bind:value={editValues.currentPassword}
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    placeholder="Current password"
+                    class="input input-sm input-bordered bg-black/20 focus:border-primary w-full pr-10"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                    on:click={() => (showCurrentPassword = !showCurrentPassword)}
+                    aria-label={showCurrentPassword ? 'Hide current password' : 'Show current password'}
+                  >
+                    <i class={`fa-solid ${showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <input
+                    bind:value={editValues.newPassword}
+                    type={showNewPassword ? 'text' : 'password'}
+                    placeholder="New password"
+                    class="input input-sm input-bordered bg-black/20 focus:border-primary w-full pr-10"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                    on:click={() => (showNewPassword = !showNewPassword)}
+                    aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+                  >
+                    <i class={`fa-solid ${showNewPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <input
+                    bind:value={editValues.confirmPassword}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="Confirm new password"
+                    class="input input-sm input-bordered bg-black/20 focus:border-primary w-full pr-10"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                    on:click={() => (showConfirmPassword = !showConfirmPassword)}
+                    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  >
+                    <i class={`fa-solid ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                  </button>
+                </div>
+              </div>
               <div class="flex gap-2 mt-2">
-                <button class="btn btn-xs btn-primary" on:click={() => updateField('password')}>Change</button>
-                <button class="btn btn-xs btn-ghost" on:click={() => toggleEdit('password')}>Cancel</button>
+                <button class="btn btn-xs btn-primary" on:click={() => updateField('password')} disabled={isLoading}>Change</button>
+                <button class="btn btn-xs btn-ghost" on:click={() => toggleEdit('password')} disabled={isLoading}>Cancel</button>
               </div>
               {#if messages.password.text}
                 <p class={`text-[10px] mt-1 ${messages.password.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.password.text}</p>
