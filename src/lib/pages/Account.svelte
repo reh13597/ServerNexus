@@ -254,33 +254,39 @@
     );
     const visibilityChanged = editValues.visibility !== isPublic;
 
-    if (nextUsername !== $username) {
-      hasChanges = true;
-      await updateField('username');
-    }
+    try {
+      if (nextUsername !== $username) {
+        hasChanges = true;
+        await updateField('username');
+      }
 
-    if (nextEmail && nextEmail !== $userEmail.toLowerCase()) {
-      hasChanges = true;
-      await updateField('email');
-    }
+      if (nextEmail && nextEmail !== $userEmail.toLowerCase()) {
+        hasChanges = true;
+        await updateField('email');
+      }
 
-    if (hasPasswordInput) {
-      hasChanges = true;
-      await updateField('password');
-    }
+      if (hasPasswordInput) {
+        hasChanges = true;
+        await updateField('password');
+      }
 
-    if (visibilityChanged) {
-      hasChanges = true;
-      await updateField('visibility');
-    }
+      if (visibilityChanged) {
+        hasChanges = true;
+        await updateField('visibility');
+      }
 
-    if (!hasChanges) {
-      pushToast('No changes to save.', 'error');
-      return;
-    }
+      if (!hasChanges) {
+        pushToast('No changes to save.', 'error');
+        return;
+      }
 
-    isEditing = false;
-    clearPasswordFields();
+      isEditing = false;
+      clearPasswordFields();
+    } catch (error: any) {
+      // Section-level messages are set in updateField; keep this catch
+      // to prevent an uncaught promise rejection from bubbling to console.
+      pushToast(error?.message || 'Unable to save all changes.', 'error');
+    }
   }
 
   async function logout() {
@@ -343,7 +349,7 @@
           <p class="mt-3 text-stone-400 text-left">{$username}</p>
         {/if}
         {#if messages.username.text}
-          <p class={`text-[11px] mt-2 ${messages.username.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.username.text}</p>
+          <p class={`text-[11px] mt-2 text-left ${messages.username.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.username.text}</p>
         {/if}
       </div>
 
@@ -363,10 +369,10 @@
           <p class="mt-3 text-stone-400 break-all text-left">{$userEmail}</p>
         {/if}
         {#if pendingEmail && pendingEmail.toLowerCase() !== $userEmail.toLowerCase()}
-          <p class="mt-2 text-[11px] text-warning">Pending confirmation for: {pendingEmail}</p>
+          <p class="mt-2 text-[11px] text-warning text-left">Pending confirmation for: {pendingEmail}</p>
         {/if}
         {#if messages.email.text}
-          <p class={`text-[11px] mt-2 ${messages.email.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.email.text}</p>
+          <p class={`text-[11px] mt-2 text-left ${messages.email.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.email.text}</p>
         {/if}
       </div>
 
@@ -430,7 +436,7 @@
           <p class="mt-3 tracking-widest text-stone-400 text-left">••••••••••••••••</p>
         {/if}
         {#if messages.password.text}
-          <p class={`text-[11px] mt-2 ${messages.password.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.password.text}</p>
+          <p class={`text-[11px] mt-2 text-left ${messages.password.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.password.text}</p>
         {/if}
       </div>
 
@@ -448,7 +454,7 @@
           <p class="mt-3 text-stone-400 text-left">{isPublic ? 'Public' : 'Private'}</p>
         {/if}
         {#if messages.visibility.text}
-          <p class={`text-[11px] mt-2 ${messages.visibility.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.visibility.text}</p>
+          <p class={`text-[11px] mt-2 text-left ${messages.visibility.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.visibility.text}</p>
         {/if}
       </div>
 
@@ -474,13 +480,13 @@
   </div>
 </div>
 
-<div class="toast toast-bottom toast-end z-50">
+<!-- <div class="toast toast-bottom toast-end z-50">
   {#each toasts as toast (toast.id)}
     <div class={`alert shadow-lg ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
       <span>{toast.text}</span>
     </div>
   {/each}
-</div>
+</div> -->
 
 <style>
   /* Subtle glass effects and transitions */
