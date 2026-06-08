@@ -74,16 +74,6 @@
         </div>
 
         <div class="flex items-center gap-2 ml-auto">
-            {#if serverId}
-                <a
-                    on:click={() => push(`/server-info/${serverId}`)}
-                    class="cursor-pointer text-md md:text-lg hover:text-primary hover:scale-110 transition duration-300"
-                    aria-label="view server"
-                >
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            {/if}
-
             {#if $userID === String(info.user_id)}
                 <a
                     on:click={() => { openModal(); }}
@@ -93,12 +83,21 @@
                     <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
                 </a>
             {/if}
+
+            {#if serverId}
+                <a
+                    on:click={() => push(`/server-info/${serverId}`)}
+                    class="cursor-pointer text-md md:text-lg hover:text-primary hover:scale-110 transition duration-300"
+                    aria-label="view server"
+                >
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            {/if}
         </div>
     </div>
 
     {#if serverHost}
         <div class="flex items-center gap-1 text-xs text-stone-400">
-            <i class="fa-solid fa-server text-primary text-xs"></i>
             <span class="cursor-pointer" on:click={copyServerHost}>
                 {serverHost}
             </span>
