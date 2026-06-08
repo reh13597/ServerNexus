@@ -100,7 +100,7 @@
     }
 </script>
 
-<div class="px-5 pb-12">
+<div class="px-5 pb-24">
     <div class="mt-25 md:mt-30 mb-8">
         <h1 class="text-xl md:text-2xl lg:text-3xl font-bold select-none">View your own profile and browse through others</h1>
         <p class="mt-3 text-sm md:text-md text-stone-400 select-none">See your saved servers, ratings & reviews, and check out other people's profiles.</p>
