@@ -7,41 +7,44 @@
   // --- Profile State ---
   let createdAt = '';
   let isPublic = false;
-  let mcID = ''; // Placeholder for Minecraft User ID
   let avatarUrl = "src/assets/steve.jpg";
-
-  // --- Editing States for each section ---
-  let editStates = {
-    username: false,
-    mcID: false,
-    email: false,
-    password: false,
-    visibility: false,
-    memberSince: false
-  };
+  let isEditing = false;
 
   // --- Values for editing ---
   let editValues = {
     username: '',
     email: '',
-    password: '',
-    visibility: false,
-    memberSince: ''
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    visibility: false
   };
 
   // --- Feedback Messages ---
+  type FeedbackType = 'success' | 'error';
+
   let messages = {
-    username: { text: '', type: '' },
-    mcID: { text: '', type: '' },
-    email: { text: '', type: '' },
-    password: { text: '', type: '' },
-    visibility: { text: '', type: '' },
-    memberSince: { text: '', type: '' }
+    username: { text: '', type: '' as '' | FeedbackType },
+    email: { text: '', type: '' as '' | FeedbackType },
+    password: { text: '', type: '' as '' | FeedbackType },
+    visibility: { text: '', type: '' as '' | FeedbackType }
   };
 
+  type Toast = {
+    id: number;
+    text: string;
+    type: FeedbackType;
+  };
+
+  let toasts: Toast[] = [];
+  let toastId = 0;
+  const pendingEmailStorageKey = 'account.pendingEmailChange';
+  let pendingEmail = '';
   let isLoading = false;
   let isLoggingOut = false;
-  let showPassword = false;
+  let showCurrentPassword = false;
+  let showNewPassword = false;
+  let showConfirmPassword = false;
 
   onMount(async () => {
     if (!$userID) {
@@ -52,7 +55,8 @@
     editValues.email = $userEmail;
     editValues.username = $username;
     editValues.visibility = isPublic;
-    editValues.memberSince = createdAt;
+    refreshPendingEmail();
+    checkEmailChangeCompletion();
   });
 
   async function fetchProfile() {
@@ -76,56 +80,212 @@
     }
   }
 
-  function setMessage(section: keyof typeof messages, text: string, type: 'success' | 'error') {
+  function setMessage(section: keyof typeof messages, text: string, type: FeedbackType) {
     messages[section] = { text, type };
     setTimeout(() => {
       messages[section] = { text: '', type: '' };
     }, 5000);
   }
 
-  async function updateField(section: keyof typeof editStates) {
+  function pushToast(text: string, type: FeedbackType = 'success') {
+    const id = ++toastId;
+    toasts = [...toasts, { id, text, type }];
+
+    setTimeout(() => {
+      toasts = toasts.filter((toast) => toast.id !== id);
+    }, 4000);
+  }
+
+  function getPendingEmailKey() {
+    return `${pendingEmailStorageKey}.${$userID}`;
+  }
+
+  function refreshPendingEmail() {
+    if (typeof window === 'undefined' || !$userID) return;
+    pendingEmail = window.localStorage.getItem(getPendingEmailKey()) || '';
+  }
+
+  function storePendingEmail(nextEmail: string) {
+    if (typeof window === 'undefined' || !$userID) return;
+    window.localStorage.setItem(getPendingEmailKey(), nextEmail);
+    pendingEmail = nextEmail;
+  }
+
+  function clearPendingEmail() {
+    if (typeof window === 'undefined' || !$userID) return;
+    window.localStorage.removeItem(getPendingEmailKey());
+    pendingEmail = '';
+  }
+
+  function checkEmailChangeCompletion() {
+    if (!pendingEmail || !$userEmail) return;
+    if ($userEmail.toLowerCase() !== pendingEmail.toLowerCase()) return;
+
+    clearPendingEmail();
+    setMessage('email', 'Email address confirmed and updated.', 'success');
+    pushToast('Email address updated successfully.', 'success');
+  }
+
+  function clearPasswordFields() {
+    editValues.currentPassword = '';
+    editValues.newPassword = '';
+    editValues.confirmPassword = '';
+    showCurrentPassword = false;
+    showNewPassword = false;
+    showConfirmPassword = false;
+  }
+
+  function syncEditValuesFromState() {
+    editValues.username = $username;
+    editValues.email = $userEmail;
+    editValues.visibility = isPublic;
+    clearPasswordFields();
+  }
+
+  function clearMessages() {
+    messages.username = { text: '', type: '' };
+    messages.email = { text: '', type: '' };
+    messages.password = { text: '', type: '' };
+    messages.visibility = { text: '', type: '' };
+  }
+
+  function startEditing() {
+    syncEditValuesFromState();
+    clearMessages();
+    isEditing = true;
+  }
+
+  function cancelEditing() {
+    syncEditValuesFromState();
+    clearMessages();
+    isEditing = false;
+  }
+
+  async function updateField(section: 'username' | 'email' | 'password' | 'visibility') {
     isLoading = true;
     try {
       if (section === 'username') {
+        const nextUsername = editValues.username.trim();
+        if (!nextUsername) throw new Error('Username cannot be empty.');
+        if (nextUsername === $username) throw new Error('Username is unchanged.');
+
         const { error } = await supabase
           .from('profiles')
-          .update({ username: editValues.username })
+          .update({ username: nextUsername })
           .eq('id', $userID);
         if (error) throw error;
-        username.set(editValues.username);
-        setMessage('username', 'Updated!', 'success');
+        editValues.username = nextUsername;
+        username.set(nextUsername);
+        setMessage('username', 'Username updated.', 'success');
+        pushToast('Username updated successfully.', 'success');
       }
       else if (section === 'email') {
-        const { error } = await supabase.auth.updateUser({ email: editValues.email });
+        const nextEmail = editValues.email.trim().toLowerCase();
+        if (!nextEmail) throw new Error('Email cannot be empty.');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) throw new Error('Enter a valid email address.');
+        if (nextEmail === $userEmail.toLowerCase()) throw new Error('Email is unchanged.');
+
+        const emailRedirectTo = typeof window !== 'undefined' ? `${window.location.origin}/account` : undefined;
+        const { error } = await supabase.auth.updateUser({ email: nextEmail }, { emailRedirectTo });
         if (error) throw error;
-        setMessage('email', 'Verification sent!', 'success');
+        storePendingEmail(nextEmail);
+        setMessage('email', 'Confirmation email sent to your new address.', 'success');
+        pushToast('Confirmation email sent. Verify to finish email change.', 'success');
       }
       else if (section === 'password') {
-        if (!editValues.password) throw new Error("Password cannot be empty");
-        const { error } = await supabase.auth.updateUser({ password: editValues.password });
+        const currentPassword = editValues.currentPassword.trim();
+        const newPassword = editValues.newPassword.trim();
+        const confirmPassword = editValues.confirmPassword.trim();
+
+        if (!currentPassword) throw new Error('Current password is required.');
+        if (!newPassword) throw new Error('New password is required.');
+        if (newPassword.length < 8) throw new Error('New password must be at least 8 characters.');
+        if (newPassword !== confirmPassword) throw new Error('New password fields do not match.');
+        if (currentPassword === newPassword) throw new Error('New password must differ from current password.');
+
+        const { error: verifyError } = await supabase.auth.signInWithPassword({
+          email: $userEmail,
+          password: currentPassword
+        });
+        if (verifyError) throw new Error('Current password is incorrect.');
+
+        const { error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) throw error;
-        editValues.password = '';
-        setMessage('password', 'Password updated!', 'success');
+        editValues.currentPassword = '';
+        editValues.newPassword = '';
+        editValues.confirmPassword = '';
+        showCurrentPassword = false;
+        showNewPassword = false;
+        showConfirmPassword = false;
+        setMessage('password', 'Password updated.', 'success');
+        pushToast('Password updated successfully.', 'success');
       }
       else if (section === 'visibility') {
+        if (editValues.visibility === isPublic) throw new Error('Visibility is unchanged.');
+
         const { error } = await supabase
           .from('profiles')
           .update({ is_public: editValues.visibility })
           .eq('id', $userID);
         if (error) throw error;
         isPublic = editValues.visibility;
-        setMessage('visibility', 'Updated!', 'success');
+        const visibilityLabel = isPublic ? 'Public' : 'Private';
+        setMessage('visibility', `Profile visibility set to ${visibilityLabel}.`, 'success');
+        pushToast(`Profile visibility changed to ${visibilityLabel}.`, 'success');
       }
-      else if (section === 'mcID') {
-        // Functionality not needed yet as per instructions
-        setMessage('mcID', 'Saved (Draft)', 'success');
-      }
-
-      editStates[section] = false;
     } catch (error: any) {
       setMessage(section, error.message || 'Error updating', 'error');
+      throw error;
     } finally {
       isLoading = false;
+    }
+  }
+
+  async function saveAllChanges() {
+    clearMessages();
+    let hasChanges = false;
+
+    const nextUsername = editValues.username.trim();
+    const nextEmail = editValues.email.trim().toLowerCase();
+    const hasPasswordInput = Boolean(
+      editValues.currentPassword.trim() ||
+      editValues.newPassword.trim() ||
+      editValues.confirmPassword.trim()
+    );
+    const visibilityChanged = editValues.visibility !== isPublic;
+
+    try {
+      if (nextUsername !== $username) {
+        hasChanges = true;
+        await updateField('username');
+      }
+
+      if (nextEmail && nextEmail !== $userEmail.toLowerCase()) {
+        hasChanges = true;
+        await updateField('email');
+      }
+
+      if (hasPasswordInput) {
+        hasChanges = true;
+        await updateField('password');
+      }
+
+      if (visibilityChanged) {
+        hasChanges = true;
+        await updateField('visibility');
+      }
+
+      if (!hasChanges) {
+        pushToast('No changes to save.', 'error');
+        return;
+      }
+
+      isEditing = false;
+      clearPasswordFields();
+    } catch (error: any) {
+      // Section-level messages are set in updateField; keep this catch
+      // to prevent an uncaught promise rejection from bubbling to console.
+      pushToast(error?.message || 'Unable to save all changes.', 'error');
     }
   }
 
@@ -140,213 +300,193 @@
     isLoggingOut = false;
   }
 
-  function toggleEdit(section: keyof typeof editStates) {
-    editStates[section] = !editStates[section];
-    if (editStates[section]) {
-      // Sync values when opening
-      if (section === 'username') editValues.username = $username;
-      if (section === 'email') editValues.email = $userEmail;
-      if (section === 'visibility') editValues.visibility = isPublic;
-    }
+  $: if ($userEmail) {
+    checkEmailChangeCompletion();
   }
 </script>
 
-<div class="mx-auto max-w-6xl px-6 md:px-10 select-none pb-20 pt-25 md:pt-30">
-  <!-- Header Section -->
-  <div class="mb-12 text-center">
-    <h1 class="lg:text-4xl md:text-3xl text-2xl font-bold">Account Settings</h1>
-    <p class="mt-4 text-sm md:text-md text-stone-400">Modify your avatar, username, and personal information.</p>
+<div class="mx-auto max-w-5xl px-6 md:px-10 select-none pb-20 pt-25 md:pt-30">
+  <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h1 class="lg:text-4xl md:text-3xl text-2xl font-bold text-left">Account Settings</h1>
+      <p class="mt-3 text-sm md:text-base text-stone-400">
+        Modify your avatar, username, and personal information.
+      </p>
+    </div>
+    {#if !isEditing}
+      <button class="btn btn-primary btn-sm md:btn-md" on:click={startEditing}>
+        <i class="fa-solid fa-pen-to-square"></i>
+        Edit Information
+      </button>
+    {/if}
   </div>
 
-  <div class="flex flex-col gap-8 items-center">
+  <div class="rounded-3xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tr from-black to-zinc-800 p-4 md:p-8">
+    <div class="mb-8 flex items-center gap-4 md:gap-6">
+      <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border border-neutral/80 bg-zinc-800 flex items-center justify-center overflow-hidden drop-shadow-2xl">
+        <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+      </div>
+      <div>
+        <h2 class="text-xl md:text-2xl font-semibold text-left">{$username}</h2>
+        <p class="text-sm text-stone-400 text-left">{$userEmail}</p>
+      </div>
+    </div>
 
-    <div class="flex flex-row items-center gap-5">
-      <div class="relative group">
-        <div class="w-15 h-15 md:w-20 md:h-20 rounded-2xl border-3 border-neutral bg-zinc-800 flex items-center justify-center overflow-hidden drop-shadow-2xl">
-          <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold">Username</h3>
+          <i class="fa-regular fa-user text-primary"></i>
         </div>
-        <button
-          class="absolute bottom-1 right-1 text-white hover:cursor-pointer"
-          on:click={() => toggleEdit('mcID')}
-          aria-label="Edit Avatar/MCID"
-        >
-          <i class="fa-solid fa-pen md:text-lg text-sm hover:text-primary transition-colors"></i>
-        </button>
+        {#if isEditing}
+          <input
+            bind:value={editValues.username}
+            class="input input-sm md:input-md input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full mt-3"
+            maxlength="30"
+            placeholder="Enter username"
+          />
+        {:else}
+          <p class="mt-3 text-stone-400 text-left">{$username}</p>
+        {/if}
+        {#if messages.username.text}
+          <p class={`text-[11px] mt-2 text-left ${messages.username.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.username.text}</p>
+        {/if}
       </div>
 
-      <!-- MCID Input Prompt (Visible when editing mcID) -->
-      <!-- {#if editStates.mcID}
-        <div class="w-full max-w-xs animate-in fade-in slide-in-from-top-2">
-          <label class="block text-xs font-semibold text-primary mb-2 uppercase tracking-wider">Minecraft User ID</label>
-          <div class="flex gap-2">
-            <input
-              bind:value={mcID}
-              type="text"
-              placeholder="Enter MC UUID"
-              class="input input-sm input-bordered bg-black/20 focus:border-primary w-full"
-            />
-            <button class="btn btn-sm btn-primary" on:click={() => updateField('mcID')}>Save</button>
-          </div>
-          {#if messages.mcID.text}
-            <p class={`text-[10px] mt-1 ${messages.mcID.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.mcID.text}</p>
-          {/if}
+      <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold">Email Address</h3>
+          <i class="fa-regular fa-envelope text-primary"></i>
         </div>
-      {/if} -->
+        {#if isEditing}
+          <input
+            bind:value={editValues.email}
+            type="email"
+            class="input input-sm md:input-md input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full mt-3"
+            placeholder="Enter email address"
+          />
+        {:else}
+          <p class="mt-3 text-stone-400 break-all text-left">{$userEmail}</p>
+        {/if}
+        {#if pendingEmail && pendingEmail.toLowerCase() !== $userEmail.toLowerCase()}
+          <p class="mt-2 text-[11px] text-warning text-left">Pending confirmation for: {pendingEmail}</p>
+        {/if}
+        {#if messages.email.text}
+          <p class={`text-[11px] mt-2 text-left ${messages.email.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.email.text}</p>
+        {/if}
+      </div>
 
-      <!-- User Info -->
-      <div class="w-full space-y-2">
-        {#if editStates.username}
-          <div class="flex gap-2 items-center">
-            <input
-              bind:value={editValues.username}
-              class="input input-bordered bg-black/20 focus:border-primary w-full text-xl font-bold h-10"
-            />
-            <button class="btn btn-sm btn-square btn-primary" on:click={() => updateField('username')}>
-              <i class="fa-solid fa-check"></i>
-            </button>
-            <button class="btn btn-sm btn-square btn-ghost" on:click={() => toggleEdit('username')}>
-              <i class="fa-solid fa-xmark"></i>
-            </button>
+      <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold">Password</h3>
+          <i class="fa-solid fa-key text-primary"></i>
+        </div>
+        {#if isEditing}
+          <div class="space-y-2 mt-3">
+            <div class="relative">
+              <input
+                bind:value={editValues.currentPassword}
+                type={showCurrentPassword ? 'text' : 'password'}
+                placeholder="Current password"
+                class="input input-sm input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full pr-10"
+              />
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                on:click={() => (showCurrentPassword = !showCurrentPassword)}
+                aria-label={showCurrentPassword ? 'Hide current password' : 'Show current password'}
+              >
+                <i class={`fa-solid ${showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+              </button>
+            </div>
+            <div class="relative">
+              <input
+                bind:value={editValues.newPassword}
+                type={showNewPassword ? 'text' : 'password'}
+                placeholder="New password"
+                class="input input-sm input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full pr-10"
+              />
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                on:click={() => (showNewPassword = !showNewPassword)}
+                aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+              >
+                <i class={`fa-solid ${showNewPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+              </button>
+            </div>
+            <div class="relative">
+              <input
+                bind:value={editValues.confirmPassword}
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Confirm new password"
+                class="input input-sm input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full pr-10"
+              />
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2"
+                on:click={() => (showConfirmPassword = !showConfirmPassword)}
+                aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+              >
+                <i class={`fa-solid ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+              </button>
+            </div>
           </div>
         {:else}
-          <div class="flex items-center gap-3 justify-center group">
-            <h2 class="text-xl md:text-2xl font-bold">{$username}</h2>
-            <button
-              class="text-stone-500 hover:text-primary"
-              on:click={() => toggleEdit('username')}
-            >
-              <i class="fa-solid fa-pen text-sm hover:cursor-pointer"></i>
-            </button>
+          <p class="mt-3 tracking-widest text-stone-400 text-left">••••••••••••••••</p>
+        {/if}
+        {#if messages.password.text}
+          <p class={`text-[11px] mt-2 text-left ${messages.password.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.password.text}</p>
+        {/if}
+      </div>
+
+      <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold">Profile Visibility</h3>
+          <i class={`fa-solid ${isPublic ? 'fa-globe' : 'fa-lock'} text-primary`}></i>
+        </div>
+        {#if isEditing}
+          <div class="mt-3 flex items-center gap-3">
+            <input type="checkbox" class="toggle toggle-primary toggle-sm" bind:checked={editValues.visibility} />
+            <span class="text-stone-400">{editValues.visibility ? 'Public' : 'Private'}</span>
           </div>
+        {:else}
+          <p class="mt-3 text-stone-400 text-left">{isPublic ? 'Public' : 'Private'}</p>
         {/if}
-        <p class="text-stone-400 text-sm md:text-md">{$userEmail}</p>
-        {#if messages.username.text}
-          <p class={`text-xs mt-1 ${messages.username.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.username.text}</p>
+        {#if messages.visibility.text}
+          <p class={`text-[11px] mt-2 text-left ${messages.visibility.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.visibility.text}</p>
         {/if}
+      </div>
+
+      <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5 md:col-span-2">
+        <div class="flex items-center justify-center gap-3">
+          <h3 class="text-base font-semibold">Member Since</h3>
+          <i class="fa-solid fa-calendar-days text-primary"></i>
+        </div>
+        <p class="mt-3 text-stone-400 text-center">{createdAt || 'Loading...'}</p>
       </div>
     </div>
 
-    <!-- Main Content / Right Column -->
-    <div class="lg:w-2/3 space-y-10">
-      <!-- <div class="text-left">
-        <h3 class="text-xl md:text-2xl font-bold">Personal Information</h3>
-        <p class="mt-2 text-sm text-stone-400">Manage your sensitive account information and how your profile visibility.</p>
-      </div> -->
-
-      <!-- Info Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- Email Card -->
-        <div class="relative bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-6 border-1 border-neutral drop-shadow-xl min-h-[140px] flex flex-col justify-between overflow-hidden">
-          <div>
-            <div class="flex items-center gap-3">
-              <label class="text-md md:text-lg">Email Address</label>
-              <i class="fa-solid fa-envelope text-primary text-md md:text-lg"></i>
-            </div>
-            {#if editStates.email}
-              <input
-                bind:value={editValues.email}
-                type="email"
-                class="input input-sm input-bordered bg-black/20 focus:border-primary w-full mt-2"
-              />
-              <div class="flex gap-2 mt-2">
-                <button class="btn btn-xs btn-primary" on:click={() => updateField('email')}>Update</button>
-                <button class="btn btn-xs btn-ghost" on:click={() => toggleEdit('email')}>Cancel</button>
-              </div>
-              {#if messages.email.text}
-                <p class={`text-[10px] mt-1 ${messages.email.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.email.text}</p>
-              {/if}
-            {:else}
-              <p class="mt-2 text-md text-stone-400 text-left">{$userEmail}</p>
-            {/if}
-          </div>
-          <button
-            class="absolute bottom-4 right-4 text-stone-500 hover:text-primary hover:cursor-pointer transition-colors"
-            on:click={() => toggleEdit('email')}
-          >
-            <i class="fa-solid fa-pen text-sm"></i>
-          </button>
-        </div>
-
-        <!-- Password Card -->
-        <div class="relative bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-6 border-1 border-neutral drop-shadow-xl min-h-[140px] flex flex-col justify-between overflow-hidden">
-          <div>
-            <div class="flex items-center gap-3">
-              <label class="text-md md:text-lg">Password</label>
-              <i class="fa-solid fa-key text-primary text-md md:text-lg"></i>
-            </div>
-            {#if editStates.password}
-              <input
-                bind:value={editValues.password}
-                type="password"
-                placeholder="New password"
-                class="input input-sm input-bordered bg-black/20 focus:border-primary w-full mt-2"
-              />
-              <div class="flex gap-2 mt-2">
-                <button class="btn btn-xs btn-primary" on:click={() => updateField('password')}>Change</button>
-                <button class="btn btn-xs btn-ghost" on:click={() => toggleEdit('password')}>Cancel</button>
-              </div>
-              {#if messages.password.text}
-                <p class={`text-[10px] mt-1 ${messages.password.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.password.text}</p>
-              {/if}
-            {:else}
-              <p class="mt-2 text-md text-stone-400 tracking-widest text-left">•••••••••••••••</p>
-            {/if}
-          </div>
-          <button
-            class="absolute bottom-4 right-4 text-stone-500 hover:text-primary hover:cursor-pointer transition-colors"
-            on:click={() => toggleEdit('password')}
-          >
-            <i class="fa-solid fa-pen text-sm"></i>
-          </button>
-        </div>
-
-        <!-- Visibility Card -->
-        <div class="relative bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-6 border-1 border-neutral drop-shadow-xl min-h-[140px] flex flex-col justify-between overflow-hidden">
-          <div>
-            <div class="flex items-center gap-3">
-              <label class="text-md md:text-lg">Profile Visibility</label>
-              <i class={`fa-solid ${isPublic ? 'fa-globe' : 'fa-lock'} text-primary text-md md:text-lg`}></i>
-            </div>
-            {#if editStates.visibility}
-              <div class="flex items-center gap-4 mt-3">
-                <input type="checkbox" class="toggle toggle-primary toggle-sm" bind:checked={editValues.visibility} />
-                <span class="text-xs text-stone-400">{editValues.visibility ? 'Public' : 'Private'}</span>
-              </div>
-              <div class="flex gap-2 mt-3">
-                <button class="btn btn-xs btn-primary" on:click={() => updateField('visibility')}>Save</button>
-                <button class="btn btn-xs btn-ghost" on:click={() => toggleEdit('visibility')}>Cancel</button>
-              </div>
-              {#if messages.visibility.text}
-                <p class={`text-[10px] mt-1 ${messages.visibility.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.visibility.text}</p>
-              {/if}
-            {:else}
-              <p class="mt-2 text-md text-stone-400 text-left">{isPublic ? 'Public' : 'Private'}</p>
-            {/if}
-          </div>
-          <button
-            class="absolute bottom-4 right-4 text-stone-500 hover:text-primary hover:cursor-pointer transition-colors"
-            on:click={() => toggleEdit('visibility')}
-          >
-            <i class="fa-solid fa-pen text-sm"></i>
-          </button>
-        </div>
-
-        <!-- Member Since Card -->
-        <div class="relative bg-gradient-to-tr from-black to-zinc-700 rounded-xl p-6 border-1 border-neutral drop-shadow-xl min-h-[140px] flex flex-col justify-between overflow-hidden">
-          <div>
-            <div class="flex items-center gap-3">
-              <label class="text-md md:text-lg">Member Since</label>
-              <i class="fa-solid fa-calendar-days text-primary text-md md:text-lg"></i>
-            </div>
-            <p class="mt-2 text-md text-stone-400 text-left">{createdAt || 'Loading...'}</p>
-          </div>
-        </div>
-
+    {#if isEditing}
+      <div class="mt-6 flex items-center justify-end gap-3">
+        <button class="btn btn-ghost btn-sm md:btn-md" on:click={cancelEditing} disabled={isLoading}>
+          Cancel
+        </button>
+        <button class="btn btn-primary btn-sm md:btn-md min-w-34" on:click={saveAllChanges} disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save Changes'}
+        </button>
       </div>
-    </div>
+    {/if}
   </div>
 </div>
+
+<!-- <div class="toast toast-bottom toast-end z-50">
+  {#each toasts as toast (toast.id)}
+    <div class={`alert shadow-lg ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
+      <span>{toast.text}</span>
+    </div>
+  {/each}
+</div> -->
 
 <style>
   /* Subtle glass effects and transitions */
