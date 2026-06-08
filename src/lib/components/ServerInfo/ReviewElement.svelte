@@ -60,58 +60,50 @@
     }
 </script>
 
-<li class="drop-shadow-xl/80 list-row w-full flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <div class="flex items-center gap-5">
-        <div class="avatar">
-            <div class="w-8 md:w-10 rounded">
-              <img src={Steve} alt="The users' Minecraft avatar." />
+<li class="drop-shadow-xl/80 list-row w-full flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+    <!-- Row 1: avatar + username + action buttons -->
+    <div class="flex items-center gap-3">
+        <div class="avatar flex-shrink-0">
+            <div class="w-7 md:w-8 rounded">
+                <img src={Steve} alt="The users' Minecraft avatar." />
             </div>
-          </div>
-        <p class="select-none text-md md:text-lg">{info.username}</p>
-        <div class="flex items-center gap-1">
-            <i class="fa-star fa-solid text-primary text-md md:text-lg"></i>
-            <p class="select-none text-sm md:text-md">{info.rating}/5</p>
         </div>
-
-        <div class="flex items-center gap-2 ml-auto">
+        <p class="select-none text-sm md:text-md truncate">{info.username}</p>
+        <div class="flex items-center gap-3 ml-auto flex-shrink-0">
             {#if $userID === String(info.user_id)}
-                <a
-                    on:click={() => { openModal(); }}
-                    class="cursor-pointer text-md md:text-lg"
-                    aria-label="delete icon"
-                >
-                    <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
+                <a on:click={() => { openModal(); }} class="cursor-pointer hover:text-primary hover:scale-110 transition duration-300" aria-label="delete icon">
+                    <i class="fa-solid fa-trash-can"></i>
                 </a>
             {/if}
-
             {#if serverId}
-                <a
-                    on:click={() => push(`/server-info/${serverId}`)}
-                    class="cursor-pointer text-md md:text-lg hover:text-primary hover:scale-110 transition duration-300"
-                    aria-label="view server"
-                >
+                <a on:click={() => push(`/server-info/${serverId}`)} class="cursor-pointer hover:text-primary hover:scale-110 transition duration-300" aria-label="view server">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             {/if}
         </div>
     </div>
 
-    {#if serverHost}
-        <div class="flex items-center gap-1 text-xs text-stone-400">
-            <span class="cursor-pointer" on:click={copyServerHost}>
-                {serverHost}
-            </span>
-            {#if serverHostCopied}
-                <i class="fa-solid fa-check text-green-500 text-xs"></i>
-            {:else}
-                <i class="fa-regular fa-copy hover:text-primary transition-colors text-xs cursor-pointer" on:click={copyServerHost}></i>
-            {/if}
+    <!-- Row 2: rating + server host -->
+    <div class="flex items-center gap-2 text-xs text-stone-400">
+        <div class="flex items-center gap-1">
+            <i class="fa-star fa-solid text-primary"></i>
+            <span class="select-none">{info.rating}/5</span>
         </div>
-    {/if}
-
-    <div class="flex items-center">
-        <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
+        {#if serverHost}
+            <span>·</span>
+            <div class="flex items-center gap-1 cursor-pointer" on:click={copyServerHost}>
+                <span class="break-all">{serverHost}</span>
+                {#if serverHostCopied}
+                    <i class="fa-solid fa-check text-green-500 flex-shrink-0"></i>
+                {:else}
+                    <i class="fa-regular fa-copy hover:text-primary transition-colors flex-shrink-0"></i>
+                {/if}
+            </div>
+        {/if}
     </div>
+
+    <!-- Row 3: review text -->
+    <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
 </li>
 
 {#if showModal}
