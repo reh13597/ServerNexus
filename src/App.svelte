@@ -17,6 +17,7 @@
   import Explore from './lib/pages/features/Explore.svelte';
   import Profiles from './lib/pages/features/Profiles.svelte';
   import ServerInfo from './lib/pages/features/ServerInfo.svelte';
+  import UserProfile from './lib/pages/features/UserProfile.svelte';
 
   import Navbar from './lib/components/Navbar.svelte';
   import Footer from './lib/components/Footer.svelte';
@@ -66,7 +67,9 @@
     '/explore': Explore,
     '/profiles': Profiles,
 
-    '/server-info/:serverId': ServerInfo
+    '/server-info/:serverId': ServerInfo,
+
+    '/profile/:userId': UserProfile
   };
 </script>
 
