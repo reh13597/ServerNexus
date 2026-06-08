@@ -4,12 +4,16 @@
     import Steve from '../../../assets/steve.jpg';
     import { supabase } from '../../supabase';
     import { fade, scale } from 'svelte/transition';
+    import { push } from 'svelte-spa-router';
 
     export let info: ReviewInfo;
     export let onDeleted: (id: number) => void = () => {};
+    export let serverHost: string = '';
+    export let serverId: number | null = null;
 
     let isDeleting = false;
     let showModal = false;
+    let serverHostCopied = false;
 
     function portal(node: HTMLElement) {
         requestAnimationFrame(() => {
@@ -29,6 +33,12 @@
 
     function closeModal() {
         showModal = false;
+    }
+
+    async function copyServerHost() {
+        await navigator.clipboard.writeText(serverHost);
+        serverHostCopied = true;
+        setTimeout(() => serverHostCopied = false, 3000);
     }
 
     async function deleteReview() {
@@ -63,16 +73,42 @@
             <p class="select-none text-sm md:text-md">{info.rating}/5</p>
         </div>
 
-        {#if $userID === String(info.user_id)}
-            <a
-                on:click={() => { openModal(); }}
-                class="cursor-pointer text-md md:text-lg ml-auto"
-                aria-label="delete icon"
-            >
-                <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
-            </a>
-        {/if}
+        <div class="flex items-center gap-2 ml-auto">
+            {#if serverId}
+                <a
+                    on:click={() => push(`/server-info/${serverId}`)}
+                    class="cursor-pointer text-md md:text-lg hover:text-primary hover:scale-110 transition duration-300"
+                    aria-label="view server"
+                >
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            {/if}
+
+            {#if $userID === String(info.user_id)}
+                <a
+                    on:click={() => { openModal(); }}
+                    class="cursor-pointer text-md md:text-lg"
+                    aria-label="delete icon"
+                >
+                    <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
+                </a>
+            {/if}
+        </div>
     </div>
+
+    {#if serverHost}
+        <div class="flex items-center gap-1 text-xs text-stone-400">
+            <i class="fa-solid fa-server text-primary text-xs"></i>
+            <span class="cursor-pointer" on:click={copyServerHost}>
+                {serverHost}
+            </span>
+            {#if serverHostCopied}
+                <i class="fa-solid fa-check text-green-500 text-xs"></i>
+            {:else}
+                <i class="fa-regular fa-copy hover:text-primary transition-colors text-xs cursor-pointer" on:click={copyServerHost}></i>
+            {/if}
+        </div>
+    {/if}
 
     <div class="flex items-center">
         <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>

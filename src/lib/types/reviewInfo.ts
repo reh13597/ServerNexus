@@ -6,4 +6,5 @@ export interface ReviewInfo {
     avatar: string | null;
     rating: number;
     review: string;
+    server_host?: string;
 }
