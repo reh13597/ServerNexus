@@ -18,7 +18,6 @@
     onMount(async () => {
         isLoading = true;
 
-        // Fetch profile and check visibility
         const { data: profileData, error: profileError } = await supabase
             .from('profiles')
             .select('username, is_public')
@@ -32,7 +31,6 @@
 
         profileUsername = profileData.username ?? '';
 
-        // Fetch saved servers and reviews in parallel
         const [serversResult, reviewsResult] = await Promise.all([
             supabase
                 .from('saved_servers_with_rating')
@@ -60,82 +58,98 @@
     });
 </script>
 
-<div class="px-5 pb-12">
-    <button
-        on:click={() => push('/profiles')}
-        class="btn btn-ghost border-1 border-gray-500 hover:bg-primary hover:scale-105 transition duration-300 mt-25 md:mt-30"
-    >
-        <i class="fa-solid fa-arrow-left mr-2"></i>Back
-    </button>
+<div class="flex justify-center mt-20 md:mt-25 pb-10 mx-auto px-5 max-w-5xl">
+    <div class="flex flex-col md:flex-row gap-5 md:gap-10 items-start w-full">
 
-    <div class="max-w-3xl mx-auto mt-8 flex items-center gap-4">
-        <div class="avatar">
-            <div class="w-12 md:w-16 rounded">
-                <img src={Steve} alt="User avatar" />
+        <!-- Back button (matches server info page style) -->
+        <div class="flex justify-start md:pt-1">
+            <a
+                on:click={() => push('/profiles')}
+                class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-300"
+                aria-label="Back to Profiles"
+            >
+                <i class="fa-arrow-left fa-solid text-xl md:text-3xl"></i>
+            </a>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+
+            <!-- Profile identity row -->
+            <div class="flex items-center gap-4 mb-6 p-4 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 rounded-box drop-shadow-xl/80">
+                <div class="avatar">
+                    <div class="w-12 md:w-14 rounded">
+                        <img src={Steve} alt="User avatar" />
+                    </div>
+                </div>
+                <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
+            </div>
+
+            <!-- Side-by-side lists -->
+            <div class="flex flex-col md:flex-row gap-5">
+
+                <!-- Saved Servers -->
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-md md:text-lg font-semibold mb-3 text-left">Saved Servers</h3>
+                    {#if isLoading}
+                        <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] space-y-4">
+                            {#each [0, 1, 2, 3] as _}
+                                <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="skeleton rounded-lg w-10 h-10"></div>
+                                        <div class="skeleton h-5 w-28"></div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="skeleton h-5 w-8"></div>
+                                        <div class="skeleton h-5 w-5"></div>
+                                        <div class="skeleton h-5 w-5"></div>
+                                    </div>
+                                </li>
+                            {/each}
+                        </ul>
+                    {:else}
+                        <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] overflow-y-auto space-y-4">
+                            {#if savedServers.length === 0}
+                                <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">This user hasn't saved any servers yet.</div>
+                            {:else}
+                                {#each savedServers as server}
+                                    <ServerElement profile={server} />
+                                {/each}
+                            {/if}
+                        </ul>
+                    {/if}
+                </div>
+
+                <!-- Reviews -->
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-md md:text-lg font-semibold mb-3 text-left">Reviews</h3>
+                    {#if isLoading}
+                        <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] space-y-4">
+                            {#each [0, 1, 2, 3] as _}
+                                <li class="drop-shadow-xl/80 list-row flex flex-col border-1 border-neutral bg-zinc-700 p-4 gap-2">
+                                    <div class="flex items-center gap-3">
+                                        <div class="skeleton rounded w-8 h-8"></div>
+                                        <div class="skeleton h-5 w-24"></div>
+                                        <div class="skeleton h-5 w-10"></div>
+                                    </div>
+                                    <div class="skeleton h-4 w-full"></div>
+                                </li>
+                            {/each}
+                        </ul>
+                    {:else}
+                        <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] overflow-y-auto space-y-4">
+                            {#if reviews.length === 0}
+                                <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">This user hasn't written any reviews yet.</div>
+                            {:else}
+                                {#each reviews as review}
+                                    <ReviewElement info={review} serverHost={review.server_host ?? ''} serverId={review.server_id} />
+                                {/each}
+                            {/if}
+                        </ul>
+                    {/if}
+                </div>
+
             </div>
         </div>
-        <p class="text-2xl md:text-3xl font-bold">{profileUsername}</p>
-    </div>
-
-    <div class="max-w-3xl mx-auto">
-        <h2 class="text-lg md:text-xl font-bold mt-8 mb-3 text-left">Saved Servers</h2>
-
-        {#if isLoading}
-            <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-72 space-y-5">
-                {#each [0, 1, 2, 3] as _}
-                    <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="skeleton rounded-lg w-10 h-10 md:w-12 md:h-12"></div>
-                            <div class="skeleton h-6 w-24 md:w-48"></div>
-                        </div>
-                        <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6">
-                            <div class="skeleton h-5 w-8 md:w-12"></div>
-                            <div class="skeleton h-5 w-5"></div>
-                            <div class="skeleton h-5 w-5"></div>
-                        </div>
-                    </li>
-                {/each}
-            </ul>
-        {:else}
-            <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-72 overflow-y-auto space-y-5">
-                {#if savedServers.length === 0}
-                    <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md text-left">This user hasn't saved any servers yet.</div>
-                {:else}
-                    {#each savedServers as server}
-                        <ServerElement profile={server} />
-                    {/each}
-                {/if}
-            </ul>
-        {/if}
-
-        <h2 class="text-lg md:text-xl font-bold mt-8 mb-3 text-left">Reviews</h2>
-
-        {#if isLoading}
-            <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-72 space-y-5">
-                {#each [0, 1, 2, 3] as _}
-                    <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="skeleton rounded-lg w-10 h-10 md:w-12 md:h-12"></div>
-                            <div class="skeleton h-6 w-24 md:w-48"></div>
-                        </div>
-                        <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6">
-                            <div class="skeleton h-5 w-8 md:w-12"></div>
-                            <div class="skeleton h-5 w-5"></div>
-                            <div class="skeleton h-5 w-5"></div>
-                        </div>
-                    </li>
-                {/each}
-            </ul>
-        {:else}
-            <ul class="drop-shadow-xl/80 list border-1 border-neutral p-5 bg-gradient-to-tr from-black to-zinc-800 rounded-box max-h-72 overflow-y-auto space-y-5">
-                {#if reviews.length === 0}
-                    <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md text-left">This user hasn't written any reviews yet.</div>
-                {:else}
-                    {#each reviews as review}
-                        <ReviewElement info={review} serverHost={review.server_host ?? ''} serverId={review.server_id} />
-                    {/each}
-                {/if}
-            </ul>
-        {/if}
     </div>
 </div>

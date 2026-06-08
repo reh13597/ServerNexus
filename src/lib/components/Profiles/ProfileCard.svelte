@@ -25,7 +25,7 @@
             <p class="select-none">{profile.saved_count}</p>
         </div>
         <div class="flex items-center gap-1" title="Reviews">
-            <i class="fa-regular fa-comment text-primary"></i>
+            <i class="fa-solid fa-comment-dots text-primary"></i>
             <p class="select-none">{profile.review_count}</p>
         </div>
         <a on:click={goTo} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="View Profile">

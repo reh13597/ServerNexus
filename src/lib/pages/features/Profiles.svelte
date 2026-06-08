@@ -107,14 +107,14 @@
     </div>
 
     <div class="flex justify-center">
-        <div class="tabs tabs-lift drop-shadow-xl/80 w-full max-w-3xl">
+        <div class="tabs tabs-lift drop-shadow-xl/80 w-full max-w-4xl">
 
             <!-- Tab 1: My Profile -->
             <input type="radio" name="profiles_tabs" class="tab text-md md:text-lg text-primary hover:text-primary" aria-label="My Profile" checked />
             <div class="tab-content bg-gradient-to-tr from-black to-zinc-800 p-5 md:p-8">
 
                 <!-- Profile identity row -->
-                <div class="flex items-center gap-4 mb-5 p-4 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 rounded-box drop-shadow-xl/80">
+                <div class="flex items-center gap-4 mb-6 p-4 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 rounded-box drop-shadow-xl/80">
                     <div class="avatar">
                         <div class="w-12 md:w-14 rounded">
                             <img src={Steve} alt="Your avatar" />
@@ -140,67 +140,76 @@
                     </div>
                 {/if}
 
-                <!-- Saved Servers -->
-                <h3 class="text-sm md:text-md font-semibold mb-3 text-left text-stone-400 uppercase tracking-wider">Saved Servers</h3>
-                {#if !loadingMyProfile}
-                    <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box max-h-[35vh] overflow-y-auto space-y-4 mb-6">
-                        {#if savedServers.length === 0}
-                            <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't saved any servers yet.</div>
-                        {:else}
-                            {#each savedServers as server}
-                                <ServerElement profile={server} />
-                            {/each}
-                        {/if}
-                    </ul>
-                {:else}
-                    <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box max-h-[35vh] space-y-4 mb-6">
-                        {#each [0, 1, 2] as _}
-                            <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="skeleton rounded-lg w-10 h-10 md:w-12 md:h-12"></div>
-                                    <div class="skeleton h-6 w-24 md:w-48"></div>
-                                </div>
-                                <div class="flex items-center gap-2 md:gap-6">
-                                    <div class="skeleton h-5 w-8 md:w-12"></div>
-                                    <div class="skeleton h-5 w-5"></div>
-                                    <div class="skeleton h-5 w-5"></div>
-                                </div>
-                            </li>
-                        {/each}
-                    </ul>
-                {/if}
+                <!-- Side-by-side lists -->
+                <div class="flex flex-col md:flex-row gap-5">
 
-                <!-- My Reviews -->
-                <h3 class="text-sm md:text-md font-semibold mb-3 text-left text-stone-400 uppercase tracking-wider">My Reviews</h3>
-                {#if !loadingMyProfile}
-                    <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box max-h-[35vh] overflow-y-auto space-y-4">
-                        {#if myReviews.length === 0}
-                            <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't written any reviews yet.</div>
+                    <!-- Saved Servers -->
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-md md:text-lg font-semibold mb-3 text-left">Saved Servers</h3>
+                        {#if !loadingMyProfile}
+                            <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] overflow-y-auto space-y-4">
+                                {#if savedServers.length === 0}
+                                    <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't saved any servers yet.</div>
+                                {:else}
+                                    {#each savedServers as server}
+                                        <ServerElement profile={server} />
+                                    {/each}
+                                {/if}
+                            </ul>
                         {:else}
-                            {#each myReviews as review}
-                                <ReviewElement
-                                    info={review}
-                                    serverHost={review.server_host ?? ''}
-                                    serverId={review.server_id}
-                                    onDeleted={handleReviewDeleted}
-                                />
-                            {/each}
+                            <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] space-y-4">
+                                {#each [0, 1, 2, 3] as _}
+                                    <li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-zinc-700 p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="skeleton rounded-lg w-10 h-10"></div>
+                                            <div class="skeleton h-5 w-28"></div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="skeleton h-5 w-8"></div>
+                                            <div class="skeleton h-5 w-5"></div>
+                                            <div class="skeleton h-5 w-5"></div>
+                                        </div>
+                                    </li>
+                                {/each}
+                            </ul>
                         {/if}
-                    </ul>
-                {:else}
-                    <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box max-h-[35vh] space-y-4">
-                        {#each [0, 1, 2] as _}
-                            <li class="drop-shadow-xl/80 list-row flex flex-col border-1 border-neutral bg-zinc-700 p-4 gap-2">
-                                <div class="flex items-center gap-3">
-                                    <div class="skeleton rounded w-8 h-8 md:w-10 md:h-10"></div>
-                                    <div class="skeleton h-5 w-24 md:w-36"></div>
-                                    <div class="skeleton h-5 w-12"></div>
-                                </div>
-                                <div class="skeleton h-4 w-full"></div>
-                            </li>
-                        {/each}
-                    </ul>
-                {/if}
+                    </div>
+
+                    <!-- My Reviews -->
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-md md:text-lg font-semibold mb-3 text-left">My Reviews</h3>
+                        {#if !loadingMyProfile}
+                            <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] overflow-y-auto space-y-4">
+                                {#if myReviews.length === 0}
+                                    <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't written any reviews yet.</div>
+                                {:else}
+                                    {#each myReviews as review}
+                                        <ReviewElement
+                                            info={review}
+                                            serverHost={review.server_host ?? ''}
+                                            serverId={review.server_id}
+                                            onDeleted={handleReviewDeleted}
+                                        />
+                                    {/each}
+                                {/if}
+                            </ul>
+                        {:else}
+                            <ul class="list border-1 border-neutral p-4 bg-gradient-to-tr from-black to-zinc-900 rounded-box h-[45vh] space-y-4">
+                                {#each [0, 1, 2, 3] as _}
+                                    <li class="drop-shadow-xl/80 list-row flex flex-col border-1 border-neutral bg-zinc-700 p-4 gap-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="skeleton rounded w-8 h-8"></div>
+                                            <div class="skeleton h-5 w-24"></div>
+                                            <div class="skeleton h-5 w-10"></div>
+                                        </div>
+                                        <div class="skeleton h-4 w-full"></div>
+                                    </li>
+                                {/each}
+                            </ul>
+                        {/if}
+                    </div>
+
+                </div>
             </div>
 
             <!-- Tab 2: Public Profiles -->
