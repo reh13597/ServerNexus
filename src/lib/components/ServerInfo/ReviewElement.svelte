@@ -60,7 +60,7 @@
     }
 </script>
 
-<li class="drop-shadow-xl/80 list-row max-w-lg flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+<li class="drop-shadow-xl/80 list-row w-full flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <div class="flex items-center gap-5">
         <div class="avatar">
             <div class="w-8 md:w-10 rounded">
