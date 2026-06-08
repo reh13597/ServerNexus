@@ -328,7 +328,7 @@
       </div>
       <div>
         <h2 class="text-xl md:text-2xl font-semibold text-left">{$username}</h2>
-        <p class="text-sm text-stone-400">{$userEmail}</p>
+        <p class="text-sm text-stone-400 text-left">{$userEmail}</p>
       </div>
     </div>
 
