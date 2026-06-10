@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import { supabase } from '../supabase';
-import { username, userID, userEmail } from './user';
+import { username, userID, userEmail, avatar } from './user';
 
 export const email = writable('');
 export const password = writable('');
@@ -24,19 +24,21 @@ async function setUserData(session) {
     // Fetch username from profiles table
     const { data: profile } = await supabase
       .from('profiles')
-      .select('username')
+      .select('username, avatar')
       .eq('id', session.user.id)
       .maybeSingle();
-      
+
     if (profile?.username) {
       username.set(profile.username);
     } else {
       username.set(session.user.user_metadata?.username || '');
     }
+    avatar.set(profile?.avatar || '');
   } else {
     userID.set('');
     username.set('');
     userEmail.set('');
+    avatar.set('');
   }
 }
 

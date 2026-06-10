@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { ServerProfile } from '../../types/serverInfo';
+    import { isLoggedIn } from '../../stores/login';
     import { serverID } from '../../stores/profiles';
     import { userID } from '../../stores/user';
     import { push } from 'svelte-spa-router';
@@ -67,32 +68,32 @@
     }
 
     onMount(() => {
-        loadSaved();
+        if ($isLoggedIn) {
+            loadSaved();
+        }
     });
 </script>
 
-<li class="drop-shadow-xl/80 list-row flex items-center justify-between border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <div class="flex items-center gap-2 md:gap-4">
-        <img src={profile.icon} alt="Server Icon" class="rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 select-none" />
-        <div class="cursor-pointer text-xs md:text-lg lg:text-xl text-left" on:click={copyToClipboard}>
-            {profile.host}
-            {#if copied}
-                <i class="text-xs md:text-sm fa-solid fa-check text-green-500"></i>
-            {:else}
-                <i class="text-xs md:text-sm fa-regular fa-copy hover:text-primary transition-colors"></i>
-            {/if}
-        </div>
+<li class="drop-shadow-xl/80 list-row flex items-center gap-2 md:gap-3 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+    <img src={profile.icon} alt="Server Icon" class="rounded-lg w-8 h-8 md:w-10 md:h-10 select-none flex-shrink-0" />
+    <div class="cursor-pointer text-sm md:text-md text-left break-all min-w-0 flex-1" on:click={copyToClipboard}>
+        {profile.host}
+        {#if copied}
+            <i class="text-xs fa-solid fa-check text-green-500"></i>
+        {:else}
+            <i class="text-xs fa-regular fa-copy hover:text-primary transition-colors"></i>
+        {/if}
     </div>
-
-    <div class="flex items-center gap-2 sm:gap-2 md:gap-6 lg:gap-6 lg:text-xl md:text-lg text-sm">
+    <div class="flex items-center gap-3 md:gap-4 text-sm md:text-md flex-shrink-0">
         <div class="flex items-center gap-1">
             <i class="fa-star fa-solid text-primary"></i>
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
-
-        <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
-            <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
-        </a>
+        {#if $isLoggedIn}
+          <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+              <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
+          </a>
+        {/if}
         <a on:click={() => goTo()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="View Button">
             <i class="fa-arrow-right fa-solid"></i>
         </a>
