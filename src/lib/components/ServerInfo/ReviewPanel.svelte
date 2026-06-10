@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ServerProfile } from '../../types/serverInfo';
   import type { ReviewInfo } from '../../types/reviewInfo';
+  import { isLoggedIn } from '../../stores/login';
   import { userID, username } from '../../stores/user';
   import ReviewElement from './ReviewElement.svelte';
   import { supabase } from '../../supabase';
@@ -164,56 +165,62 @@
     </div>
 
     <div class="flex flex-col gap-5 flex-1">
-      <div>
-        <h1 class="text-sm md:text-md lg:text-lg">Rate & Review the server</h1>
-      </div>
+      {#if $isLoggedIn}
+        <div>
+          <h1 class="text-sm md:text-md lg:text-lg">Rate & Review the server</h1>
+        </div>
 
-      <div class="rating justify-center">
-        {#each [1, 2, 3, 4, 5] as star}
-          <input
-            type="radio"
-            name="rating-2"
-            class="mask mask-star-2 bg-primary"
-            aria-label="{star} star"
-            value={star}
-            checked={selectedRating === star}
-            on:change={() => selectedRating = star}
-          />
-        {/each}
-      </div>
+        <div class="rating justify-center">
+          {#each [1, 2, 3, 4, 5] as star}
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-primary"
+              aria-label="{star} star"
+              value={star}
+              checked={selectedRating === star}
+              on:change={() => selectedRating = star}
+            />
+          {/each}
+        </div>
 
-      <div>
-        <textarea
-          id="message"
-          name="message"
-          rows="4"
-          placeholder="Write your review here..."
-          class="textarea textarea-bordered w-full mb-3 bg-base-300"
-          bind:value={reviewText}
-        ></textarea>
-        {#if charsRemaining > 0 && !submitError}
-          <p class="text-xs text-stone-400">{charsRemaining} more character{charsRemaining !== 1 ? 's' : ''} required</p>
-        {/if}
-        {#if submitError}
-          <p class="text-error text-xs">Error: You can only submit one review per server.</p>
-        {/if}
-        {#if submitSuccess}
-          <p class="text-success text-xs">Review submitted successfully!</p>
-        {/if}
-      </div>
+        <div>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="Write your review here..."
+            class="textarea textarea-bordered w-full mb-3 bg-base-300"
+            bind:value={reviewText}
+          ></textarea>
+          {#if charsRemaining > 0 && !submitError}
+            <p class="text-xs text-stone-400">{charsRemaining} more character{charsRemaining !== 1 ? 's' : ''} required</p>
+          {/if}
+          {#if submitError}
+            <p class="text-error text-xs">Error: You can only submit one review per server.</p>
+          {/if}
+          {#if submitSuccess}
+            <p class="text-success text-xs">Review submitted successfully!</p>
+          {/if}
+        </div>
 
-      <button
-        type="submit"
-        class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-300"
-        disabled={!isFormValid || isSubmitting}
-        on:click={handleSubmit}
-      >
-        {#if isSubmitting}
-          <span class="loading loading-spinner loading-sm"></span> Submitting...
-        {:else}
-          Submit Review
-        {/if}
-      </button>
+        <button
+          type="submit"
+          class="drop-shadow-xl/80 btn btn-primary w-full hover:scale-103 transition duration-300"
+          disabled={!isFormValid || isSubmitting}
+          on:click={handleSubmit}
+        >
+          {#if isSubmitting}
+            <span class="loading loading-spinner loading-sm"></span> Submitting...
+          {:else}
+            Submit Review
+          {/if}
+        </button>
+      {:else}
+        <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm md:text-md lg:text-lg text-center">
+          <a href="#/login" class="text-primary hover:underline">Log in</a> to leave a review
+        </div>
+      {/if}
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { supabase } from '../supabase';
   import { isLoggedIn } from '../stores/login';
-  import { username, userEmail } from '../stores/user';
+  import { username, userEmail, avatar } from '../stores/user';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
 
@@ -148,6 +148,22 @@
           Home
         </a>
         <a
+          href="#/status"
+          class="hover:text-primary transition-colors"
+          class:text-white={!isActivePath('/status')}
+          class:text-primary={isActivePath('/status')}
+          >
+          Status
+        </a>
+        <a
+          href="#/explore"
+          class="hover:text-primary transition-colors"
+          class:text-white={!isExploreActive()}
+          class:text-primary={isExploreActive()}
+          >
+          Explore
+        </a>
+        <a
           href="#/about"
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/about')}
@@ -264,6 +280,24 @@
             <li>
               <a
                 class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isActivePath('/status')}
+                href="#/status"
+              >
+                Status
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
+                class:text-primary={isExploreActive()}
+                href="#/explore"
+              >
+                Explore
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
                 class:text-primary={isActivePath('/about')}
                 href="#/about"
               >
@@ -305,7 +339,7 @@
           <img
             class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-300"
             class:border-primary={isActivePath('/account')}
-            src="src/assets/steve.jpg"
+            src={$avatar || 'src/assets/steve.jpg'}
             alt="Avatar"
           />
         </a>

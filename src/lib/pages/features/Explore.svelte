@@ -1,5 +1,6 @@
 <script lang="ts">
     import ServerElement from '../../components/ServerInfo/ServerElement.svelte';
+    import { isLoggedIn } from '../../stores/login';
     import { userID } from '../../stores/user';
     import { supabase } from '../../supabase';
     import { onMount } from 'svelte';
@@ -48,7 +49,7 @@
 
     onMount(async () => {
       isLoading = true;
-      await Promise.all([getServerData(), getSavedServers()]);
+      await Promise.all([getServerData(), ...$isLoggedIn ? [getSavedServers()] : []]);
       await new Promise(r => setTimeout(r, 400));
       isLoading = false;
     });
@@ -73,7 +74,9 @@
           </svg>
           <input bind:value={searchQuery} type="search" class="grow" placeholder="Search for a server..." />
       </label>
-      <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-105 transition duration-300 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
+      {#if $isLoggedIn}
+        <button on:click={() => viewSaved()} class={`drop-shadow-xl/80 btn hover:scale-105 transition duration-300 ${btnActive ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}>View Saved</button>
+      {/if}
     </div>
   </div>
 
