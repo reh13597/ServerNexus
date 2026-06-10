@@ -4,12 +4,16 @@
     import Steve from '../../../assets/steve.jpg';
     import { supabase } from '../../supabase';
     import { fade, scale } from 'svelte/transition';
+    import { push } from 'svelte-spa-router';
 
     export let info: ReviewInfo;
     export let onDeleted: (id: number) => void = () => {};
+    export let serverHost: string = '';
+    export let serverId: number | null = null;
 
     let isDeleting = false;
     let showModal = false;
+    let serverHostCopied = false;
 
     function portal(node: HTMLElement) {
         requestAnimationFrame(() => {
@@ -31,6 +35,12 @@
         showModal = false;
     }
 
+    async function copyServerHost() {
+        await navigator.clipboard.writeText(serverHost);
+        serverHostCopied = true;
+        setTimeout(() => serverHostCopied = false, 3000);
+    }
+
     async function deleteReview() {
         isDeleting = true;
         const { error } = await supabase
@@ -50,33 +60,50 @@
     }
 </script>
 
-<li class="drop-shadow-xl/80 list-row max-w-lg flex flex-col border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <div class="flex items-center gap-5">
-        <div class="avatar">
-            <div class="w-8 md:w-10 rounded">
-              <img src={Steve} alt="The users' Minecraft avatar." />
+<li class="drop-shadow-xl/80 list-row w-full flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+    <!-- Row 1: avatar + username + rating + action buttons -->
+    <div class="flex items-center gap-3">
+        <div class="avatar flex-shrink-0">
+            <div class="w-7 md:w-8 rounded">
+                <img src={info.avatar || Steve} alt="The users' Minecraft avatar." />
             </div>
-          </div>
-        <p class="select-none text-md md:text-lg">{info.username}</p>
-        <div class="flex items-center gap-1">
-            <i class="fa-star fa-solid text-primary text-md md:text-lg"></i>
-            <p class="select-none text-sm md:text-md">{info.rating}/5</p>
         </div>
-
-        {#if $userID === String(info.user_id)}
-            <a
-                on:click={() => { openModal(); }}
-                class="cursor-pointer text-md md:text-lg ml-auto"
-                aria-label="delete icon"
-            >
-                <i class="fa-solid fa-trash-can hover:text-primary hover:scale-110 transition duration-300"></i>
-            </a>
-        {/if}
+        <p class="select-none text-sm md:text-md truncate">{info.username}</p>
+        <span class="text-stone-500 select-none">|</span>
+        <div class="flex items-center gap-1 text-xs md:text-sm flex-shrink-0">
+            <i class="fa-star fa-solid text-primary"></i>
+            <span class="select-none text-stone-400">{info.rating}/5</span>
+        </div>
+        <div class="flex items-center gap-3 ml-auto flex-shrink-0">
+            {#if $userID === String(info.user_id)}
+                <a on:click={() => { openModal(); }} class="cursor-pointer hover:text-primary hover:scale-110 transition duration-300" aria-label="delete icon">
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
+            {/if}
+            {#if serverId}
+                <a on:click={() => push(`/server-info/${serverId}`)} class="cursor-pointer hover:text-primary hover:scale-110 transition duration-300" aria-label="view server">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            {/if}
+        </div>
     </div>
 
-    <div class="flex items-center">
-        <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
-    </div>
+    <!-- Row 2: server host (if present) -->
+    {#if serverHost}
+        <div class="flex items-center gap-2 text-xs text-stone-400">
+            <div class="flex items-center gap-1 cursor-pointer" on:click={copyServerHost}>
+                <span class="break-all">{serverHost}</span>
+                {#if serverHostCopied}
+                    <i class="fa-solid fa-check text-green-500 flex-shrink-0"></i>
+                {:else}
+                    <i class="fa-regular fa-copy hover:text-primary transition-colors flex-shrink-0"></i>
+                {/if}
+            </div>
+        </div>
+    {/if}
+
+    <!-- Row 3: review text -->
+    <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>
 </li>
 
 {#if showModal}

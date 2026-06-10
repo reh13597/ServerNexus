@@ -1,14 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { supabase } from '../supabase';
-  import { userID, userEmail, username } from '../stores/user';
+  import { userID, userEmail, username, avatar } from '../stores/user';
   import { push } from 'svelte-spa-router';
+  import Steve from '../../assets/steve.jpg';
 
   // --- Profile State ---
   let createdAt = '';
   let isPublic = false;
-  let avatarUrl = "src/assets/steve.jpg";
   let isEditing = false;
+  let avatarInput = '';
+  let avatarPreviewUrl = '';
 
   // --- Values for editing ---
   let editValues = {
@@ -62,12 +64,13 @@
   async function fetchProfile() {
     const { data, error } = await supabase
       .from('profiles')
-      .select('username, is_public, created_at')
+      .select('username, is_public, created_at, avatar')
       .eq('id', $userID)
       .single();
 
     if (data) {
       if (data.username) username.set(data.username);
+      if (data.avatar) avatar.set(data.avatar);
       isPublic = data.is_public ?? false;
       if (data.created_at) {
         const date = new Date(data.created_at);
@@ -135,11 +138,23 @@
     showConfirmPassword = false;
   }
 
+  function avatarUrl(input: string) {
+    return `https://mc-heads.net/avatar/${encodeURIComponent(input)}/100`;
+  }
+
+  function previewAvatar() {
+    const input = avatarInput.trim();
+    if (!input) return;
+    avatarPreviewUrl = avatarUrl(input);
+  }
+
   function syncEditValuesFromState() {
     editValues.username = $username;
     editValues.email = $userEmail;
     editValues.visibility = isPublic;
     clearPasswordFields();
+    avatarInput = '';
+    avatarPreviewUrl = '';
   }
 
   function clearMessages() {
@@ -253,6 +268,7 @@
       editValues.confirmPassword.trim()
     );
     const visibilityChanged = editValues.visibility !== isPublic;
+    const avatarChanged = avatarInput.trim().length > 0;
 
     try {
       if (nextUsername !== $username) {
@@ -273,6 +289,19 @@
       if (visibilityChanged) {
         hasChanges = true;
         await updateField('visibility');
+      }
+
+      if (avatarChanged) {
+        hasChanges = true;
+        const url = avatarUrl(avatarInput.trim());
+        const { error } = await supabase
+          .from('profiles')
+          .update({ avatar: url })
+          .eq('id', $userID);
+        if (error) throw error;
+        avatar.set(url);
+        avatarPreviewUrl = '';
+        avatarInput = '';
       }
 
       if (!hasChanges) {
@@ -324,7 +353,7 @@
   <div class="rounded-3xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tr from-black to-zinc-800 p-4 md:p-8">
     <div class="mb-8 flex items-center gap-4 md:gap-6">
       <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border border-neutral/80 bg-zinc-800 flex items-center justify-center overflow-hidden drop-shadow-2xl">
-        <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+        <img src={$avatar || Steve} alt="Avatar" class="w-full h-full object-cover" />
       </div>
       <div>
         <h2 class="text-xl md:text-2xl font-semibold text-left">{$username}</h2>
@@ -457,6 +486,36 @@
           <p class={`text-[11px] mt-2 text-left ${messages.visibility.type === 'success' ? 'text-success' : 'text-error'}`}>{messages.visibility.text}</p>
         {/if}
       </div>
+
+      {#if isEditing}
+        <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5 md:col-span-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold">Avatar</h3>
+            <i class="fa-solid fa-image text-primary"></i>
+          </div>
+          <div class="mt-3 flex flex-col sm:flex-row items-start sm:items-end gap-4">
+            <div class="flex-1 w-full">
+              <label class="text-xs text-stone-400 mb-3 block text-left">Minecraft Username or UUID</label>
+              <input
+                bind:value={avatarInput}
+                class="input input-sm md:input-md input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full"
+                placeholder="e.g. Notch"
+              />
+            </div>
+            <button class="btn btn-sm btn-ghost border border-neutral" on:click={previewAvatar} disabled={!avatarInput.trim()}>
+              <i class="fa-solid fa-eye"></i> Preview
+            </button>
+          </div>
+          {#if avatarPreviewUrl}
+            <div class="mt-4 flex items-center gap-4">
+              <div class="w-20 h-20 rounded-2xl border border-neutral/80 bg-zinc-800 overflow-hidden drop-shadow-2xl">
+                <img src={avatarPreviewUrl} alt="Avatar preview" class="w-full h-full object-cover" />
+              </div>
+              <p class="text-xs text-stone-400">Preview of your new avatar</p>
+            </div>
+          {/if}
+        </div>
+      {/if}
 
       <div class="rounded-2xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 p-5 md:col-span-2">
         <div class="flex items-center justify-center gap-3">

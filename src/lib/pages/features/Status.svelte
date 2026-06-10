@@ -1,5 +1,6 @@
 <script lang="ts">
     import { serverData, serverIp, serverPort, error, canFetchServerData } from '../../stores/server';
+    import { isLoggedIn } from '../../stores/login';
     import Card from '../../components/Cards/StatusCard.svelte';
     import { supabase } from '../../supabase';
     import { onDestroy } from 'svelte';
@@ -51,7 +52,7 @@
 
             const iconUrl = $serverData?.icon ?? null;
 
-            if (data.ip_address && data.srv_record && !$error) {
+            if ($isLoggedIn && data.ip_address && data.srv_record && !$error) {
                 const { error: serverError } = await supabase
                     .from('servers')
                     .upsert(
