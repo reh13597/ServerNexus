@@ -61,7 +61,7 @@
 </script>
 
 <li class="drop-shadow-xl/80 list-row w-full flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <!-- Row 1: avatar + username + action buttons -->
+    <!-- Row 1: avatar + username + rating + action buttons -->
     <div class="flex items-center gap-3">
         <div class="avatar flex-shrink-0">
             <div class="w-7 md:w-8 rounded">
@@ -69,6 +69,11 @@
             </div>
         </div>
         <p class="select-none text-sm md:text-md truncate">{info.username}</p>
+        <span class="text-stone-500 select-none">|</span>
+        <div class="flex items-center gap-1 text-xs md:text-sm flex-shrink-0">
+            <i class="fa-star fa-solid text-primary"></i>
+            <span class="select-none text-stone-400">{info.rating}/5</span>
+        </div>
         <div class="flex items-center gap-3 ml-auto flex-shrink-0">
             {#if $userID === String(info.user_id)}
                 <a on:click={() => { openModal(); }} class="cursor-pointer hover:text-primary hover:scale-110 transition duration-300" aria-label="delete icon">
@@ -83,14 +88,9 @@
         </div>
     </div>
 
-    <!-- Row 2: rating + server host -->
-    <div class="flex items-center gap-2 text-xs text-stone-400">
-        <div class="flex items-center gap-1">
-            <i class="fa-star fa-solid text-primary"></i>
-            <span class="select-none">{info.rating}/5</span>
-        </div>
-        {#if serverHost}
-            <span>·</span>
+    <!-- Row 2: server host (if present) -->
+    {#if serverHost}
+        <div class="flex items-center gap-2 text-xs text-stone-400">
             <div class="flex items-center gap-1 cursor-pointer" on:click={copyServerHost}>
                 <span class="break-all">{serverHost}</span>
                 {#if serverHostCopied}
@@ -99,8 +99,8 @@
                     <i class="fa-regular fa-copy hover:text-primary transition-colors flex-shrink-0"></i>
                 {/if}
             </div>
-        {/if}
-    </div>
+        </div>
+    {/if}
 
     <!-- Row 3: review text -->
     <p class="text-stone-400 text-xs md:text-sm italic text-left">{info.review}</p>

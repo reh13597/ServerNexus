@@ -36,7 +36,7 @@
     <p class="mt-4 text-md md:text-lg text-stone-400 select-none">Explore everything Server Nexus has to offer.</p>
 
     <!-- Metrics -->
-    <div class="mt-8 bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral rounded-2xl drop-shadow-xl/80 p-5 md:p-6 max-w-3xl">
+    <div class="mt-8 bg-gradient-to-tr from-black to-zinc-800 border-1 border-neutral rounded-2xl drop-shadow-xl/80 p-5 md:p-6 max-w-3xl mx-auto">
         {#if loading}
             <div class="flex justify-center py-2">
                 <span class="loading loading-dots loading-sm text-primary"></span>
@@ -69,7 +69,7 @@
     </div>
 
     <!-- Feature Cards -->
-    <div class="flex flex-wrap justify-center gap-10 mt-10">
+    <div class="flex flex-wrap justify-center gap-10 mt-16">
         <Card title="Server Status" description="Check the live status, player count, and details of any Minecraft server." path="status" />
         <Card title="Discover Servers" description="Browse through popular Minecraft servers, search for specific ones, or leave a review." path="explore" />
         <Card title="User Profiles" description="Modify your profile and browse through public profiles to see their server ratings/reviews." path="profiles" />
