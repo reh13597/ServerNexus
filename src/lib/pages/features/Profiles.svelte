@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { supabase } from '../../supabase';
-    import { userID, username } from '../../stores/user';
+    import { userID, username, avatar } from '../../stores/user';
     import ServerElement from '../../components/ServerInfo/ServerElement.svelte';
     import ReviewElement from '../../components/ServerInfo/ReviewElement.svelte';
     import ProfileCard from '../../components/Profiles/ProfileCard.svelte';
@@ -61,6 +61,7 @@
         if (data) {
             myReviews = (data as any[]).map(r => ({
                 ...r,
+                avatar: $avatar || null,
                 server_host: r.servers?.host ?? ''
             }));
         }
@@ -69,7 +70,8 @@
     async function loadPublicProfiles() {
         const { data } = await supabase
             .from('public_profiles_with_stats')
-            .select('*');
+            .select('*')
+            .neq('id', $userID);
         publicProfiles = data ?? [];
     }
 
@@ -117,7 +119,7 @@
                 <div class="flex items-center gap-4 mb-6 p-4 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 rounded-box drop-shadow-xl/80">
                     <div class="avatar">
                         <div class="w-12 md:w-14 rounded">
-                            <img src={Steve} alt="Your avatar" />
+                            <img src={$avatar || Steve} alt="Your avatar" />
                         </div>
                     </div>
                     <p class="text-lg md:text-xl font-semibold">{$username}</p>

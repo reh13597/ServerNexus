@@ -11,7 +11,6 @@
   let isEditing = false;
   let avatarInput = '';
   let avatarPreviewUrl = '';
-  let avatarSaving = false;
 
   // --- Values for editing ---
   let editValues = {
@@ -139,32 +138,14 @@
     showConfirmPassword = false;
   }
 
+  function avatarUrl(input: string) {
+    return `https://mc-heads.net/avatar/${encodeURIComponent(input)}/100`;
+  }
+
   function previewAvatar() {
     const input = avatarInput.trim();
     if (!input) return;
-    avatarPreviewUrl = `https://mineatar.io/face/${input}?scale=10`;
-  }
-
-  async function saveAvatar() {
-    const input = avatarInput.trim();
-    if (!input) return;
-    avatarSaving = true;
-    const url = `https://mineatar.io/face/${input}?scale=10`;
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ avatar: url })
-        .eq('id', $userID);
-      if (error) throw error;
-      avatar.set(url);
-      avatarPreviewUrl = '';
-      avatarInput = '';
-      pushToast('Avatar updated successfully.', 'success');
-    } catch (err: any) {
-      pushToast(err.message || 'Failed to save avatar.', 'error');
-    } finally {
-      avatarSaving = false;
-    }
+    avatarPreviewUrl = avatarUrl(input);
   }
 
   function syncEditValuesFromState() {
@@ -287,6 +268,7 @@
       editValues.confirmPassword.trim()
     );
     const visibilityChanged = editValues.visibility !== isPublic;
+    const avatarChanged = avatarInput.trim().length > 0;
 
     try {
       if (nextUsername !== $username) {
@@ -307,6 +289,19 @@
       if (visibilityChanged) {
         hasChanges = true;
         await updateField('visibility');
+      }
+
+      if (avatarChanged) {
+        hasChanges = true;
+        const url = avatarUrl(avatarInput.trim());
+        const { error } = await supabase
+          .from('profiles')
+          .update({ avatar: url })
+          .eq('id', $userID);
+        if (error) throw error;
+        avatar.set(url);
+        avatarPreviewUrl = '';
+        avatarInput = '';
       }
 
       if (!hasChanges) {
@@ -507,14 +502,9 @@
                 placeholder="e.g. Notch"
               />
             </div>
-            <div class="flex gap-2">
-              <button class="btn btn-sm btn-ghost border border-neutral" on:click={previewAvatar} disabled={!avatarInput.trim()}>
-                <i class="fa-solid fa-eye"></i> Preview
-              </button>
-              <button class="btn btn-sm btn-primary" on:click={saveAvatar} disabled={!avatarInput.trim() || avatarSaving}>
-                {avatarSaving ? 'Saving...' : 'Save Avatar'}
-              </button>
-            </div>
+            <button class="btn btn-sm btn-ghost border border-neutral" on:click={previewAvatar} disabled={!avatarInput.trim()}>
+              <i class="fa-solid fa-eye"></i> Preview
+            </button>
           </div>
           {#if avatarPreviewUrl}
             <div class="mt-4 flex items-center gap-4">

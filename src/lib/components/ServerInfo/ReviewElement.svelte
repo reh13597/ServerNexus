@@ -65,7 +65,7 @@
     <div class="flex items-center gap-3">
         <div class="avatar flex-shrink-0">
             <div class="w-7 md:w-8 rounded">
-                <img src={Steve} alt="The users' Minecraft avatar." />
+                <img src={info.avatar || Steve} alt="The users' Minecraft avatar." />
             </div>
         </div>
         <p class="select-none text-sm md:text-md truncate">{info.username}</p>
