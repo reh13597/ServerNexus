@@ -14,7 +14,7 @@
     <div class="flex items-center gap-2 md:gap-4">
         <div class="avatar">
             <div class="w-8 md:w-10 rounded">
-                <img src={Steve} alt="User avatar" />
+                <img src={profile.avatar || Steve} alt="User avatar" />
             </div>
         </div>
         <p class="text-xs md:text-lg lg:text-xl text-left">{profile.username}</p>

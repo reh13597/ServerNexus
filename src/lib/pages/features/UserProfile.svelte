@@ -11,6 +11,7 @@
     export let params: { userId: string };
 
     let profileUsername = '';
+    let profileAvatar = '';
     let savedServers: ServerProfile[] = [];
     let reviews: ReviewInfo[] = [];
     let isLoading = true;
@@ -20,7 +21,7 @@
 
         const { data: profileData, error: profileError } = await supabase
             .from('profiles')
-            .select('username, is_public')
+            .select('username, is_public, avatar')
             .eq('id', params.userId)
             .single();
 
@@ -30,6 +31,7 @@
         }
 
         profileUsername = profileData.username ?? '';
+        profileAvatar = profileData.avatar ?? '';
 
         const [serversResult, reviewsResult] = await Promise.all([
             supabase
@@ -79,7 +81,7 @@
             <div class="flex items-center gap-4 mb-6 p-4 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700 rounded-box drop-shadow-xl/80">
                 <div class="avatar">
                     <div class="w-12 md:w-14 rounded">
-                        <img src={Steve} alt="User avatar" />
+                        <img src={profileAvatar || Steve} alt="User avatar" />
                     </div>
                 </div>
                 <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
