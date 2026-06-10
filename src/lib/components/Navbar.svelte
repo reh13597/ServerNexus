@@ -4,6 +4,7 @@
   import { username, userEmail, avatar } from '../stores/user';
   import { onDestroy } from 'svelte';
   import { location, push } from 'svelte-spa-router';
+  import Steve from '../../assets/steve.jpg';
 
   let accountMenuOpen = false;
   let accountDropdownEl: HTMLDivElement | null = null;
@@ -339,7 +340,7 @@
           <img
             class="w-7 md:w-9 rounded-lg border-2 border-neutral hover:border-primary transition duration-300"
             class:border-primary={isActivePath('/account')}
-            src={$avatar || 'src/assets/steve.jpg'}
+            src={$avatar || Steve}
             alt="Avatar"
           />
         </a>

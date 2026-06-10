@@ -74,33 +74,28 @@
     });
 </script>
 
-<li class="drop-shadow-xl/80 list-row flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <div class="flex items-center gap-2 md:gap-3">
-        <img src={profile.icon} alt="Server Icon" class="rounded-lg w-8 h-8 md:w-10 md:h-10 select-none flex-shrink-0" />
-        <div class="cursor-pointer text-sm md:text-md text-left break-all" on:click={copyToClipboard}>
-            {profile.host}
-            {#if copied}
-                <i class="text-xs fa-solid fa-check text-green-500"></i>
-            {:else}
-                <i class="text-xs fa-regular fa-copy hover:text-primary transition-colors"></i>
-            {/if}
-        </div>
+<li class="drop-shadow-xl/80 list-row flex items-center gap-2 md:gap-3 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
+    <img src={profile.icon} alt="Server Icon" class="rounded-lg w-8 h-8 md:w-10 md:h-10 select-none flex-shrink-0" />
+    <div class="cursor-pointer text-sm md:text-md text-left break-all min-w-0 flex-1" on:click={copyToClipboard}>
+        {profile.host}
+        {#if copied}
+            <i class="text-xs fa-solid fa-check text-green-500"></i>
+        {:else}
+            <i class="text-xs fa-regular fa-copy hover:text-primary transition-colors"></i>
+        {/if}
     </div>
-
-    <div class="flex items-center gap-3 text-sm md:text-md">
+    <div class="flex items-center gap-3 md:gap-4 text-sm md:text-md flex-shrink-0">
         <div class="flex items-center gap-1">
             <i class="fa-star fa-solid text-primary"></i>
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
-        <div class="ml-auto flex items-center gap-4">
-            {#if $isLoggedIn}
-              <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
-                  <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
-              </a>
-            {/if}
-            <a on:click={() => goTo()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="View Button">
-                <i class="fa-arrow-right fa-solid"></i>
-            </a>
-        </div>
+        {#if $isLoggedIn}
+          <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+              <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
+          </a>
+        {/if}
+        <a on:click={() => goTo()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="View Button">
+            <i class="fa-arrow-right fa-solid"></i>
+        </a>
     </div>
 </li>

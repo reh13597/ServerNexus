@@ -3,6 +3,7 @@
   import { supabase } from '../supabase';
   import { userID, userEmail, username, avatar } from '../stores/user';
   import { push } from 'svelte-spa-router';
+  import Steve from '../../assets/steve.jpg';
 
   // --- Profile State ---
   let createdAt = '';
@@ -357,7 +358,7 @@
   <div class="rounded-3xl drop-shadow-xl/80 border-1 border-neutral bg-gradient-to-tr from-black to-zinc-800 p-4 md:p-8">
     <div class="mb-8 flex items-center gap-4 md:gap-6">
       <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border border-neutral/80 bg-zinc-800 flex items-center justify-center overflow-hidden drop-shadow-2xl">
-        <img src={$avatar || 'src/assets/steve.jpg'} alt="Avatar" class="w-full h-full object-cover" />
+        <img src={$avatar || Steve} alt="Avatar" class="w-full h-full object-cover" />
       </div>
       <div>
         <h2 class="text-xl md:text-2xl font-semibold text-left">{$username}</h2>
@@ -499,7 +500,7 @@
           </div>
           <div class="mt-3 flex flex-col sm:flex-row items-start sm:items-end gap-4">
             <div class="flex-1 w-full">
-              <label class="text-xs text-stone-400 mb-1 block text-left">Minecraft Username or UUID</label>
+              <label class="text-xs text-stone-400 mb-3 block text-left">Minecraft Username or UUID</label>
               <input
                 bind:value={avatarInput}
                 class="input input-sm md:input-md input-bordered bg-base-100/80 border-neutral/80 focus:border-primary w-full"
