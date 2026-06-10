@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { ServerProfile } from '../../types/serverInfo';
+    import { isLoggedIn } from '../../stores/login';
     import { serverID } from '../../stores/profiles';
     import { userID } from '../../stores/user';
     import { push } from 'svelte-spa-router';
@@ -67,7 +68,9 @@
     }
 
     onMount(() => {
-        loadSaved();
+        if ($isLoggedIn) {
+            loadSaved();
+        }
     });
 </script>
 
@@ -90,9 +93,11 @@
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
         <div class="ml-auto flex items-center gap-4">
-            <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
-                <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
-            </a>
+            {#if $isLoggedIn}
+              <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
+                  <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
+              </a>
+            {/if}
             <a on:click={() => goTo()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="View Button">
                 <i class="fa-arrow-right fa-solid"></i>
             </a>
