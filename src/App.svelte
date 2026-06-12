@@ -34,7 +34,7 @@
 
   const routes = {
     '/': wrap({
-      component: Dashboard,
+      component: Dashboard as any,
       conditions: [
         () => {
           if (!get(isLoggedIn)) {
@@ -46,7 +46,7 @@
       ]
     }),
     '/login': wrap ({
-      component: Login,
+      component: Login as any,
       conditions: [
         () => {
           if(get(isLoggedIn)) {
@@ -62,7 +62,7 @@
     '/contact': Contact,
     '/signup' : Signup,
     '/account' : wrap({
-      component: Account,
+      component: Account as any,
       conditions: [
         () => {
           if (!get(isLoggedIn)) {

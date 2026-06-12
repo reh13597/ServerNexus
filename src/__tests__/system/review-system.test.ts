@@ -50,7 +50,7 @@ describe('Review system', () => {
   });
 
   it('normalizes review data with username fallback', () => {
-    const raw = { ...MOCK_REVIEW_RESPONSE };
+    const raw: Record<string, any> = { ...MOCK_REVIEW_RESPONSE };
     const normalized = {
       ...raw,
       username: raw.profiles?.username ?? 'Unknown',
@@ -62,7 +62,7 @@ describe('Review system', () => {
   });
 
   it('handles missing profile data gracefully', () => {
-    const raw = { ...MOCK_REVIEW_RESPONSE, profiles: null };
+    const raw: Record<string, any> = { ...MOCK_REVIEW_RESPONSE, profiles: null };
     const normalized = {
       ...raw,
       username: raw.profiles?.username ?? 'Unknown',

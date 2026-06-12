@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, fireEvent, screen, waitFor } from '@testing-library/svelte';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, fireEvent, screen, waitFor, cleanup } from '@testing-library/svelte';
 import Explore from '../../lib/pages/features/Explore.svelte';
 import { supabase } from '../../lib/supabase';
 import { isLoggedIn } from '../../lib/stores/login';
@@ -37,6 +37,11 @@ beforeEach(() => {
     }
     return { select: vi.fn().mockReturnThis(), eq: vi.fn().mockResolvedValue({ data: [], error: null }) } as any;
   });
+});
+
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
 });
 
 describe('User story: User can browse servers', () => {
@@ -100,6 +105,4 @@ describe('User story: User can browse servers', () => {
 
     expect(supabase.from).toHaveBeenCalledWith('servers_with_rating');
   });
-
-  vi.useRealTimers();
 });

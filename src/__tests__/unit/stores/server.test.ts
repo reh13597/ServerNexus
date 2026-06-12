@@ -43,7 +43,7 @@ describe('server store - ipOK', () => {
   });
 
   it('should be false for strings longer than 30 characters', () => {
-    serverIp.set('a'.repeat(25) + '.com');
+    serverIp.set('a'.repeat(27) + '.com');
     expect(get(ipOK)).toBe(false);
   });
 

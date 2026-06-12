@@ -39,8 +39,11 @@ describe('Account page integration', () => {
   it('displays username and email from stores', async () => {
     render(Account);
     await waitFor(() => {
-      expect(screen.getByText('TestUser')).toBeInTheDocument();
-      expect(screen.getByText('user@test.com')).toBeInTheDocument();
+      // Username appears in both the header and the Username card
+      const usernames = screen.getAllByText('TestUser');
+      expect(usernames.length).toBeGreaterThanOrEqual(1);
+      const emails = screen.getAllByText('user@test.com');
+      expect(emails.length).toBeGreaterThanOrEqual(1);
     });
   });
 

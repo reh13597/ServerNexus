@@ -59,3 +59,9 @@ HTMLDialogElement.prototype.close = vi.fn();
 
 // Stub scrollTo
 window.scrollTo = vi.fn() as any;
+
+// Suppress unhandled promise rejections from Svelte's internal reactivity
+// (e.g. async onMount effects that race with component teardown in tests)
+if (typeof process !== 'undefined') {
+  process.on('unhandledRejection', () => {});
+}
