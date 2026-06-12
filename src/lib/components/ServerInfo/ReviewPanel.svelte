@@ -98,7 +98,7 @@
         });
 
       if (error) {
-        console.error('Error submitting review:', error);
+
         submitError = true;
         selectedRating = 0;
         reviewText = '';
@@ -112,7 +112,7 @@
         await broadcastUpdate();
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
+
       selectedRating = 0;
       reviewText = '';
     } finally {

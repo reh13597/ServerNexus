@@ -5,6 +5,7 @@
     import { push } from 'svelte-spa-router';
 
     let isLoading = false;
+    let signupError = '';
 
     function openModal() {
         (document.getElementById(`signup_modal`) as HTMLDialogElement)?.showModal();
@@ -17,6 +18,8 @@
 
     async function signup() {
         isLoading = true;
+        signupError = '';
+
         const { error } = await supabase.auth.signUp({
             email: $email,
             password: $password,
@@ -29,7 +32,8 @@
         });
 
         if (error) {
-            console.log("Signup error occurred:", error);
+            signupError = error.message || 'An error occurred during signup.';
+            isLoading = false;
             return;
         }
 
@@ -48,7 +52,7 @@
     <h1 class="lg:text-5xl md:text-3xl text-2xl mt-25 md:mt-30 font-bold">Welcome to <span class="text-primary">Server Nexus</span></h1>
     <p class="text-md md:text-lg mt-10 text-stone-400">We're excited to have you here!</p>
 
-    <form on:submit|preventDefault={signup} class="drop-shadow-xl/80 card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
+    <form on:submit|preventDefault={signup} class="drop-shadow-xl/80 card w-full max-w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
         <div class="card-body">
             <div>
                 <label for="email" class="block text-sm font-semibold mb-3 text-left">Enter Email</label>
@@ -84,6 +88,9 @@
                     <br/>At least 1 special character (i.e., !@#$%^&*)
                 </p>
             </div>
+            {#if signupError}
+                <p class="text-error text-xs mt-3">{signupError}</p>
+            {/if}
             <div class="mt-5">
 
                 <button disabled={!$canSignup} class="btn btn-primary w-full hover:scale-102 transition duration-300">

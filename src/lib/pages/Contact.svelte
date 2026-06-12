@@ -41,7 +41,7 @@
             message.set('');
             setTimeout(() => submitSuccess = false, 6000);
         } catch (error) {
-            console.error('Failed to send email:', error);
+
             submitError = true;
             setTimeout(() => submitError = false, 6000);
         } finally {

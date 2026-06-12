@@ -47,6 +47,9 @@ supabase.auth.getSession().then(({ data: { session } }) => {
   isLoggedIn.set(!!session);
   authReady.set(true);
   setUserData(session);
+}).catch(() => {
+  isLoggedIn.set(false);
+  authReady.set(true);
 });
 
 supabase.auth.onAuthStateChange((_event, session) => {

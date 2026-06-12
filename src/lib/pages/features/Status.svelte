@@ -13,6 +13,7 @@
 
         try {
             const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$serverIp}:${$serverPort}`);
+            if (!response.ok) throw new Error(`Server returned ${response.status}`);
             const data: any = await response.json();
 
             let normalizedData: any = data;
@@ -65,13 +66,13 @@
                     );
 
                 if (serverError) {
-                    console.error('Error inserting server:', serverError);
+
                     return;
                 }
             }
         } catch (err) {
             $error = 'Error: Failed to fetch server data.';
-            console.error($error);
+
             $serverData = {
                 online: false,
                 host: '',

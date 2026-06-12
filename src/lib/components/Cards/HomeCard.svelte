@@ -8,7 +8,7 @@
 
 <svelte:element this={href ? 'a' : 'div'}
     {...href ? { href } : {}}
-    class="drop-shadow-xl/100 card card-lg w-96 bg-gradient-to-tr from-black to-zinc-700 border-1 border-neutral {href ? 'hover:border-primary transition-colors cursor-pointer hover:drop-shadow-primary/40' : ''} relative"
+    class="drop-shadow-xl/100 card card-lg w-full max-w-96 bg-gradient-to-tr from-black to-zinc-700 border-1 border-neutral {href ? 'hover:border-primary transition-colors cursor-pointer hover:drop-shadow-primary/40' : ''} relative"
 >
     {#if badge}
         <div class="absolute top-3 right-3 badge badge-sm bg-primary/20 text-primary border-primary/40 gap-1 select-none">

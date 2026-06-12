@@ -17,7 +17,7 @@
                 <img src={profile.avatar || Steve} alt="User avatar" />
             </div>
         </div>
-        <p class="text-xs md:text-lg lg:text-xl text-left">{profile.username}</p>
+        <p class="text-xs md:text-lg lg:text-xl text-left truncate" title={profile.username}>{profile.username}</p>
     </div>
     <div class="flex items-center gap-3 md:gap-6 lg:text-xl md:text-lg text-sm">
         <div class="flex items-center gap-1" title="Saved servers">

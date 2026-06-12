@@ -8,7 +8,6 @@ function resetTimer() {
         clearTimeout(idleTimeout);
     }
 
-	console.log('✅ Activity detected. Timer reset.');
 	idleTimeout = setTimeout(() => {
 		supabase.auth.signOut();
 	}, IDLE_TIME);
@@ -18,7 +17,6 @@ export function startIdleTimer() {
 	const events = ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'];
 	events.forEach((event) => window.addEventListener(event, resetTimer));
 
-	console.log('🟢 Idle timer started.');
 	resetTimer();
 }
 
@@ -30,5 +28,4 @@ export function stopIdleTimer() {
         clearTimeout(idleTimeout);
     }
 
-	console.log('⛔ Idle timer stopped.');
 }

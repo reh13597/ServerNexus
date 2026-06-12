@@ -321,9 +321,7 @@
   async function logout() {
     isLoggingOut = true;
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Logout error:", error);
-    } else {
+    if (!error) {
       push('/home');
     }
     isLoggingOut = false;
@@ -539,13 +537,13 @@
   </div>
 </div>
 
-<!-- <div class="toast toast-bottom toast-end z-50">
+<div class="toast toast-bottom toast-end z-50">
   {#each toasts as toast (toast.id)}
     <div class={`alert shadow-lg ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
       <span>{toast.text}</span>
     </div>
   {/each}
-</div> -->
+</div>
 
 <style>
   /* Subtle glass effects and transitions */

@@ -23,7 +23,7 @@
         .select('id, host, port, icon, avg_rating')
 
       if (error) {
-        console.error('Error fetching servers:', error);
+
       } else {
         servers = data ?? [];
       }
@@ -36,7 +36,7 @@
           .eq('user_id', $userID)
 
         if (error) {
-          console.error('Error fetching saved servers:', error);
+
         } else {
           savedServers = data ?? [];
           emptyList = savedServers.length === 0;

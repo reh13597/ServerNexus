@@ -10,7 +10,7 @@
       <a href="https://github.com/reh13597/ServerNexus" target="_blank" aria-label="GitHub" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-300">
         <i class="fa-brands fa-github"></i>
       </a>
-      <a href="https://www.linkedin.com/in/-alex-guo-/" target="_blank" aria-label="Discord" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-300">
+      <a href="https://www.linkedin.com/in/-alex-guo-/" target="_blank" aria-label="LinkedIn" class="text-stone-500 text-lg hover:scale-110 hover:text-primary transition duration-300">
         <i class="fa-brands fa-linkedin"></i>
       </a>
     </div>

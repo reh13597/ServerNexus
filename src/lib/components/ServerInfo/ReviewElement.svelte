@@ -49,7 +49,7 @@
             .eq('id', info.id);
 
         if (error) {
-            console.error('Failed to delete review:', error);
+
             isDeleting = false;
             closeModal();
         } else {

@@ -31,7 +31,7 @@
                 .insert({ user_id: $userID, server_id: profile.id })
 
             if (error) {
-                console.error('Error inserting saved server:', error);
+
                 return;
             }
         } else {
@@ -44,7 +44,7 @@
                 .eq('server_id', profile.id)
 
             if (error) {
-                console.error('Error deleting saved server:', error);
+
                 return;
             }
         }
@@ -60,7 +60,7 @@
 
 
         if (error) {
-            console.error('Error loading saved server:', error);
+
             return;
         }
 

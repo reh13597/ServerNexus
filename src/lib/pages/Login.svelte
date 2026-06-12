@@ -27,7 +27,6 @@
         const uid = data.user?.id;
 
         if (!uid) {
-            console.error('Login succeeded but no user ID found.');
             loginError = true;
             isLoading = false;
             return;
@@ -47,7 +46,7 @@
     <h1 class="lg:text-5xl md:text-3xl text-2xl mt-25 md:mt-30 font-bold">Welcome Back</h1>
     <p class="text-md md:text-lg mt-10 text-stone-400">One step away from greatness...</p>
 
-    <form on:submit|preventDefault={login} class="drop-shadow-xl/80 card w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
+    <form on:submit|preventDefault={login} class="drop-shadow-xl/80 card w-full max-w-96 bg-gradient-to-tr from-black to-zinc-700 card-lg m-auto mt-10 mb-10 border-1 border-neutral">
         <div class="card-body">
             <div>
                 <label for="email" class="block text-sm font-semibold mb-3 text-left">Enter Email</label>

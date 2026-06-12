@@ -61,7 +61,18 @@
     '/about' : About,
     '/contact': Contact,
     '/signup' : Signup,
-    '/account' : Account,
+    '/account' : wrap({
+      component: Account,
+      conditions: [
+        () => {
+          if (!get(isLoggedIn)) {
+            push('/login');
+            return false;
+          }
+          return true;
+        }
+      ]
+    }),
     '/status': Status,
 
     '/explore': Explore,

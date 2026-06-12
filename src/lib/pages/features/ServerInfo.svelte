@@ -28,7 +28,7 @@
         }
 
         if (!$serverID) {
-            console.error('No server ID found');
+
             isLoading = false;
             return;
         }
@@ -41,7 +41,7 @@
                 .single();
 
             if (error) {
-                console.error('Error fetching server data:', error);
+
                 isLoading = false;
                 return;
             }
@@ -49,18 +49,19 @@
             if (data) {
                 profile = data;
             } else {
-                console.error('No server data found');
+
                 isLoading = false;
                 return;
             }
         } catch (err) {
-            console.error('Failed to fetch server data:', err);
+
             isLoading = false;
             return;
         }
 
         try {
             const response = await fetch(`https://api.mcstatus.io/v2/status/java/${profile.host}:${profile.port}`);
+            if (!response.ok) throw new Error(`Server returned ${response.status}`);
             const data: any = await response.json();
 
             let normalizedData: any = data;
@@ -99,7 +100,7 @@
             $serverData = normalizedData;
         } catch (err) {
             $error = 'Failed to fetch server data.';
-            console.log($error);
+
 
             $serverData = {
                 online: false,
