@@ -1,0 +1,149 @@
+name: CI
+
+on:
+  push:
+    branches: [master, polishing]
+  pull_request:
+    branches: [master]
+
+env:
+  VITE_SUPABASE_URL: https://test.supabase.co
+  VITE_SUPABASE_ANON_KEY: test-anon-key
+  VITE_EMAILJS_SERVICE_ID: test_service
+  VITE_EMAILJS_TEMPLATE_ID: test_template
+  VITE_EMAILJS_PUBLIC_KEY: test_public_key
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose src/__tests__/smoke/
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose --coverage src/__tests__/unit/
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-coverage
+          path: coverage/
+          retention-days: 7
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [smoke-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose src/__tests__/integration/
+
+  system-tests:
+    name: System Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose src/__tests__/system/
+
+  regression-tests:
+    name: Regression Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose src/__tests__/regression/
+
+  acceptance-tests:
+    name: Acceptance Tests
+    runs-on: ubuntu-latest
+    needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=verbose src/__tests__/acceptance/
+
+  e2e-tests:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+    needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npx playwright test
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  build:
+    name: Production Build
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Verify dist output
+        run: |
+          test -d dist
+          test -f dist/index.html

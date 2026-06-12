@@ -7,7 +7,17 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:smoke": "vitest run src/__tests__/smoke/",
+    "test:unit": "vitest run src/__tests__/unit/",
+    "test:integration": "vitest run src/__tests__/integration/",
+    "test:system": "vitest run src/__tests__/system/",
+    "test:regression": "vitest run src/__tests__/regression/",
+    "test:acceptance": "vitest run src/__tests__/acceptance/",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
