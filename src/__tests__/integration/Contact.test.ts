@@ -4,14 +4,9 @@ import Contact from '../../lib/pages/Contact.svelte';
 import { name, email, subject, message } from '../../lib/stores/email';
 import { get } from 'svelte/store';
 
-// Mock emailjs
-vi.mock('@emailjs/browser', () => ({
-  default: {
-    sendForm: vi.fn().mockResolvedValue({ status: 200, text: 'OK' }),
-  },
-}));
-
-import emailjs from '@emailjs/browser';
+// Mock global fetch for the /api/send-email endpoint
+const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({ success: true }) });
+vi.stubGlobal('fetch', mockFetch);
 
 beforeEach(() => {
   name.set('');
@@ -80,7 +75,7 @@ describe('Contact page integration', () => {
     });
   });
 
-  it('calls emailjs.sendForm on submission', async () => {
+  it('calls /api/send-email on submission', async () => {
     render(Contact);
     await fillContactForm();
 
@@ -92,7 +87,10 @@ describe('Contact page integration', () => {
     await fireEvent.submit(form);
 
     await waitFor(() => {
-      expect(emailjs.sendForm).toHaveBeenCalledTimes(1);
+      expect(mockFetch).toHaveBeenCalledWith('/api/send-email', expect.objectContaining({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      }));
     });
   });
 
@@ -118,8 +116,8 @@ describe('Contact page integration', () => {
     expect(get(message)).toBe('');
   });
 
-  it('shows error message when emailjs fails', async () => {
-    vi.mocked(emailjs.sendForm).mockRejectedValueOnce(new Error('Network error'));
+  it('shows error message when API call fails', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: false, status: 500 });
 
     render(Contact);
     await fillContactForm();

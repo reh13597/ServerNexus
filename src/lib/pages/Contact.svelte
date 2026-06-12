@@ -1,13 +1,9 @@
 <script lang="ts">
-    import emailjs from '@emailjs/browser';
     import { onDestroy } from 'svelte';
     import { name, email, subject, message } from '../stores/email';
 
     const iconWrap = "inline-flex w-fit transition duration-300 hover:scale-110 hover:bg-transparent";
     const iconClass = "text-2xl text-white hover:text-primary";
-    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
     let isSubmitting = false;
     let submitError = false;
@@ -33,7 +29,17 @@
         submitSuccess = false;
 
         try {
-            await emailjs.sendForm(serviceID, templateID, e.target as HTMLFormElement, publicKey);
+            const res = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: $name,
+                    email: $email,
+                    subject: $subject,
+                    message: $message,
+                }),
+            });
+            if (!res.ok) throw new Error('Failed to send');
             submitSuccess = true;
             name.set('');
             email.set('');
@@ -41,7 +47,6 @@
             message.set('');
             setTimeout(() => submitSuccess = false, 6000);
         } catch (error) {
-
             submitError = true;
             setTimeout(() => submitError = false, 6000);
         } finally {
