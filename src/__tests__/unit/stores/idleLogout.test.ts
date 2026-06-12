@@ -14,6 +14,8 @@ vi.mock('../../../lib/supabase', () => ({
 import { startIdleTimer, stopIdleTimer } from '../../../lib/utils/idleLogout';
 import { supabase } from '../../../lib/supabase';
 
+const IDLE_TIME = 15 * 60 * 1000; // 15 minutes
+
 beforeEach(() => {
   vi.useFakeTimers();
   vi.clearAllMocks();
@@ -35,19 +37,19 @@ describe('idleLogout', () => {
     }
   });
 
-  it('should call supabase.auth.signOut after 1 minute of inactivity', () => {
+  it('should call supabase.auth.signOut after 15 minutes of inactivity', () => {
     startIdleTimer();
 
-    // Advance time by 60 seconds (IDLE_TIME = 1 * 60 * 1000)
-    vi.advanceTimersByTime(60_000);
+    // Advance time by 15 minutes (IDLE_TIME = 15 * 60 * 1000)
+    vi.advanceTimersByTime(IDLE_TIME);
 
     expect(supabase.auth.signOut).toHaveBeenCalledTimes(1);
   });
 
-  it('should NOT call signOut before 1 minute', () => {
+  it('should NOT call signOut before 15 minutes', () => {
     startIdleTimer();
 
-    vi.advanceTimersByTime(59_999);
+    vi.advanceTimersByTime(IDLE_TIME - 1);
 
     expect(supabase.auth.signOut).not.toHaveBeenCalled();
   });
@@ -55,18 +57,18 @@ describe('idleLogout', () => {
   it('should reset the timer on user activity', () => {
     startIdleTimer();
 
-    // Advance 30 seconds
-    vi.advanceTimersByTime(30_000);
+    // Advance halfway
+    vi.advanceTimersByTime(IDLE_TIME / 2);
 
     // Simulate user activity
     window.dispatchEvent(new Event('mousemove'));
 
-    // Advance another 30 seconds -- should NOT sign out because timer was reset
-    vi.advanceTimersByTime(30_000);
+    // Advance another half -- should NOT sign out because timer was reset
+    vi.advanceTimersByTime(IDLE_TIME / 2);
     expect(supabase.auth.signOut).not.toHaveBeenCalled();
 
-    // Advance the remaining 30 seconds to complete the full minute from the reset
-    vi.advanceTimersByTime(30_000);
+    // Advance the remaining half to complete the full duration from the reset
+    vi.advanceTimersByTime(IDLE_TIME / 2);
     expect(supabase.auth.signOut).toHaveBeenCalledTimes(1);
   });
 
@@ -85,21 +87,21 @@ describe('idleLogout', () => {
     startIdleTimer();
     stopIdleTimer();
 
-    vi.advanceTimersByTime(120_000);
+    vi.advanceTimersByTime(IDLE_TIME * 2);
     expect(supabase.auth.signOut).not.toHaveBeenCalled();
   });
 
   it('should handle multiple activity events resetting the timer each time', () => {
     startIdleTimer();
 
-    // Activity at 20s, 40s, then wait full minute from last activity
+    // Activity at various points, then wait full duration from last activity
     vi.advanceTimersByTime(20_000);
     window.dispatchEvent(new Event('keydown'));
 
     vi.advanceTimersByTime(20_000);
     window.dispatchEvent(new Event('click'));
 
-    vi.advanceTimersByTime(59_999);
+    vi.advanceTimersByTime(IDLE_TIME - 1);
     expect(supabase.auth.signOut).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(1);

@@ -1,7 +1,7 @@
 import { supabase } from '../supabase';
 
 let idleTimeout: ReturnType<typeof setTimeout> | null = null;
-const IDLE_TIME = 1 * 60 * 1000; // 1 minute
+const IDLE_TIME = 15 * 60 * 1000; // 15 minutes
 
 function resetTimer() {
 	if (idleTimeout) {
