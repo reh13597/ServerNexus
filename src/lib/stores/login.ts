@@ -16,7 +16,7 @@ export const canLogin = derived(
 export const isLoggedIn = writable(false);
 export const authReady = writable(false);
 
-async function setUserData(session) {
+async function setUserData(session: any) {
   if (session?.user) {
     userID.set(session.user.id);
     userEmail.set(session.user.email || '');

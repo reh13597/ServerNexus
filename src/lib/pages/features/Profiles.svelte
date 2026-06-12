@@ -50,7 +50,7 @@
             .from('saved_servers_with_rating')
             .select('id, host, port, icon, avg_rating')
             .eq('user_id', $userID);
-        savedServers = data ?? [];
+        savedServers = (data ?? []) as ServerProfile[];
     }
 
     async function loadMyReviews() {

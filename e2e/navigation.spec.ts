@@ -28,7 +28,7 @@ test.describe('Navigation', () => {
 
   test('can navigate to /contact page', async ({ page }) => {
     await page.goto('/#/contact');
-    await expect(page.getByText('Contact')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Contact' })).toBeVisible();
   });
 
   test('can navigate to /login page', async ({ page }) => {

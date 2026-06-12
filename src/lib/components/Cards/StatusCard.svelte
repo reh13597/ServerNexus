@@ -97,7 +97,7 @@
                     {:else if !data.online && !$error}
                         <div class="text-md lg:text-lg mt-3 text-stone-400 select-none">Unavailable</div>
                     {:else}
-                        <div class="cursor-pointer text-md lg:text-lg mt-3 text-stone-400 hover:text-primary transition-colors" role="button" tabindex="0" aria-label="Copy IP to clipboard" on:click={() => copyToClipboard(data.ip_address)}>
+                        <div class="cursor-pointer text-md lg:text-lg mt-3 text-stone-400 hover:text-primary transition-colors" role="button" tabindex="0" aria-label="Copy IP to clipboard" on:click={() => copyToClipboard(data.ip_address ?? '')}>
                             {data.ip_address}
                             {#if copied === data.ip_address}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>
@@ -128,7 +128,7 @@
                     {:else if !data.online && !$error}
                         <div class="text-md lg:text-lg mt-3 text-stone-400 select-none">Unavailable</div>
                     {:else}
-                        <div class="text-md lg:text-lg mt-3 select-none">{@html DOMPurify.sanitize(data.motd.html)}</div>
+                        <div class="text-md lg:text-lg mt-3 select-none">{@html DOMPurify.sanitize(data.motd?.html ?? '')}</div>
                     {/if}
                 </div>
             {/if}

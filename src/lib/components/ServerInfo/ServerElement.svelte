@@ -12,7 +12,7 @@
     let copied = false;
 
     function goTo() {
-        $serverID = profile.id;
+        $serverID = Number(profile.id);
         push(`/server-info/${profile.id}`);
     }
 

@@ -65,7 +65,7 @@
                     {#if !data.online}
                         <div class="text-md lg:text-lg text-stone-400 select-none">N/A</div>
                     {:else}
-                        <div class="cursor-pointer text-md lg:text-lg text-stone-400 hover:text-primary transition-colors" role="button" tabindex="0" aria-label="Copy IP to clipboard" on:click={() => copyToClipboard(data.ip_address)}>
+                        <div class="cursor-pointer text-md lg:text-lg text-stone-400 hover:text-primary transition-colors" role="button" tabindex="0" aria-label="Copy IP to clipboard" on:click={() => copyToClipboard(data.ip_address ?? '')}>
                             {data.ip_address}
                             {#if copied === data.ip_address}
                                 <i class="text-xs lg:text-sm fa-solid fa-check text-green-500"></i>

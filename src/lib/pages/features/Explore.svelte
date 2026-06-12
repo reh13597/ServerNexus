@@ -25,7 +25,7 @@
       if (error) {
 
       } else {
-        servers = data ?? [];
+        servers = (data ?? []) as ServerProfile[];
       }
     }
 
@@ -38,7 +38,7 @@
         if (error) {
 
         } else {
-          savedServers = data ?? [];
+          savedServers = (data ?? []) as ServerProfile[];
           emptyList = savedServers.length === 0;
         }
     }
