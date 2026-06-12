@@ -17,6 +17,7 @@
   let emptyList = false;
   let channel: ReturnType<typeof supabase.channel> | null = null;
   let copied: string | number | null = null;
+  let fetchCounter = 0;
 
   $: isFormValid = selectedRating > 0 && reviewText.trim().length >= 40;
   $: charsRemaining = Math.max(0, 40 - reviewText.trim().length);
@@ -33,10 +34,13 @@
   }
 
   async function fetchReviews() {
+    const thisRequest = ++fetchCounter;
     const { data } = await supabase
         .from('reviews')
         .select(`*, profiles!reviews_user_id_fkey(username, avatar)`)
         .eq('server_id', profile.id);
+
+    if (thisRequest !== fetchCounter) return;
 
     if (data) {
         reviews = data.map(r => ({
