@@ -19,7 +19,10 @@
     let myReviews: ReviewInfo[] = [];
 
     // Public Profiles
+    const PAGE_SIZE = 20;
     let publicProfiles: PublicProfile[] = [];
+    let hasMoreProfiles = true;
+    let isLoadingMoreProfiles = false;
 
     // Loading states
     let loadingMyProfile = true;
@@ -71,8 +74,23 @@
         const { data } = await supabase
             .from('public_profiles_with_stats')
             .select('*')
-            .neq('id', $userID);
+            .neq('id', $userID)
+            .range(0, PAGE_SIZE - 1);
         publicProfiles = data ?? [];
+        hasMoreProfiles = (data?.length ?? 0) >= PAGE_SIZE;
+    }
+
+    async function loadMoreProfiles() {
+        isLoadingMoreProfiles = true;
+        const from = publicProfiles.length;
+        const { data } = await supabase
+            .from('public_profiles_with_stats')
+            .select('*')
+            .neq('id', $userID)
+            .range(from, from + PAGE_SIZE - 1);
+        publicProfiles = [...publicProfiles, ...(data ?? [])];
+        hasMoreProfiles = (data?.length ?? 0) >= PAGE_SIZE;
+        isLoadingMoreProfiles = false;
     }
 
     async function toggleVisibility() {
@@ -99,6 +117,10 @@
 
     function handleReviewDeleted(id: number) {
         myReviews = myReviews.filter(r => r.id !== id);
+    }
+
+    function handleServerUnsaved(serverId: number) {
+        savedServers = savedServers.filter(s => Number(s.id) !== serverId);
     }
 </script>
 
@@ -151,7 +173,7 @@
                                     <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't saved any servers yet.</div>
                                 {:else}
                                     {#each savedServers as server}
-                                        <ServerElement profile={server} />
+                                        <ServerElement profile={server} onUnsave={handleServerUnsaved} />
                                     {/each}
                                 {/if}
                             </ul>
@@ -222,6 +244,21 @@
                             {#each publicProfiles as profile}
                                 <ProfileCard {profile} />
                             {/each}
+                            {#if hasMoreProfiles}
+                                <div class="flex justify-center pt-2">
+                                    <button
+                                        on:click={loadMoreProfiles}
+                                        disabled={isLoadingMoreProfiles}
+                                        class="drop-shadow-xl/80 btn btn-primary btn-md hover:scale-104 transition duration-300"
+                                    >
+                                        {#if isLoadingMoreProfiles}
+                                            <span class="loading loading-spinner loading-sm"></span> Loading...
+                                        {:else}
+                                            Load More
+                                        {/if}
+                                    </button>
+                                </div>
+                            {/if}
                         {/if}
                     </ul>
                 {:else}

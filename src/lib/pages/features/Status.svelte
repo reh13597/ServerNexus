@@ -4,16 +4,24 @@
     import Card from '../../components/Cards/StatusCard.svelte';
     import { supabase } from '../../supabase';
     import { onDestroy } from 'svelte';
+    import { cacheServerData, getCachedServerData, formatCacheAge } from '../../utils/serverCache';
 
     let isLoading = false;
+    let usingCachedData = false;
+    let cacheTimestamp: number | null = null;
 
     async function initServerData() {
         isLoading = true;
         $error = null;
+        usingCachedData = false;
+        cacheTimestamp = null;
 
         try {
-            const response = await fetch(`https://api.mcstatus.io/v2/status/java/${$serverIp}:${$serverPort}`);
-            if (!response.ok) throw new Error(`Server returned ${response.status}`);
+            const response = await fetch('/api/server-lookup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip: $serverIp, port: Number($serverPort) })
+            });
             const data: any = await response.json();
 
             let normalizedData: any = data;
@@ -43,13 +51,25 @@
                         html: ''
                     }
                 };
+
+                // Server is offline — try to show cached data instead of empty values
+                const cached = getCachedServerData($serverIp, $serverPort);
+                if (cached) {
+                    $serverData = cached.data;
+                    usingCachedData = true;
+                    cacheTimestamp = cached.timestamp;
+                } else {
+                    $serverData = normalizedData;
+                }
+            } else {
+                $serverData = normalizedData;
+                // Cache successful online data
+                cacheServerData($serverIp, $serverPort, normalizedData);
             }
 
             if (!data.online && data.ip_address === null && data.srv_record === null) {
                 throw new Error('Invalid server');
             }
-
-            $serverData = normalizedData;
 
             const iconUrl = $serverData?.icon ?? null;
 
@@ -66,37 +86,44 @@
                     );
 
                 if (serverError) {
-
                     return;
                 }
             }
         } catch (err) {
-            $error = 'Error: Failed to fetch server data.';
-
-            $serverData = {
-                online: false,
-                host: '',
-                port: 0,
-                ip_address: null,
-                icon: null,
-                eula_blocked: null,
-                software: null,
-                version: {
-                    name_clean: '',
-                    name_raw: '',
-                    name_html: '',
-                    protocol: 0
-                },
-                players: {
-                    online: 0,
-                    max: 0
-                },
-                motd: {
-                    raw: '',
-                    clean: '',
-                    html: ''
-                }
-            };
+            // Network error or invalid server — try cache
+            const cached = getCachedServerData($serverIp, $serverPort);
+            if (cached) {
+                $serverData = cached.data;
+                usingCachedData = true;
+                cacheTimestamp = cached.timestamp;
+                $error = null;
+            } else {
+                $error = 'Error: Failed to fetch server data.';
+                $serverData = {
+                    online: false,
+                    host: '',
+                    port: 0,
+                    ip_address: null,
+                    icon: null,
+                    eula_blocked: null,
+                    software: null,
+                    version: {
+                        name_clean: '',
+                        name_raw: '',
+                        name_html: '',
+                        protocol: 0
+                    },
+                    players: {
+                        online: 0,
+                        max: 0
+                    },
+                    motd: {
+                        raw: '',
+                        clean: '',
+                        html: ''
+                    }
+                };
+            }
         } finally {
             await new Promise(r => setTimeout(r, 200));
             isLoading = false;
@@ -149,6 +176,14 @@
         </div>
     </form>
     {#if $serverData && !isLoading}
+        {#if usingCachedData && cacheTimestamp}
+            <div class="max-w-3xl mx-auto mt-4 px-5">
+                <div class="alert alert-warning text-sm shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span>Showing cached data (from {formatCacheAge(cacheTimestamp)}) — server may be offline</span>
+                </div>
+            </div>
+        {/if}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:mt-5 p-5">
             <Card title="Server Information" data={$serverData} type="info" />
             <Card title="Connection Details" data={$serverData} type="connection" />

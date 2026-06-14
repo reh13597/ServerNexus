@@ -10,6 +10,14 @@
 
     export let params: { userId: string };
 
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            push('/profiles');
+        }
+    }
+
     let profileUsername = '';
     let profileAvatar = '';
     let memberSince = '';
@@ -71,7 +79,7 @@
         <!-- Back button (matches server info page style) -->
         <div class="flex justify-start md:pt-1">
             <a
-                on:click={() => push('/profiles')}
+                on:click={goBack}
                 class="inline-flex w-fit hover:cursor-pointer hover:text-primary hover:scale-120 transition duration-300"
                 aria-label="Back to Profiles"
             >

@@ -69,7 +69,12 @@ describe('User story: User can check server status', () => {
 
     await waitFor(() => {
       expect(globalThis.fetch).toHaveBeenCalledWith(
-        'https://api.mcstatus.io/v2/status/java/hypixel.net:25565'
+        '/api/server-lookup',
+        expect.objectContaining({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ip: 'hypixel.net', port: 25565 }),
+        })
       );
     });
   });

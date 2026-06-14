@@ -6,11 +6,15 @@
     import { onMount } from 'svelte';
     import type { ServerProfile } from '../../types/serverInfo';
 
+    const PAGE_SIZE = 20;
+
     let servers: ServerProfile[] = [];
     let savedServers: ServerProfile[] = [];
     let btnActive = false;
     let emptyList = false;
     let isLoading = false;
+    let isLoadingMore = false;
+    let hasMoreServers = true;
     let searchQuery = '';
 
     $: filteredServers = (btnActive ? savedServers : servers).filter(server =>
@@ -21,12 +25,33 @@
       const { data, error } = await supabase
         .from('servers_with_rating')
         .select('id, host, port, icon, avg_rating')
+        .order('avg_rating', { ascending: false })
+        .range(0, PAGE_SIZE - 1);
 
       if (error) {
 
       } else {
         servers = (data ?? []) as ServerProfile[];
+        hasMoreServers = (data?.length ?? 0) >= PAGE_SIZE;
       }
+    }
+
+    async function loadMoreServers() {
+      isLoadingMore = true;
+      const from = servers.length;
+      const { data, error } = await supabase
+        .from('servers_with_rating')
+        .select('id, host, port, icon, avg_rating')
+        .order('avg_rating', { ascending: false })
+        .range(from, from + PAGE_SIZE - 1);
+
+      if (error) {
+
+      } else {
+        servers = [...servers, ...(data ?? []) as ServerProfile[]];
+        hasMoreServers = (data?.length ?? 0) >= PAGE_SIZE;
+      }
+      isLoadingMore = false;
     }
 
     async function getSavedServers() {
@@ -91,6 +116,21 @@
           {#each filteredServers as server}
             <ServerElement profile={server} />
           {/each}
+          {#if !btnActive && hasMoreServers && !searchQuery}
+            <div class="flex justify-center pt-2">
+              <button
+                on:click={loadMoreServers}
+                disabled={isLoadingMore}
+                class="drop-shadow-xl/80 btn btn-primary btn-md hover:scale-104 transition duration-300"
+              >
+                {#if isLoadingMore}
+                  <span class="loading loading-spinner loading-sm"></span> Loading...
+                {:else}
+                  Load More
+                {/if}
+              </button>
+            </div>
+          {/if}
         {/if}
       </ul>
     {:else}
@@ -112,4 +152,3 @@
     {/if}
   </div>
 </div>
-

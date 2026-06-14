@@ -8,6 +8,7 @@
     import { onMount } from 'svelte';
 
     export let profile: ServerProfile;
+    export let onUnsave: ((serverId: number) => void) | undefined = undefined;
     let btnActive = false;
     let copied = false;
 
@@ -46,6 +47,10 @@
             if (error) {
 
                 return;
+            }
+
+            if (onUnsave) {
+                onUnsave(Number(profile.id));
             }
         }
     }

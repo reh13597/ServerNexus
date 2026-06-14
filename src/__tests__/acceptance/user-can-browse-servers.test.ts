@@ -25,7 +25,11 @@ beforeEach(() => {
   vi.mocked(supabase.from).mockImplementation((table: string) => {
     if (table === 'servers_with_rating') {
       return {
-        select: vi.fn().mockResolvedValue({ data: MOCK_SERVERS, error: null }),
+        select: vi.fn().mockReturnValue({
+          order: vi.fn().mockReturnValue({
+            range: vi.fn().mockResolvedValue({ data: MOCK_SERVERS, error: null }),
+          }),
+        }),
       } as any;
     }
     if (table === 'saved_servers_with_rating') {
