@@ -12,6 +12,7 @@
 
     let profileUsername = '';
     let profileAvatar = '';
+    let memberSince = '';
     let savedServers: ServerProfile[] = [];
     let reviews: ReviewInfo[] = [];
     let isLoading = true;
@@ -21,7 +22,7 @@
 
         const { data: profileData, error: profileError } = await supabase
             .from('profiles')
-            .select('username, is_public, avatar')
+            .select('username, is_public, avatar, created_at')
             .eq('id', params.userId)
             .single();
 
@@ -32,6 +33,10 @@
 
         profileUsername = profileData.username ?? '';
         profileAvatar = profileData.avatar ?? '';
+        if (profileData.created_at) {
+            const date = new Date(profileData.created_at);
+            memberSince = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
 
         const [serversResult, reviewsResult] = await Promise.all([
             supabase
@@ -84,7 +89,12 @@
                         <img src={profileAvatar || Steve} alt="User avatar" />
                     </div>
                 </div>
-                <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
+                <div>
+                    <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
+                    {#if memberSince}
+                        <p class="text-xs text-stone-400 mt-1"><i class="fa-solid fa-calendar-days text-primary mr-1"></i>Member since {memberSince}</p>
+                    {/if}
+                </div>
             </div>
 
             <!-- Side-by-side lists -->

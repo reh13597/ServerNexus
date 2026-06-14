@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { ReviewInfo } from '../../types/reviewInfo';
     import { userID } from '../../stores/user';
+    import { isLoggedIn } from '../../stores/login';
     import Steve from '../../../assets/steve.jpg';
     import { supabase } from '../../supabase';
     import { fade, scale } from 'svelte/transition';
@@ -63,12 +64,15 @@
 <li class="drop-shadow-xl/80 list-row w-full flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <!-- Row 1: avatar + username + rating + action buttons -->
     <div class="flex items-center gap-3">
-        <div class="avatar flex-shrink-0">
+        <div class="avatar flex-shrink-0" class:cursor-pointer={$isLoggedIn} on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}>
             <div class="w-7 md:w-8 rounded">
                 <img src={info.avatar || Steve} alt="The users' Minecraft avatar." />
             </div>
         </div>
-        <p class="select-none text-sm md:text-md truncate">{info.username}</p>
+        <p
+            class="select-none text-sm md:text-md truncate {$isLoggedIn ? 'cursor-pointer hover:text-primary transition duration-300' : ''}"
+            on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}
+        >{info.username}</p>
         <span class="text-stone-500 select-none">|</span>
         <div class="flex items-center gap-1 text-xs md:text-sm flex-shrink-0">
             <i class="fa-star fa-solid text-primary"></i>
@@ -90,7 +94,7 @@
 
     <!-- Row 2: server host (if present) -->
     {#if serverHost}
-        <div class="flex items-center gap-2 text-xs text-stone-400">
+        <div class="flex items-center gap-2 text-xs md:text-sm text-stone-400">
             <div class="flex items-center gap-1 cursor-pointer" on:click={copyServerHost}>
                 <span class="break-all">{serverHost}</span>
                 {#if serverHostCopied}

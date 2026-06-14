@@ -123,16 +123,13 @@
                         </div>
                     </div>
                     <p class="text-lg md:text-xl font-semibold">{$username}</p>
-                    <button
-                        on:click={toggleVisibility}
-                        disabled={togglingVisibility}
-                        class={`btn btn-sm hover:scale-105 transition duration-300 ml-auto ${isPublic ? 'btn-primary' : 'btn-ghost border-1 border-gray-500 hover:bg-primary'}`}
-                    >
+                    <div class="flex items-center gap-3 ml-auto">
                         {#if togglingVisibility}
                             <span class="loading loading-spinner loading-xs"></span>
                         {/if}
-                        {isPublic ? 'Public' : 'Private'}
-                    </button>
+                        <span class="text-sm text-stone-400">{isPublic ? 'Public' : 'Private'}</span>
+                        <input type="checkbox" class="toggle toggle-primary toggle-sm" checked={isPublic} on:change={toggleVisibility} disabled={togglingVisibility} />
+                    </div>
                 </div>
 
                 <!-- Visibility toast -->
