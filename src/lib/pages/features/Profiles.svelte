@@ -172,7 +172,7 @@
                                 {#if savedServers.length === 0}
                                     <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">You haven't saved any servers yet.</div>
                                 {:else}
-                                    {#each savedServers as server}
+                                    {#each savedServers as server (server.id)}
                                         <ServerElement profile={server} onUnsave={handleServerUnsaved} />
                                     {/each}
                                 {/if}

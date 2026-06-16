@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
     import { supabase } from '../../supabase';
+    import { userID } from '../../stores/user';
     import ServerElement from '../../components/ServerInfo/ServerElement.svelte';
     import ReviewElement from '../../components/ServerInfo/ReviewElement.svelte';
     import Steve from '../../../assets/steve.jpg';
@@ -97,12 +98,10 @@
                         <img src={profileAvatar || Steve} alt="User avatar" />
                     </div>
                 </div>
-                <div>
-                    <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
-                    {#if memberSince}
-                        <p class="text-xs text-stone-400 mt-1"><i class="fa-solid fa-calendar-days text-primary mr-1"></i>Member since {memberSince}</p>
-                    {/if}
-                </div>
+                <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
+                {#if memberSince}
+                    <p class="text-xs text-stone-400"><i class="fa-solid fa-calendar-days text-primary mr-1"></i>Member since {memberSince}</p>
+                {/if}
             </div>
 
             <!-- Side-by-side lists -->
@@ -132,8 +131,8 @@
                             {#if savedServers.length === 0}
                                 <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">This user hasn't saved any servers yet.</div>
                             {:else}
-                                {#each savedServers as server}
-                                    <ServerElement profile={server} />
+                                {#each savedServers as server (server.id)}
+                                    <ServerElement profile={server} hideSave={params.userId !== $userID} />
                                 {/each}
                             {/if}
                         </ul>

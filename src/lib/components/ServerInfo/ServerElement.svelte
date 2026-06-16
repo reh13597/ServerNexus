@@ -9,6 +9,7 @@
 
     export let profile: ServerProfile;
     export let onUnsave: ((serverId: number) => void) | undefined = undefined;
+    export let hideSave = false;
     let btnActive = false;
     let copied = false;
 
@@ -94,7 +95,7 @@
             <i class="fa-star fa-solid text-primary"></i>
             <p class="select-none">{profile.avg_rating.toFixed(1)}</p>
         </div>
-        {#if $isLoggedIn}
+        {#if $isLoggedIn && !hideSave}
           <a on:click={() => saveOrUnsave()} class="drop-shadow-xl/90 inline-flex w-fit hover:scale-115 transition duration-300 hover:cursor-pointer hover:text-primary" aria-label="Save Button">
               <i class={`fa-bookmark ${btnActive ? 'fa-solid text-primary' : 'fa-regular'}`}></i>
           </a>
