@@ -126,16 +126,6 @@
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/profiles')}
           class:text-primary={isActivePath('/profiles')}>Profiles</a>
-        <a
-          href="#/about"
-          class="hover:text-primary transition-colors"
-          class:text-white={!isActivePath('/about')}
-          class:text-primary={isActivePath('/about')}>About</a>
-        <a
-          href="#/contact"
-          class="hover:text-primary transition-colors"
-          class:text-white={!isActivePath('/contact')}
-          class:text-primary={isActivePath('/contact')}>Contact</a>
       </nav>
     {:else}
       <nav class="hidden lg:flex items-center gap-4 sm:gap-6 text-md md:text-lg">
@@ -164,22 +154,6 @@
           Explore
         </a>
         <a
-          href="#/about"
-          class="hover:text-primary transition-colors"
-          class:text-white={!isActivePath('/about')}
-          class:text-primary={isActivePath('/about')}
-          >
-          About
-        </a>
-        <a
-          href="#/contact"
-          class="hover:text-primary transition-colors"
-          class:text-white={!isActivePath('/contact')}
-          class:text-primary={isActivePath('/contact')}
-        >
-          Contact
-        </a>
-        <a
           href="#/login"
           class="hover:text-primary transition-colors"
           class:text-white={!isActivePath('/login')}
@@ -194,7 +168,7 @@
       <a
         type="button"
         class="inline-flex w-fit hover:cursor-pointer hover:scale-110 hover:text-primary transition duration-300 mt-1 md:mt-2"
-        class:text-primary={isActivePath('/') || isActivePath('/home') || isActivePath('/status') || isExploreActive() || isActivePath('/profiles') || isActivePath ('/about') || isActivePath('/contact')}
+        class:text-primary={isActivePath('/') || isActivePath('/home') || isActivePath('/status') || isExploreActive() || isActivePath('/profiles')}
         aria-label="Hamburger"
         aria-haspopup="menu"
         aria-expanded={hamburgerMenuOpen}
@@ -243,26 +217,6 @@
                 Profiles
               </a>
             </li>
-
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
-                class:text-primary={isActivePath('/about')}
-                href="#/about"
-              >
-                About
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
-                class:text-primary={isActivePath('/contact')}
-                href="#/contact"
-              >
-                Contact
-              </a>
-            </li>
           </ul>
         {/if}
       {:else}
@@ -293,24 +247,6 @@
                 href="#/explore"
               >
                 Explore
-              </a>
-            </li>
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
-                class:text-primary={isActivePath('/about')}
-                href="#/about"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                class="text-md md:text-lg whitespace-nowrap hover:text-primary justify-center"
-                class:text-primary={isActivePath('/contact')}
-                href="#/contact"
-              >
-                Contact
               </a>
             </li>
             <li>

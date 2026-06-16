@@ -10,6 +10,9 @@
   import Home from './lib/pages/Home.svelte';
   import About from './lib/pages/About.svelte';
   import Contact from './lib/pages/Contact.svelte';
+  import FAQ from './lib/pages/FAQ.svelte';
+  import Privacy from './lib/pages/Privacy.svelte';
+  import Terms from './lib/pages/Terms.svelte';
   import Login from './lib/pages/Login.svelte';
   import Signup from './lib/pages/Signup.svelte';
   import Account from './lib/pages/Account.svelte';
@@ -60,6 +63,9 @@
     '/home' : Home,
     '/about' : About,
     '/contact': Contact,
+    '/faq': FAQ,
+    '/privacy': Privacy,
+    '/terms': Terms,
     '/signup' : Signup,
     '/account' : wrap({
       component: Account as any,
