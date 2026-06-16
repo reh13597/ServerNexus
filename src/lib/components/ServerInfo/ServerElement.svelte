@@ -82,7 +82,7 @@
 
 <li class="drop-shadow-xl/80 list-row flex items-center gap-2 md:gap-3 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
     <img src={profile.icon} alt="Server Icon" class="rounded-lg w-8 h-8 md:w-10 md:h-10 select-none flex-shrink-0" />
-    <div class="cursor-pointer text-sm md:text-md text-left break-all min-w-0 flex-1" on:click={copyToClipboard}>
+    <div class="cursor-pointer text-sm md:text-md text-left break-all min-w-0 flex-1 hover:text-primary transition-colors" on:click={copyToClipboard}>
         {profile.host}
         {#if copied}
             <i class="text-xs fa-solid fa-check text-green-500"></i>

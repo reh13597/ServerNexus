@@ -100,7 +100,7 @@
                 </div>
                 <p class="text-lg md:text-xl font-semibold">{profileUsername}</p>
                 {#if memberSince}
-                    <p class="text-xs text-stone-400"><i class="fa-solid fa-calendar-days text-primary mr-1"></i>Member since {memberSince}</p>
+                    <p class="text-sm md:text-md text-stone-400"><i class="fa-solid fa-calendar-days text-primary mr-1"></i>Member since {memberSince}</p>
                 {/if}
             </div>
 
@@ -161,7 +161,7 @@
                                 <div class="p-4 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-sm text-left">This user hasn't written any reviews yet.</div>
                             {:else}
                                 {#each reviews as review}
-                                    <ReviewElement info={review} serverHost={review.server_host ?? ''} serverId={review.server_id} />
+                                    <ReviewElement info={review} serverHost={review.server_host ?? ''} serverId={review.server_id} hideUser={true} />
                                 {/each}
                             {/if}
                         </ul>

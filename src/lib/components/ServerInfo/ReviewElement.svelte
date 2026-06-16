@@ -11,6 +11,7 @@
     export let onDeleted: (id: number) => void = () => {};
     export let serverHost: string = '';
     export let serverId: number | null = null;
+    export let hideUser = false;
 
     let isDeleting = false;
     let showModal = false;
@@ -62,17 +63,28 @@
 </script>
 
 <li class="drop-shadow-xl/80 list-row w-full flex flex-col gap-2 border-1 border-neutral bg-gradient-to-tl from-base-100 to-zinc-700">
-    <!-- Row 1: avatar + username + rating + action buttons -->
+    <!-- Row 1: identity + rating + action buttons -->
     <div class="flex items-center gap-3">
-        <div class="avatar flex-shrink-0" class:cursor-pointer={$isLoggedIn} on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}>
-            <div class="w-7 md:w-8 rounded">
-                <img src={info.avatar || Steve} alt="The users' Minecraft avatar." />
+        {#if hideUser && serverHost}
+            <div class="flex items-center gap-1 cursor-pointer text-sm md:text-md text-stone-400 hover:text-primary transition-colors truncate" on:click={copyServerHost}>
+                <span class="break-all">{serverHost}</span>
+                {#if serverHostCopied}
+                    <i class="text-xs fa-solid fa-check text-green-500 flex-shrink-0"></i>
+                {:else}
+                    <i class="text-xs fa-regular fa-copy flex-shrink-0"></i>
+                {/if}
             </div>
-        </div>
-        <p
-            class="select-none text-sm md:text-md truncate {$isLoggedIn ? 'cursor-pointer hover:text-primary transition duration-300' : ''}"
-            on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}
-        >{info.username}</p>
+        {:else}
+            <div class="avatar flex-shrink-0" class:cursor-pointer={$isLoggedIn} on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}>
+                <div class="w-7 md:w-8 rounded">
+                    <img src={info.avatar || Steve} alt="The users' Minecraft avatar." />
+                </div>
+            </div>
+            <p
+                class="select-none text-sm md:text-md truncate {$isLoggedIn ? 'cursor-pointer hover:text-primary transition duration-300' : ''}"
+                on:click={() => $isLoggedIn && push(`/profile/${info.user_id}`)}
+            >{info.username}</p>
+        {/if}
         <span class="text-stone-500 select-none">|</span>
         <div class="flex items-center gap-1 text-xs md:text-sm flex-shrink-0">
             <i class="fa-star fa-solid text-primary"></i>
@@ -92,10 +104,10 @@
         </div>
     </div>
 
-    <!-- Row 2: server host (if present) -->
-    {#if serverHost}
+    <!-- Row 2: server host (if present and not already shown in row 1) -->
+    {#if serverHost && !hideUser}
         <div class="flex items-center gap-2 text-xs md:text-sm text-stone-400">
-            <div class="flex items-center gap-1 cursor-pointer" on:click={copyServerHost}>
+            <div class="flex items-center gap-1 cursor-pointer hover:text-primary transition-colors" on:click={copyServerHost}>
                 <span class="break-all">{serverHost}</span>
                 {#if serverHostCopied}
                     <i class="fa-solid fa-check text-green-500 flex-shrink-0"></i>

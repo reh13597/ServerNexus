@@ -210,6 +210,7 @@
                                             serverHost={review.server_host ?? ''}
                                             serverId={review.server_id}
                                             onDeleted={handleReviewDeleted}
+                                            hideUser={true}
                                         />
                                     {/each}
                                 {/if}

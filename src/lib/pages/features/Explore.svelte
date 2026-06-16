@@ -113,7 +113,7 @@
         {:else if filteredServers.length === 0}
           <div class="p-5 rounded-box glass bg-gradient-to-tl from-base-100 to-zinc-600 text-md sm:text-md md:text-lg lg:text-xl text-left">No servers found matching "{searchQuery}"</div>
         {:else}
-          {#each filteredServers as server}
+          {#each filteredServers as server (server.id)}
             <ServerElement profile={server} />
           {/each}
           {#if !btnActive && hasMoreServers && !searchQuery}
