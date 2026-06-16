@@ -66,7 +66,7 @@
     <!-- Row 1: identity + rating + action buttons -->
     <div class="flex items-center gap-3">
         {#if hideUser && serverHost}
-            <div class="flex items-center gap-1 cursor-pointer text-sm md:text-md text-stone-400 hover:text-primary transition-colors truncate" on:click={copyServerHost}>
+            <div class="flex items-center gap-1 cursor-pointer text-sm md:text-md text-white hover:text-primary transition-colors truncate" on:click={copyServerHost}>
                 <span class="break-all">{serverHost}</span>
                 {#if serverHostCopied}
                     <i class="text-xs fa-solid fa-check text-green-500 flex-shrink-0"></i>
